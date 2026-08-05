@@ -50,7 +50,7 @@
     display:flex; align-items:center; justify-content:space-between;
     padding:16px 28px; background:rgba(255,252,247,0.94);
     backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-    border-bottom:3px solid var(--outline);
+    border-bottom:4px solid var(--outline);
     position:sticky; top:0; z-index:50; gap:16px; flex-wrap:wrap;
   }
   .logo-text {
@@ -69,7 +69,7 @@
   .feed-pill {
     font-family:var(--font-body); font-weight:700; font-size:0.82rem;
     color:var(--text-muted); background:white;
-    padding:6px 16px; border-radius:20px; border:2.5px solid var(--outline);
+    padding:6px 16px; border-radius:20px; border:3px solid var(--outline);
   }
   .feed-pill strong { color:var(--text); }
 
@@ -77,8 +77,8 @@
   .scene-wrap { margin:20px 20px 12px; position:relative; }
   .scene-wrap svg {
     display:block; width:100%; background:var(--sky);
-    border-radius:22px; border:3px solid var(--outline);
-    box-shadow:0 6px 0 var(--outline), 0 8px 24px rgba(74,48,40,0.12);
+    border-radius:22px; border:4px solid var(--outline);
+    box-shadow:0 6px 0 var(--outline), 0 10px 30px rgba(74,48,40,0.15);
   }
   .clickable { cursor:pointer; transition:transform 0.12s; }
   .clickable:hover { transform:scale(1.04); }
@@ -87,7 +87,7 @@
   /* ── Chicken Popup ──────────────────────────── */
   .chicken-popup {
     position:absolute; background:white; border-radius:var(--radius);
-    padding:18px 22px; border:3px solid var(--outline);
+    padding:18px 22px; border:4px solid var(--outline);
     box-shadow:0 6px 0 var(--outline), 0 8px 28px rgba(74,48,40,0.18);
     z-index:25; min-width:200px; pointer-events:auto;
     font-family:var(--font-body);
@@ -108,7 +108,7 @@
   .pbf.h { background:var(--green-btn); } .pbf.g { background:var(--gold); } .pbf.t { background:var(--blue-btn); }
   .chicken-popup .pa { display:flex; gap:7px; margin-top:12px; }
   .mini-btn {
-    padding:7px 14px; border-radius:10px; border:2.5px solid var(--outline);
+    padding:7px 14px; border-radius:10px; border:3px solid var(--outline);
     background:white; font-family:var(--font-body); font-size:0.75rem; font-weight:700;
     cursor:pointer; transition:all 0.1s; box-shadow:0 3px 0 var(--outline);
   }
@@ -119,55 +119,45 @@
     font-size:1.3rem; cursor:pointer; color:var(--text-muted); font-family:var(--font-body); font-weight:700; }
 
   /* ── Action Bar ─────────────────────────────── */
-  .action-bar {
-    display:flex; gap:10px; padding:0 20px; flex-wrap:wrap; justify-content:center;
-  }
+  .action-bar { display:flex; gap:10px; padding:0 20px; flex-wrap:wrap; justify-content:center; }
   .abtn {
-    padding:13px 22px; border-radius:var(--radius-sm); border:3px solid var(--outline);
-    background:white; color:var(--text); font-family:var(--font-body); font-size:0.88rem;
+    padding:14px 24px; border-radius:var(--radius-sm); border:3.5px solid var(--outline);
+    color:white; font-family:var(--font-body); font-size:0.9rem;
     font-weight:700; cursor:pointer; transition:all 0.1s;
     box-shadow:0 4px 0 var(--outline); display:flex; align-items:center; gap:7px; user-select:none;
   }
   .abtn:hover { transform:translateY(-2px); box-shadow:0 6px 0 var(--outline); }
   .abtn:active { transform:translateY(2px); box-shadow:0 2px 0 var(--outline); }
-  .abtn:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:0 4px 0 var(--outline); }
-  .abtn.accent { background:var(--pink); color:white; }
+  .abtn:disabled { opacity:0.35; cursor:not-allowed; transform:none; box-shadow:0 4px 0 var(--outline); }
+  .abtn.feed { background:#F0B860; }
+  .abtn.water { background:#6BA8C8; }
+  .abtn.collect { background:#E57373; }
+  .abtn.shop { background:#8CC09A; }
   .abtn .bi { font-size:1.25rem; }
 
   /* ── Tip Card ────────────────────────────────── */
   .tip-card {
     margin:14px 20px 20px; background:white; border-radius:var(--radius);
-    padding:20px 24px; border:3px solid var(--outline);
+    padding:20px 24px; border:4px solid var(--outline);
     box-shadow:0 5px 0 var(--outline), 0 6px 20px rgba(74,48,40,0.08);
     position:relative;
   }
   .tip-card .tbadge {
     display:inline-block; background:var(--gold); color:white;
     font-family:var(--font-body); font-weight:800; font-size:0.7rem;
-    padding:4px 12px; border-radius:20px; border:2px solid var(--outline);
+    padding:4px 12px; border-radius:20px; border:2.5px solid var(--outline);
     text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;
   }
-  .tip-card .ttitle {
-    font-family:var(--font-display); font-weight:700; font-size:1.1rem;
-    color:var(--text); margin-bottom:5px;
-  }
-  .tip-card .tbody {
-    font-family:var(--font-body); font-size:0.88rem; color:var(--text-muted); line-height:1.55; font-weight:600;
-  }
-  .tip-card .taction {
-    display:inline-block; margin-top:10px; font-family:var(--font-body);
-    font-size:0.82rem; color:var(--salmon); font-weight:700;
-  }
+  .tip-card .ttitle { font-family:var(--font-display); font-weight:700; font-size:1.1rem; color:var(--text); margin-bottom:5px; }
+  .tip-card .tbody { font-family:var(--font-body); font-size:0.88rem; color:var(--text-muted); line-height:1.55; font-weight:600; }
+  .tip-card .taction { display:inline-block; margin-top:10px; font-family:var(--font-body); font-size:0.82rem; color:var(--salmon); font-weight:700; }
 
   /* ── Toast ───────────────────────────────────── */
-  .toast-container {
-    position:fixed; top:90px; left:50%; transform:translateX(-50%);
-    z-index:100; display:flex; flex-direction:column; gap:8px; pointer-events:none;
-  }
+  .toast-container { position:fixed; top:90px; left:50%; transform:translateX(-50%); z-index:100; display:flex; flex-direction:column; gap:8px; pointer-events:none; }
   .toast {
     background:var(--text); color:white; padding:11px 24px; border-radius:24px;
     font-family:var(--font-body); font-size:0.88rem; font-weight:700;
-    text-align:center; border:2.5px solid var(--outline);
+    text-align:center; border:3px solid var(--outline);
     box-shadow:0 4px 0 var(--outline);
     animation:tin 0.3s ease-out, tout 0.25s 2s ease-in forwards;
     pointer-events:auto;
@@ -178,16 +168,25 @@
   @keyframes tout { 0%{opacity:1;transform:translateY(0);} 100%{opacity:0;transform:translateY(-14px);} }
 
   .rst-area { text-align:center; padding:8px 20px 28px; }
-  .rst-area button {
-    background:none; border:none; color:var(--text-muted);
-    font-family:var(--font-body); font-size:0.78rem; font-weight:700;
-    cursor:pointer; text-decoration:underline;
-  }
+  .rst-area button { background:none; border:none; color:var(--text-muted); font-family:var(--font-body); font-size:0.78rem; font-weight:700; cursor:pointer; text-decoration:underline; }
   .rst-area button:hover { color:var(--salmon); }
 
-  @keyframes bob { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-3px)} }
-  @keyframes peck { 0%,100%{transform:translateY(0) rotate(0deg)} 35%{transform:translateY(3px) rotate(-3deg)} 70%{transform:translateY(0) rotate(2deg)} }
-  @keyframes tilt { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
+  /* ── Confetti ────────────────────────────────── */
+  @keyframes confPop {
+    0% { transform:translate(0,0) scale(1); opacity:1; }
+    60% { opacity:1; }
+    100% { transform:translate(var(--dx),var(--dy)) scale(0.3); opacity:0; }
+  }
+  .confetti-piece {
+    animation:confPop 0.9s ease-out forwards;
+    animation-delay:var(--delay);
+    pointer-events:none;
+  }
+
+  /* Animations */
+  @keyframes bob { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-4px)} }
+  @keyframes peck { 0%,100%{transform:translateY(0) rotate(0deg)} 35%{transform:translateY(4px) rotate(-3deg)} 70%{transform:translateY(0) rotate(2deg)} }
+  @keyframes tilt { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-6deg)} 75%{transform:rotate(6deg)} }
   .anim-b { animation:bob 2.4s ease-in-out infinite; }
   .anim-p { animation:peck 1.1s ease-in-out infinite; }
   .anim-t { animation:tilt 3s ease-in-out infinite; }
@@ -204,13 +203,10 @@
     </div>
     <div class="feed-pill">🌾 <strong id="hFeed">10</strong> scoops</div>
   </header>
-
   <div class="scene-wrap" id="sceneWrap">
     <svg viewBox="0 0 920 520" id="sceneSvg"></svg>
   </div>
-
   <div class="action-bar" id="actionBar"></div>
-
   <div class="tip-card" id="tipCard">
     <div class="tbadge">🐣 Chicken Knowledge</div>
     <div class="ttitle" id="tipTitle"></div>
@@ -248,76 +244,114 @@ let G=load();
 function dflt(){USED.clear();return{day:1,eggs:0,feed:10,ti:0,ut:[],sel:null,
   cks:[{n:pick(),h:100,hu:25,th:20,et:10,ld:0},{n:pick(),h:100,hu:20,th:30,et:50,ld:0},{n:pick(),h:100,hu:30,th:15,et:75,ld:0}]};}
 function pick(){const a=NAMES.filter(n=>!USED.has(n));const n=a.length?a[Math.floor(Math.random()*a.length)]:'Chicky';USED.add(n);return n;}
-function load(){try{const s=JSON.parse(localStorage.getItem('yff-v5'));if(s){s.cks.forEach(c=>USED.add(c.n));return s;}}catch(e){}return dflt();}
-function save(){localStorage.setItem('yff-v5',JSON.stringify(G));}
+function load(){try{const s=JSON.parse(localStorage.getItem('yff-v6'));if(s){s.cks.forEach(c=>USED.add(c.n));return s;}}catch(e){}return dflt();}
+function save(){localStorage.setItem('yff-v6',JSON.stringify(G));}
 function resetGame(){G=dflt();save();renderAll();toast('Fresh flock! 🐣','ok');}
 
 // ═══════════════════════════════════════════════════════════
 // LOGIC
 // ═══════════════════════════════════════════════════════════
-function tick(n){
-  for(const c of G.cks){if(c.h<=0)continue;c.hu=Math.min(100,c.hu+n*2);c.th=Math.min(100,c.th+n*3);if(c.hu>=80||c.th>=80)c.h=Math.max(0,c.h-n*2);c.et=Math.min(100,c.et+n*3);}
-  G.day+=Math.floor(n/5);
-}
+function tick(n){for(const c of G.cks){if(c.h<=0)continue;c.hu=Math.min(100,c.hu+n*2);c.th=Math.min(100,c.th+n*3);if(c.hu>=80||c.th>=80)c.h=Math.max(0,c.h-n*2);c.et=Math.min(100,c.et+n*3);}G.day+=Math.floor(n/5);}
 function feed1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(G.feed<=0)return toast('Out of feed! 🏪','warn');G.feed--;c.hu=Math.max(0,c.hu-35);if(c.hu<30&&c.h<100&&c.th<80)c.h=Math.min(100,c.h+3);tick(2);save();renderAll();ntip();toast('Fed '+c.n+'!','ok');}
 function water1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');c.th=Math.max(0,c.th-40);if(c.th<30&&c.h<100&&c.hu<80)c.h=Math.min(100,c.h+3);tick(2);save();renderAll();ntip();toast('Watered '+c.n+'!','ok');}
-function egg1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(c.et<80)return toast(c.n+' isn\'t ready ⏳','warn');c.et=0;c.ld++;G.eggs++;tick(2);save();renderAll();ntip();toast('🥚 +1 from '+c.n+'!','ok');}
+function egg1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(c.et<80)return toast(c.n+' isn\'t ready ⏳','warn');c.et=0;c.ld++;G.eggs++;tick(2);save();renderAll();ntip();burstConfetti(i);toast('🥚 +1 from '+c.n+'!','ok');}
 function feedAll(){if(G.feed<=0)return toast('Out of feed! 🏪','warn');const al=G.cks.filter(c=>c.h>0);if(!al.length)return toast('No chickens 😢','warn');const n=Math.min(G.feed,al.length);G.feed-=n;al.slice(0,n).forEach(c=>{c.hu=Math.max(0,c.hu-30);if(c.hu<30&&c.h<100)c.h=Math.min(100,c.h+3);});tick(3);save();renderAll();ntip();toast('Fed '+n+' chicken(s)!','ok');}
 function waterAll(){const al=G.cks.filter(c=>c.h>0);if(!al.length)return toast('No chickens 😢','warn');al.forEach(c=>{c.th=Math.max(0,c.th-35);if(c.th<30&&c.h<100)c.h=Math.min(100,c.h+3);});tick(3);save();renderAll();ntip();toast('Watered all!','ok');}
-function collAll(){const rd=G.cks.filter(c=>c.h>0&&c.et>=80);if(!rd.length)return toast('No eggs ready ⏳','warn');rd.forEach(c=>{c.et=0;c.ld++;G.eggs++;});tick(3);save();renderAll();ntip();toast('Collected '+rd.length+' egg(s)! 🥚','ok');}
+function collAll(){const rd=G.cks.filter(c=>c.h>0&&c.et>=80);if(!rd.length)return toast('No eggs ready ⏳','warn');rd.forEach(c=>{c.et=0;c.ld++;G.eggs++;});tick(3);save();renderAll();ntip();rd.forEach((_,i)=>{const idx=G.cks.indexOf(rd[i]);burstConfetti(idx);});toast('Collected '+rd.length+' egg(s)! 🥚','ok');}
 function buyFeed(){G.feed+=10;save();renderAll();toast('+10 scoops! 🛒','ok');}
 function sel(i){G.sel=G.sel===i?null:i;renderAll();}
 function ntip(){const av=TIPS.map((_,i)=>i).filter(i=>!G.ut.includes(i));if(!av.length){G.ut=[];return ntip();}G.ti=av[Math.floor(Math.random()*av.length)];G.ut.push(G.ti);}
 function toast(m,t){const c=document.getElementById('toastContainer');const e=document.createElement('div');e.className='toast '+(t||'');e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),2400);}
 
 // ═══════════════════════════════════════════════════════════
+// CONFETTI
+// ═══════════════════════════════════════════════════════════
+const CONFETTI_COLORS=['#E57373','#F4B840','#8CC09A','#8EC8D8','#F0A0A0','#FFE8A0','#B8DCE8','#F8C8D0','#A8D8B8','#FFF3C0'];
+
+function burstConfetti(chickenIndex){
+  const cP=[{x:380,y:390},{x:540,y:380},{x:710,y:395}];
+  const p=cP[chickenIndex]||cP[0];
+  const svg=document.getElementById('sceneSvg');
+  const g=E('g',{class:'confetti-group'});
+
+  for(let i=0;i<40;i++){
+    const angle=Math.random()*Math.PI*2;
+    const dist=40+Math.random()*80;
+    const dx=Math.cos(angle)*dist;
+    const dy=Math.sin(angle)*dist-20;
+    const size=3+Math.random()*7;
+    const color=CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)];
+    const delay=Math.random()*0.15;
+    const shape=Math.random();
+
+    let el;
+    if(shape<0.4){
+      el=E('circle',{cx:p.x,cy:p.y,r:size,fill:color,
+        class:'confetti-piece',
+        style:`--dx:${dx}px;--dy:${dy}px;--delay:${delay}s`});
+    }else if(shape<0.7){
+      el=E('rect',{x:p.x-size/2,y:p.y-size/2,width:size*1.5,height:size*1.5,
+        rx:1.5,fill:color,class:'confetti-piece',
+        style:`--dx:${dx}px;--dy:${dy}px;--delay:${delay}s`});
+    }else{
+      el=E('polygon',{points:`${p.x},${p.y-size} ${p.x+size},${p.y+size/2} ${p.x-size},${p.y+size/2}`,
+        fill:color,class:'confetti-piece',
+        style:`--dx:${dx}px;--dy:${dy}px;--delay:${delay}s`});
+    }
+    g.appendChild(el);
+  }
+
+  svg.appendChild(g);
+  setTimeout(()=>g.remove(),1100);
+}
+
+// ═══════════════════════════════════════════════════════════
 // SVG HELPERS
 // ═══════════════════════════════════════════════════════════
 const NS='http://www.w3.org/2000/svg';
 function E(t,a,x){const e=document.createElementNS(NS,t);for(const[k,v]of Object.entries(a||{}))e.setAttribute(k,v);if(x!==undefined)e.textContent=x;return e;}
-const OL={stroke:'#4A3028','stroke-width':'2.5','stroke-linecap':'round','stroke-linejoin':'round'};
+const OL={stroke:'#4A3028','stroke-width':'3','stroke-linecap':'round','stroke-linejoin':'round'};
 
-// Draw a cartoon chicken
+// Draw a BIG cartoon chicken (1.6x scale)
 function drawChicken(c,dotColor,animClass){
   const g=E('g',{class:'chicken-g '+animClass});
   // Drop shadow
-  g.appendChild(E('ellipse',{cx:0,cy:26,rx:22,ry:6,fill:'rgba(74,48,40,0.15)'}));
+  g.appendChild(E('ellipse',{cx:0,cy:42,rx:34,ry:9,fill:'rgba(74,48,40,0.15)'}));
   // Legs
-  g.appendChild(E('line',{x1:-8,y1:14,x2:-10,y2:24,...OL,stroke:'#D49530','stroke-width':'3'}));
-  g.appendChild(E('line',{x1:8,y1:14,x2:10,y2:24,...OL,stroke:'#D49530','stroke-width':'3'}));
-  g.appendChild(E('line',{x1:-14,y1:24,x2:-6,y2:24,...OL,stroke:'#D49530','stroke-width':'2.5'}));
-  g.appendChild(E('line',{x1:6,y1:24,x2:14,y2:24,...OL,stroke:'#D49530','stroke-width':'2.5'}));
-  // Body (small, scrawny)
-  g.appendChild(E('ellipse',{cx:0,cy:4,rx:18,ry:14,fill:'#FDF8F0',...OL}));
+  g.appendChild(E('line',{x1:-12,y1:22,x2:-16,y2:38,...OL,stroke:'#D49530','stroke-width':'4'}));
+  g.appendChild(E('line',{x1:12,y1:22,x2:16,y2:38,...OL,stroke:'#D49530','stroke-width':'4'}));
+  g.appendChild(E('line',{x1:-22,y1:38,x2:-10,y2:38,...OL,stroke:'#D49530','stroke-width':'3'}));
+  g.appendChild(E('line',{x1:10,y1:38,x2:22,y2:38,...OL,stroke:'#D49530','stroke-width':'3'}));
+  // Body
+  g.appendChild(E('ellipse',{cx:0,cy:6,rx:28,ry:22,fill:'#FDF8F0',...OL}));
   // Wing
-  g.appendChild(E('path',{d:'M-4,2 Q-12,4 -8,12 Q-2,14 4,10 Q0,6 -4,2Z',fill:'#F0E8D8',...OL,'stroke-width':'1.5'}));
+  g.appendChild(E('path',{d:'M-6,3 Q-18,6 -12,18 Q-3,22 6,16 Q0,10 -6,3Z',fill:'#F0E8D8',...OL,'stroke-width':'2'}));
   // Tail
-  g.appendChild(E('path',{d:'M-14,-2 Q-22,-8 -18,2 Q-16,6 -10,4Z',fill:'#F8F0E4',...OL,'stroke-width':'2'}));
+  g.appendChild(E('path',{d:'M-22,-3 Q-34,-12 -28,4 Q-25,10 -16,6Z',fill:'#F8F0E4',...OL,'stroke-width':'2.5'}));
   // Neck
-  g.appendChild(E('ellipse',{cx:8,cy:-10,rx:7,ry:10,fill:'#FDF8F0',...OL}));
-  // HEAD (big — chibi style)
-  g.appendChild(E('circle',{cx:9,cy:-22,r:14,fill:'#FDF8F0',...OL}));
-  // Comb (wavy)
-  g.appendChild(E('path',{d:'M2,-34 Q4,-40 6,-34 Q8,-40 10,-34 Q12,-40 14,-34 Q14,-36 16,-34 Q10,-28 4,-28Z',fill:'#E57373',...OL,'stroke-width':'2'}));
-  // Eyes (huge googly)
-  g.appendChild(E('circle',{cx:5,cy:-24,r:6,fill:'white',...OL,'stroke-width':'2'}));
-  g.appendChild(E('circle',{cx:15,cy:-25,r:5.5,fill:'white',...OL,'stroke-width':'2'}));
+  g.appendChild(E('ellipse',{cx:12,cy:-16,rx:11,ry:16,fill:'#FDF8F0',...OL}));
+  // HEAD (big chibi)
+  g.appendChild(E('circle',{cx:14,cy:-36,r:22,fill:'#FDF8F0',...OL}));
+  // Comb
+  g.appendChild(E('path',{d:'M4,-55 Q7,-64 10,-55 Q13,-64 16,-55 Q19,-64 22,-55 Q24,-58 26,-55 Q16,-46 6,-46Z',fill:'#E57373',...OL,'stroke-width':'2.5'}));
+  // Eyes
+  g.appendChild(E('circle',{cx:8,cy:-38,r:9,fill:'white',...OL,'stroke-width':'2.5'}));
+  g.appendChild(E('circle',{cx:23,cy:-40,r:8.5,fill:'white',...OL,'stroke-width':'2.5'}));
   // Pupils
-  g.appendChild(E('circle',{cx:5,cy:-23,r:2.8,fill:'#4A3028'}));
-  g.appendChild(E('circle',{cx:15,cy:-24,r:2.5,fill:'#4A3028'}));
+  g.appendChild(E('circle',{cx:8,cy:-36,r:4.2,fill:'#4A3028'}));
+  g.appendChild(E('circle',{cx:23,cy:-38,r:3.8,fill:'#4A3028'}));
   // Catchlights
-  g.appendChild(E('circle',{cx:6,cy:-25,r:1.2,fill:'white'}));
-  g.appendChild(E('circle',{cx:16,cy:-26,r:1,fill:'white'}));
+  g.appendChild(E('circle',{cx:10,cy:-40,r:1.8,fill:'white'}));
+  g.appendChild(E('circle',{cx:25,cy:-42,r:1.5,fill:'white'}));
   // Eyebrows
-  g.appendChild(E('line',{x1:1,y1:-31,x2:8,y2:-30,...OL,'stroke-width':'2'}));
-  g.appendChild(E('line',{x1:12,y1:-31,x2:18,y2:-32,...OL,'stroke-width':'2'}));
+  g.appendChild(E('line',{x1:2,y1:-50,x2:12,y2:-48,...OL,'stroke-width':'3'}));
+  g.appendChild(E('line',{x1:18,y1:-52,x2:28,y2:-50,...OL,'stroke-width':'3'}));
   // Beak
-  g.appendChild(E('polygon',{points:'20,-24 27,-22 20,-19',fill:'#F4B840',...OL,'stroke-width':'2'}));
+  g.appendChild(E('polygon',{points:'32,-38 42,-35 32,-30',fill:'#F4B840',...OL,'stroke-width':'2.5'}));
   // Wattle
-  g.appendChild(E('path',{d:'M6,-10 Q9,-6 12,-10 Q10,-12 6,-10Z',fill:'#E57373',...OL,'stroke-width':'1.5'}));
+  g.appendChild(E('path',{d:'M9,-14 Q14,-8 19,-14 Q16,-18 9,-14Z',fill:'#E57373',...OL,'stroke-width':'2'}));
   // Health dot
-  g.appendChild(E('circle',{cx:9,cy:-42,r:5,fill:dotColor,...OL,'stroke-width':'2'}));
-
+  g.appendChild(E('circle',{cx:14,cy:-66,r:7,fill:dotColor,...OL,'stroke-width':'2.5'}));
   return g;
 }
 
@@ -325,15 +359,15 @@ function drawChicken(c,dotColor,animClass){
 // SCENE RENDER
 // ═══════════════════════════════════════════════════════════
 function renderScene(){
-  const svg=document.getElementById('sceneSvg');svg.innerHTML='';
+  const svg=document.getElementById('sceneSvg');
+  // Preserve confetti groups during re-render
+  const confetti=Array.from(svg.querySelectorAll('.confetti-group'));
+  svg.innerHTML='';
+  confetti.forEach(g=>svg.appendChild(g));
 
-  // ── Defs ──
+  // Defs
   const defs=E('defs');
-  const addG=(id,stops)=>{
-    const g=E('linearGradient',{id,x1:'0',y1:'0',x2:'0',y2:'1'});
-    stops.forEach(([o,c])=>g.appendChild(E('stop',{offset:o,'stop-color':c})));
-    defs.appendChild(g);
-  };
+  const addG=(id,stops)=>{const g=E('linearGradient',{id,x1:'0',y1:'0',x2:'0',y2:'1'});stops.forEach(([o,c])=>g.appendChild(E('stop',{offset:o,'stop-color':c})));defs.appendChild(g);};
   addG('skyG',[['0%','#C5E3F0'],['100%','#E5F2F8']]);
   addG('grassG',[['0%','#AED8B8'],['100%','#8CC09A']]);
   addG('woodG',[['0%','#F0E0CC'],['100%','#E0CCB0']]);
@@ -343,80 +377,55 @@ function renderScene(){
   defs.appendChild(sh);
   svg.appendChild(defs);
 
-  // ── Sky & Clouds ──
+  // Sky
   svg.appendChild(E('rect',{x:0,y:0,width:920,height:180,fill:'url(#skyG)'}));
   const sun=E('g',{transform:'translate(810,40)'});
-  sun.appendChild(E('circle',{r:28,fill:'#FFF3C0',...OL,'stroke-width':'2.5'}));
+  sun.appendChild(E('circle',{r:28,fill:'#FFF3C0',...OL,'stroke-width':'3'}));
   sun.appendChild(E('circle',{r:20,fill:'#FFE8A0'}));
   svg.appendChild(sun);
-  // Clouds
-  const addC=(cx,cy,s)=>{
-    const g=E('g',{transform:`translate(${cx},${cy}) scale(${s})`,opacity:'0.8'});
-    g.appendChild(E('ellipse',{cx:0,cy:0,rx:36,ry:14,fill:'white',...OL,'stroke-width':'2'}));
-    g.appendChild(E('circle',{cx:-18,cy:-4,r:16,fill:'white',...OL,'stroke-width':'2'}));
-    g.appendChild(E('circle',{cx:10,cy:-8,r:19,fill:'white',...OL,'stroke-width':'2'}));
-    g.appendChild(E('circle',{cx:26,cy:-1,r:14,fill:'white',...OL,'stroke-width':'2'}));
-    svg.appendChild(g);
-  };
+  const addC=(cx,cy,s)=>{const g=E('g',{transform:`translate(${cx},${cy}) scale(${s})`,opacity:'0.8'});g.appendChild(E('ellipse',{cx:0,cy:0,rx:36,ry:14,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:-18,cy:-4,r:16,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:10,cy:-8,r:19,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:26,cy:-1,r:14,fill:'white',...OL,'stroke-width':'2'}));svg.appendChild(g);};
   addC(100,35,1);addC(340,25,0.8);addC(580,40,0.9);
 
-  // ── Ground ──
+  // Ground
   svg.appendChild(E('rect',{x:0,y:160,width:920,height:360,fill:'url(#grassG)'}));
-  // Dirt patches
   svg.appendChild(E('ellipse',{cx:460,cy:340,rx:320,ry:50,fill:'#E8D8C0',opacity:'0.4'}));
 
-  // ── Fence ──
-  for(let x=40;x<900;x+=95){
-    svg.appendChild(E('rect',{x:x-5,y:175,width:10,height:24,rx:3,fill:'#D4B896',...OL,'stroke-width':'2'}));
-  }
-  svg.appendChild(E('line',{x1:35,y1:186,x2:885,y2:186,...OL,stroke:'#C8A878','stroke-width':'2'}));
+  // Fence
+  for(let x=40;x<900;x+=95)svg.appendChild(E('rect',{x:x-5,y:175,width:10,height:24,rx:3,fill:'#D4B896',...OL,'stroke-width':'2'}));
+  svg.appendChild(E('line',{x1:35,y1:186,x2:885,y2:186,...OL,stroke:'#C8A878','stroke-width':'2.5'}));
 
-  // ── Decorative elements ──
-  const bush=(x,y,s)=>{
-    const g=E('g',{transform:`translate(${x},${y}) scale(${s})`});
-    g.appendChild(E('circle',{cx:-10,cy:-2,r:12,fill:'#7BA860',...OL,'stroke-width':'2'}));
-    g.appendChild(E('circle',{cx:10,cy:-2,r:12,fill:'#8CB870',...OL,'stroke-width':'2'}));
-    g.appendChild(E('circle',{cx:0,cy:-12,r:14,fill:'#9CC880',...OL,'stroke-width':'2'}));
-    svg.appendChild(g);
-  };
+  // Bushes
+  const bush=(x,y,s)=>{const g=E('g',{transform:`translate(${x},${y}) scale(${s})`});g.appendChild(E('circle',{cx:-10,cy:-2,r:12,fill:'#7BA860',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:10,cy:-2,r:12,fill:'#8CB870',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:0,cy:-12,r:14,fill:'#9CC880',...OL,'stroke-width':'2.5'}));svg.appendChild(g);};
   bush(870,220,1.1);bush(50,200,0.9);
 
-  // ── COOP ──
+  // COOP
   const coop=E('g',{transform:'translate(35,195)',filter:'url(#sh)'});
-  // Walls
-  coop.appendChild(E('rect',{x:0,y:30,width:280,height:120,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3'}));
-  // Planks
-  for(let y=50;y<150;y+=22)
-    coop.appendChild(E('line',{x1:2,y1:y,x2:278,y2:y,stroke:'rgba(0,0,0,0.08)','stroke-width':'1'}));
-  // Roof
-  coop.appendChild(E('polygon',{points:'-10,30 140,-14 290,30',fill:'url(#roofG)',...OL,'stroke-width':'3'}));
+  coop.appendChild(E('rect',{x:0,y:30,width:280,height:120,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3.5'}));
+  for(let y=50;y<150;y+=22)coop.appendChild(E('line',{x1:2,y1:y,x2:278,y2:y,stroke:'rgba(0,0,0,0.08)','stroke-width':'1'}));
+  coop.appendChild(E('polygon',{points:'-10,30 140,-14 290,30',fill:'url(#roofG)',...OL,'stroke-width':'3.5'}));
   coop.appendChild(E('line',{x1:140,y1:-14,x2:140,y2:-14,stroke:'#4A3028','stroke-width':'5','stroke-linecap':'round'}));
-  // Door
-  coop.appendChild(E('rect',{x:200,y:60,width:52,height:74,rx:26,fill:'#8B5E3C',...OL,'stroke-width':'3'}));
-  coop.appendChild(E('circle',{cx:238,cy:98,r:3.5,fill:'#F4B840',...OL,'stroke-width':'1.5'}));
-  // Window
-  coop.appendChild(E('rect',{x:35,y:52,width:38,height:38,rx:3,fill:'#E5F2F8',...OL,'stroke-width':'2.5'}));
+  coop.appendChild(E('rect',{x:200,y:60,width:52,height:74,rx:26,fill:'#8B5E3C',...OL,'stroke-width':'3.5'}));
+  coop.appendChild(E('circle',{cx:238,cy:98,r:3.5,fill:'#F4B840',...OL,'stroke-width':'2'}));
+  coop.appendChild(E('rect',{x:35,y:52,width:38,height:38,rx:3,fill:'#E5F2F8',...OL,'stroke-width':'3'}));
   coop.appendChild(E('line',{x1:54,y1:52,x2:54,y2:90,stroke:'#4A3028','stroke-width':'2'}));
   coop.appendChild(E('line',{x1:35,y1:71,x2:73,y2:71,stroke:'#4A3028','stroke-width':'2'}));
-  // COOP label
-  coop.appendChild(E('rect',{x:110,y:-8,width:60,height:22,rx:11,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
+  coop.appendChild(E('rect',{x:110,y:-8,width:60,height:22,rx:11,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
   coop.appendChild(E('text',{x:140,y:7,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'11'},'COOP'));
   svg.appendChild(coop);
 
-  // ── NESTING BOXES ──
+  // NESTING BOXES
   const nestG=E('g',{transform:'translate(50,340)',filter:'url(#sh)'});
   nestG.appendChild(E('ellipse',{cx:70,cy:18,rx:82,ry:15,fill:'#F0E0C0',opacity:'0.5'}));
-  nestG.appendChild(E('rect',{x:18,y:-20,width:104,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
+  nestG.appendChild(E('rect',{x:18,y:-20,width:104,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
   nestG.appendChild(E('text',{x:70,y:-7,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'NESTING BOXES'));
-
   G.cks.forEach((c,i)=>{
     if(c.h<=0)return;
     const bx=12+i*54,eggR=c.et>=80;
     const box=E('g',{class:'clickable',transform:`translate(${bx},0)`});
-    box.appendChild(E('rect',{x:0,y:0,width:46,height:38,rx:4,fill:'url(#woodG)',...OL,'stroke-width':'2.5'}));
+    box.appendChild(E('rect',{x:0,y:0,width:46,height:38,rx:4,fill:'url(#woodG)',...OL,'stroke-width':'3'}));
     box.appendChild(E('path',{d:'M5,7 Q12,3 23,7 Q34,3 41,7',stroke:'#E8D0A0','stroke-width':'2',fill:'none'}));
     if(eggR){
-      box.appendChild(E('ellipse',{cx:23,cy:16,rx:8,ry:10,fill:'#FDF8F0',...OL,'stroke-width':'2'}));
+      box.appendChild(E('ellipse',{cx:23,cy:16,rx:8,ry:10,fill:'#FDF8F0',...OL,'stroke-width':'2.5'}));
       box.appendChild(E('ellipse',{cx:23,cy:14,rx:4,ry:5,fill:'white',opacity:'0.4'}));
     }
     box.appendChild(E('text',{x:23,y:52,'text-anchor':'middle',fill:'#8B7060','font-family':'Nunito,sans-serif','font-size':'9','font-weight':'700'},c.n.split(' ')[0]));
@@ -425,33 +434,30 @@ function renderScene(){
   });
   svg.appendChild(nestG);
 
-  // ── WATERER ──
+  // WATERER
   const wat=E('g',{class:'clickable',transform:'translate(250,365)',filter:'url(#sh)'});
-  wat.appendChild(E('ellipse',{cx:22,cy:22,rx:22,ry:9,fill:'#B8DCE8',...OL,'stroke-width':'2.5'}));
-  wat.appendChild(E('path',{d:'M8,22 Q8,4 22,3 Q36,4 36,22',fill:'#D8EEF4',...OL,'stroke-width':'2.5'}));
+  wat.appendChild(E('ellipse',{cx:22,cy:22,rx:22,ry:9,fill:'#B8DCE8',...OL,'stroke-width':'3'}));
+  wat.appendChild(E('path',{d:'M8,22 Q8,4 22,3 Q36,4 36,22',fill:'#D8EEF4',...OL,'stroke-width':'3'}));
   wat.appendChild(E('ellipse',{cx:22,cy:13,rx:14,ry:6,fill:'#B0DCE8',opacity:'0.5'}));
-  wat.appendChild(E('path',{d:'M22,6 Q22,3 22,3 Q22,3 22,6 Q18,10 18,13 Q18,17 22,17 Q26,17 26,13 Q26,10 22,6Z',fill:'#6BA8C0',...OL,'stroke-width':'1.5'}));
-  wat.appendChild(E('rect',{x:0,y:34,width:44,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
+  wat.appendChild(E('path',{d:'M22,6 Q22,3 22,3 Q22,3 22,6 Q18,10 18,13 Q18,17 22,17 Q26,17 26,13 Q26,10 22,6Z',fill:'#6BA8C0',...OL,'stroke-width':'2'}));
+  wat.appendChild(E('rect',{x:0,y:34,width:44,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
   wat.appendChild(E('text',{x:22,y:46,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'WATER'));
   wat.onclick=()=>waterAll();
   svg.appendChild(wat);
 
-  // ── CHICKENS ──
-  const cP=[{x:380,y:390,a:'anim-b'},{x:540,y:380,a:'anim-p'},{x:710,y:395,a:'anim-t'}];
+  // CHICKENS — bigger and repositioned for larger sprites
+  const cP=[{x:360,y:390,a:'anim-b'},{x:540,y:380,a:'anim-p'},{x:720,y:395,a:'anim-t'}];
   G.cks.forEach((c,i)=>{
     if(c.h<=0)return;
     const p=cP[i]||cP[0];
     let dc='#8CC09A';
     if(c.h<30||c.hu>=80||c.th>=80)dc='#E57373';
     else if(c.h<60||c.hu>=50||c.th>=50)dc='#F4B840';
-
     const chk=E('g',{class:'clickable',transform:`translate(${p.x},${p.y})`,filter:'url(#sh)'});
     chk.appendChild(drawChicken(c,dc,p.a));
-
-    // Name tag
     const tw=c.n.length*7+18;
-    const tag=E('g',{transform:'translate(0,-48)',opacity:G.sel===i?'1':'0',style:'transition:opacity 0.2s'});
-    tag.appendChild(E('rect',{x:-tw/2,y:-8,width:tw,height:17,rx:8,fill:'white',...OL,'stroke-width':'2.5'}));
+    const tag=E('g',{transform:'translate(0,-74)',opacity:G.sel===i?'1':'0',style:'transition:opacity 0.2s'});
+    tag.appendChild(E('rect',{x:-tw/2,y:-8,width:tw,height:17,rx:8,fill:'white',...OL,'stroke-width':'3'}));
     tag.appendChild(E('text',{x:0,y:4,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'700','font-size':'10'},c.n));
     chk.appendChild(tag);
     chk.onmouseenter=()=>tag.setAttribute('opacity','1');
@@ -460,25 +466,25 @@ function renderScene(){
     svg.appendChild(chk);
   });
 
-  // ── FEED TROUGH ──
-  const tr=E('g',{class:'clickable',transform:'translate(390,445)',filter:'url(#sh)'});
-  tr.appendChild(E('rect',{x:2,y:3,width:136,height:22,rx:6,fill:'rgba(0,0,0,0.06)'}));
-  tr.appendChild(E('rect',{x:0,y:0,width:140,height:22,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3'}));
-  tr.appendChild(E('rect',{x:5,y:3,width:130,height:12,rx:4,fill:'#F0E0B0'}));
-  for(let i=0;i<13;i++)tr.appendChild(E('circle',{cx:12+i*10,cy:9,r:1.5,fill:'#D4C090',opacity:'0.6'}));
-  tr.appendChild(E('rect',{x:10,y:26,width:120,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
-  tr.appendChild(E('text',{x:70,y:38,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'FEED TROUGH'));
+  // FEED TROUGH
+  const tr=E('g',{class:'clickable',transform:'translate(380,448)',filter:'url(#sh)'});
+  tr.appendChild(E('rect',{x:2,y:3,width:156,height:24,rx:6,fill:'rgba(0,0,0,0.06)'}));
+  tr.appendChild(E('rect',{x:0,y:0,width:160,height:24,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3.5'}));
+  tr.appendChild(E('rect',{x:5,y:3,width:150,height:13,rx:4,fill:'#F0E0B0'}));
+  for(let i=0;i<15;i++)tr.appendChild(E('circle',{cx:12+i*10,cy:10,r:1.5,fill:'#D4C090',opacity:'0.6'}));
+  tr.appendChild(E('rect',{x:15,y:28,width:130,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
+  tr.appendChild(E('text',{x:80,y:40,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'FEED TROUGH'));
   tr.onclick=()=>feedAll();
   svg.appendChild(tr);
 
-  // ── POPUP ──
+  // POPUP
   if(G.sel!==null){
     const c=G.cks[G.sel],p=cP[G.sel]||cP[0],eggR=c.et>=80;
     const wrap=document.getElementById('sceneWrap');
     wrap.querySelectorAll('.chicken-popup').forEach(e=>e.remove());
     const pop=document.createElement('div');pop.className='chicken-popup';
     const pctX=(p.x/920)*100;
-    pop.style.cssText=`position:absolute;top:${p.y-195}px;left:${pctX<35?p.x+65:p.x-215}px;z-index:25;`;
+    pop.style.cssText=`position:absolute;top:${p.y-210}px;left:${pctX<35?p.x+70:p.x-220}px;z-index:25;`;
     pop.innerHTML=`
       <button class="close-p" onclick="event.stopPropagation();G.sel=null;renderAll();">&times;</button>
       <div class="pn">${c.n} 🐔</div>
@@ -507,19 +513,16 @@ function renderAll(){
   renderScene();
   const hf=G.feed>0,ha=al.length>0,ae=al.some(c=>c.et>=80);
   document.getElementById('actionBar').innerHTML=`
-    <button class="abtn" onclick="feedAll()" ${!hf||!ha?'disabled':''}>🍽️ Feed All</button>
-    <button class="abtn" onclick="waterAll()" ${!ha?'disabled':''}>💧 Water All</button>
-    <button class="abtn ${ae?'accent':''}" onclick="collAll()" ${!ae?'disabled':''}>🥚 Collect All</button>
-    <button class="abtn" onclick="buyFeed()">🛒 Buy Feed (+10)</button>`;
+    <button class="abtn feed" onclick="feedAll()" ${!hf||!ha?'disabled':''}>🍽️ Feed All</button>
+    <button class="abtn water" onclick="waterAll()" ${!ha?'disabled':''}>💧 Water All</button>
+    <button class="abtn collect" onclick="collAll()" ${!ae?'disabled':''}>🥚 Collect All</button>
+    <button class="abtn shop" onclick="buyFeed()">🛒 Buy Feed (+10)</button>`;
   const tip=TIPS[G.ti%TIPS.length];
   document.getElementById('tipTitle').textContent=tip.t;
   document.getElementById('tipBody').textContent=tip.b;
   document.getElementById('tipAction').textContent=tip.a;
 }
 
-// ═══════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════
 renderAll();
 setInterval(()=>{tick(1);save();renderAll();},25000);
 </script>
