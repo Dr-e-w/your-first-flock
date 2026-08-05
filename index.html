@@ -6,667 +6,515 @@
 <title>Your First Flock — Chicken Care Game</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F5F0E8;
-    --header-bg: rgba(255,252,247,0.92);
-    --text: #2C2416;
-    --text-muted: #6B5D4E;
-    --accent: #D4855E;
-    --accent-hover: #C0704A;
-    --green: #5B8C5A;
-    --gold: #D4A04A;
-    --red: #D4634C;
-    --shadow: 0 2px 16px rgba(44,36,22,0.10);
-    --radius: 14px;
+    --bg: #FFF8F0;
+    --sky: #C5E3F0;
+    --grass: #AED8B8;
+    --grass-dk: #8CC09A;
+    --wood: #F0E0CC;
+    --wood-dk: #5C3D2E;
+    --roof: #D4907A;
+    --roof-dk: #B06850;
+    --cream: #FDF8F0;
+    --salmon: #E57373;
+    --gold: #F4B840;
+    --pink: #F0A0A0;
+    --blue-btn: #8EC8D8;
+    --green-btn: #8CC09A;
+    --text: #4A3028;
+    --text-muted: #8B7060;
+    --outline: #4A3028;
+    --radius: 18px;
+    --radius-sm: 14px;
+    --font-display: 'Baloo 2', cursive;
+    --font-body: 'Nunito', sans-serif;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    font-family:'Inter',-apple-system,sans-serif;
+    font-family:var(--font-body);
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
     display:flex;
     justify-content:center;
-    overflow-x:hidden;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(240,160,160,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(142,200,216,0.08) 0%, transparent 50%);
   }
-  .app {
-    width:100%;
-    max-width:960px;
-    display:flex;
-    flex-direction:column;
-    min-height:100vh;
-  }
+  .app { width:100%; max-width:960px; display:flex; flex-direction:column; min-height:100vh; }
 
-  /* Header */
+  /* ── Header ─────────────────────────────────── */
   .header-bar {
     display:flex; align-items:center; justify-content:space-between;
-    padding:14px 28px;
-    background:var(--header-bg);
-    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(0,0,0,0.06);
+    padding:16px 28px; background:rgba(255,252,247,0.94);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:3px solid var(--outline);
     position:sticky; top:0; z-index:50; gap:16px; flex-wrap:wrap;
   }
-  .header-bar .logo-text {
-    font-family:'Outfit',sans-serif; font-weight:700; font-size:1.25rem;
-    letter-spacing:-0.3px;
+  .logo-text {
+    font-family:var(--font-display); font-weight:800; font-size:1.4rem;
+    color:var(--text); letter-spacing:-0.3px;
   }
-  .header-bar .logo-text span { color:var(--accent); }
-  .header-stats { display:flex; gap:24px; align-items:center; }
-  .header-stat {
-    display:flex; align-items:center; gap:7px;
-    font-size:0.85rem; font-weight:500; color:var(--text-muted);
+  .logo-text .accent { color:var(--salmon); }
+  .header-stats { display:flex; gap:20px; align-items:center; }
+  .hstat {
+    display:flex; align-items:center; gap:6px;
+    font-family:var(--font-body); font-weight:700; font-size:0.88rem; color:var(--text-muted);
   }
-  .header-stat .hs-val {
-    color:var(--text); font-weight:700;
-    font-family:'Outfit',sans-serif; font-size:1.05rem;
+  .hstat .val {
+    color:var(--text); font-family:var(--font-display); font-size:1.15rem;
   }
-  .feed-indicator {
-    font-size:0.78rem; color:var(--text-muted);
-    background:rgba(0,0,0,0.04); padding:5px 12px; border-radius:20px;
+  .feed-pill {
+    font-family:var(--font-body); font-weight:700; font-size:0.82rem;
+    color:var(--text-muted); background:white;
+    padding:6px 16px; border-radius:20px; border:2.5px solid var(--outline);
   }
-  .feed-indicator strong { color:var(--text); }
+  .feed-pill strong { color:var(--text); }
 
-  /* Scene */
-  .scene-wrap {
-    margin:16px 20px;
-    position:relative;
-  }
+  /* ── Scene ──────────────────────────────────── */
+  .scene-wrap { margin:20px 20px 12px; position:relative; }
   .scene-wrap svg {
-    display:block;
-    width:100%;
-    border-radius:var(--radius);
-    box-shadow:0 8px 40px rgba(44,36,22,0.12);
-    background:linear-gradient(180deg,#B8D4E3 0%,#D8EAF0 40%,#E8DCC8 80%,#C4B898 100%);
+    display:block; width:100%; background:var(--sky);
+    border-radius:22px; border:3px solid var(--outline);
+    box-shadow:0 6px 0 var(--outline), 0 8px 24px rgba(74,48,40,0.12);
   }
-  .clickable { cursor:pointer; transition:transform 0.15s, opacity 0.15s; }
-  .clickable:hover { opacity:0.85; }
-  .clickable:active { transform:scale(0.96); transform-origin:center; }
-  .prop-label-bg {
-    font-family:'Inter',sans-serif; font-weight:600; font-size:11px;
-    fill:rgba(44,36,22,0.88);
-  }
-  .prop-label-text {
-    font-family:'Inter',sans-serif; font-weight:600; font-size:11px; fill:white;
-  }
-  .chicken-label {
-    font-family:'Inter',sans-serif; font-weight:600; font-size:10px;
-    fill:var(--text); text-anchor:middle;
-    opacity:0; transition:opacity 0.2s;
-  }
-  .chicken-group:hover .chicken-label,
-  .chicken-group.selected .chicken-label { opacity:1; }
+  .clickable { cursor:pointer; transition:transform 0.12s; }
+  .clickable:hover { transform:scale(1.04); }
+  .clickable:active { transform:scale(0.94); }
 
-  @keyframes bob {
-    0%,100% { transform:translateY(0); }
-    40% { transform:translateY(-3px); }
-  }
-  @keyframes peck {
-    0%,100% { transform:translateY(0) rotate(0deg); }
-    30% { transform:translateY(2px) rotate(-4deg); }
-    70% { transform:translateY(1px) rotate(2deg); }
-  }
-  .anim-bob { animation:bob 2.6s ease-in-out infinite; }
-  .anim-peck { animation:peck 1.3s ease-in-out infinite; }
-
-  /* Popup */
+  /* ── Chicken Popup ──────────────────────────── */
   .chicken-popup {
     position:absolute; background:white; border-radius:var(--radius);
-    padding:16px 20px; box-shadow:0 8px 32px rgba(44,36,22,0.22);
-    z-index:25; min-width:190px; pointer-events:auto;
-    font-family:'Inter',sans-serif;
+    padding:18px 22px; border:3px solid var(--outline);
+    box-shadow:0 6px 0 var(--outline), 0 8px 28px rgba(74,48,40,0.18);
+    z-index:25; min-width:200px; pointer-events:auto;
+    font-family:var(--font-body);
   }
-  .chicken-popup .popup-name {
-    font-family:'Outfit',sans-serif; font-weight:700; font-size:1rem; margin-bottom:10px;
+  .chicken-popup .pn {
+    font-family:var(--font-display); font-weight:700; font-size:1.1rem;
+    color:var(--text); margin-bottom:10px;
   }
-  .chicken-popup .popup-stat {
+  .chicken-popup .ps {
     display:flex; align-items:center; gap:8px;
-    font-size:0.78rem; color:var(--text-muted); margin-bottom:5px;
+    font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;
   }
-  .chicken-popup .popup-bar {
-    flex:1; height:6px; background:#E8DDD0; border-radius:3px; overflow:hidden;
+  .chicken-popup .pb {
+    flex:1; height:8px; background:#F0E8DD; border-radius:4px;
+    border:2px solid var(--outline); overflow:hidden;
   }
-  .chicken-popup .popup-bar-fill {
-    height:100%; border-radius:3px; transition:width 0.4s;
+  .chicken-popup .pbf { height:100%; border-radius:2px; transition:width 0.4s; }
+  .pbf.h { background:var(--green-btn); } .pbf.g { background:var(--gold); } .pbf.t { background:var(--blue-btn); }
+  .chicken-popup .pa { display:flex; gap:7px; margin-top:12px; }
+  .mini-btn {
+    padding:7px 14px; border-radius:10px; border:2.5px solid var(--outline);
+    background:white; font-family:var(--font-body); font-size:0.75rem; font-weight:700;
+    cursor:pointer; transition:all 0.1s; box-shadow:0 3px 0 var(--outline);
   }
-  .popup-bar-fill.hbar { background:var(--green); }
-  .popup-bar-fill.gbar { background:var(--gold); }
-  .popup-bar-fill.tbar { background:#5B8BA0; }
-  .chicken-popup .popup-actions { display:flex; gap:6px; margin-top:10px; }
-  .chicken-popup .mini-btn {
-    padding:6px 12px; border-radius:8px; border:1px solid #E8DDD0;
-    background:#FAF7F2; font-size:0.72rem; cursor:pointer; font-weight:600;
-    font-family:'Inter',sans-serif; transition:all 0.15s;
-  }
-  .chicken-popup .mini-btn:hover { background:#F0EBE0; }
-  .chicken-popup .mini-btn.primary { background:var(--accent); border-color:var(--accent); color:white; }
-  .chicken-popup .mini-btn.primary:hover { background:var(--accent-hover); }
-  .chicken-popup .close-popup {
-    position:absolute; top:8px; right:12px; background:none; border:none;
-    font-size:1.2rem; cursor:pointer; color:var(--text-muted); line-height:1;
-  }
+  .mini-btn:hover { transform:translateY(-1px); box-shadow:0 4px 0 var(--outline); }
+  .mini-btn:active { transform:translateY(2px); box-shadow:0 1px 0 var(--outline); }
+  .mini-btn.accent { background:var(--pink); color:white; }
+  .close-p { position:absolute; top:8px; right:12px; background:none; border:none;
+    font-size:1.3rem; cursor:pointer; color:var(--text-muted); font-family:var(--font-body); font-weight:700; }
 
-  /* Action Bar */
+  /* ── Action Bar ─────────────────────────────── */
   .action-bar {
     display:flex; gap:10px; padding:0 20px; flex-wrap:wrap; justify-content:center;
   }
-  .action-btn {
-    padding:12px 22px; border-radius:12px; border:1px solid #E0D8CC;
-    background:white; color:var(--text); font-size:0.85rem; font-weight:600;
-    cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.15s;
-    display:flex; align-items:center; gap:7px; box-shadow:var(--shadow); user-select:none;
+  .abtn {
+    padding:13px 22px; border-radius:var(--radius-sm); border:3px solid var(--outline);
+    background:white; color:var(--text); font-family:var(--font-body); font-size:0.88rem;
+    font-weight:700; cursor:pointer; transition:all 0.1s;
+    box-shadow:0 4px 0 var(--outline); display:flex; align-items:center; gap:7px; user-select:none;
   }
-  .action-btn:hover { transform:translateY(-1px); box-shadow:0 4px 20px rgba(44,36,22,0.14); }
-  .action-btn:active { transform:translateY(0); }
-  .action-btn:disabled { opacity:0.45; cursor:not-allowed; transform:none; }
-  .action-btn.primary-btn { background:var(--accent); border-color:var(--accent); color:white; }
-  .action-btn.primary-btn:hover { background:var(--accent-hover); }
+  .abtn:hover { transform:translateY(-2px); box-shadow:0 6px 0 var(--outline); }
+  .abtn:active { transform:translateY(2px); box-shadow:0 2px 0 var(--outline); }
+  .abtn:disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:0 4px 0 var(--outline); }
+  .abtn.accent { background:var(--pink); color:white; }
+  .abtn .bi { font-size:1.25rem; }
 
-  /* Tip Card */
+  /* ── Tip Card ────────────────────────────────── */
   .tip-card {
     margin:14px 20px 20px; background:white; border-radius:var(--radius);
-    padding:18px 22px; box-shadow:var(--shadow); border-left:4px solid var(--gold);
+    padding:20px 24px; border:3px solid var(--outline);
+    box-shadow:0 5px 0 var(--outline), 0 6px 20px rgba(74,48,40,0.08);
+    position:relative;
   }
-  .tip-card .tip-badge {
+  .tip-card .tbadge {
     display:inline-block; background:var(--gold); color:white;
-    font-size:0.65rem; font-weight:700; padding:3px 10px; border-radius:20px;
-    text-transform:uppercase; letter-spacing:0.6px; margin-bottom:8px;
-    font-family:'Inter',sans-serif;
+    font-family:var(--font-body); font-weight:800; font-size:0.7rem;
+    padding:4px 12px; border-radius:20px; border:2px solid var(--outline);
+    text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;
   }
-  .tip-card .tip-title {
-    font-family:'Outfit',sans-serif; font-weight:600; font-size:1.05rem; margin-bottom:5px;
+  .tip-card .ttitle {
+    font-family:var(--font-display); font-weight:700; font-size:1.1rem;
+    color:var(--text); margin-bottom:5px;
   }
-  .tip-card .tip-body { font-size:0.85rem; color:var(--text-muted); line-height:1.55; }
-  .tip-card .tip-action {
-    display:inline-block; margin-top:8px; font-size:0.8rem; color:var(--accent); font-weight:600;
+  .tip-card .tbody {
+    font-family:var(--font-body); font-size:0.88rem; color:var(--text-muted); line-height:1.55; font-weight:600;
   }
-  @keyframes tip-in {
-    0% { opacity:0; transform:translateY(8px); }
-    100% { opacity:1; transform:translateY(0); }
+  .tip-card .taction {
+    display:inline-block; margin-top:10px; font-family:var(--font-body);
+    font-size:0.82rem; color:var(--salmon); font-weight:700;
   }
-  .tip-card.new-tip { animation:tip-in 0.4s ease-out; }
 
-  /* Toast */
+  /* ── Toast ───────────────────────────────────── */
   .toast-container {
-    position:fixed; top:80px; left:50%; transform:translateX(-50%);
+    position:fixed; top:90px; left:50%; transform:translateX(-50%);
     z-index:100; display:flex; flex-direction:column; gap:8px; pointer-events:none;
   }
   .toast {
-    background:#2C2416; color:white; padding:10px 22px; border-radius:24px;
-    font-size:0.85rem; font-weight:500; text-align:center;
-    box-shadow:0 6px 24px rgba(0,0,0,0.18);
-    animation:toast-in 0.3s ease-out, toast-out 0.25s 2s ease-in forwards;
-    pointer-events:auto; font-family:'Inter',sans-serif;
+    background:var(--text); color:white; padding:11px 24px; border-radius:24px;
+    font-family:var(--font-body); font-size:0.88rem; font-weight:700;
+    text-align:center; border:2.5px solid var(--outline);
+    box-shadow:0 4px 0 var(--outline);
+    animation:tin 0.3s ease-out, tout 0.25s 2s ease-in forwards;
+    pointer-events:auto;
   }
-  .toast.warning { background:var(--accent); }
-  .toast.success { background:var(--green); }
-  @keyframes toast-in {
-    0% { opacity:0; transform:translateY(-16px); }
-    100% { opacity:1; transform:translateY(0); }
-  }
-  @keyframes toast-out {
-    0% { opacity:1; transform:translateY(0); }
-    100% { opacity:0; transform:translateY(-16px); }
-  }
-  .reset-link { text-align:center; padding:8px 20px 28px; }
-  .reset-link button {
-    background:none; border:none; color:var(--text-muted);
-    font-size:0.75rem; cursor:pointer; text-decoration:underline;
-    font-family:'Inter',sans-serif;
-  }
-  .reset-link button:hover { color:var(--red); }
+  .toast.warn { background:var(--salmon); }
+  .toast.ok { background:var(--green-btn); }
+  @keyframes tin { 0%{opacity:0;transform:translateY(-14px);} 100%{opacity:1;transform:translateY(0);} }
+  @keyframes tout { 0%{opacity:1;transform:translateY(0);} 100%{opacity:0;transform:translateY(-14px);} }
 
-  /* Egg ready indicator on nesting box */
-  .egg-ready-indicator { opacity:0; transition:opacity 0.3s; }
-  .egg-ready-indicator.visible { opacity:1; }
+  .rst-area { text-align:center; padding:8px 20px 28px; }
+  .rst-area button {
+    background:none; border:none; color:var(--text-muted);
+    font-family:var(--font-body); font-size:0.78rem; font-weight:700;
+    cursor:pointer; text-decoration:underline;
+  }
+  .rst-area button:hover { color:var(--salmon); }
+
+  @keyframes bob { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-3px)} }
+  @keyframes peck { 0%,100%{transform:translateY(0) rotate(0deg)} 35%{transform:translateY(3px) rotate(-3deg)} 70%{transform:translateY(0) rotate(2deg)} }
+  @keyframes tilt { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
+  .anim-b { animation:bob 2.4s ease-in-out infinite; }
+  .anim-p { animation:peck 1.1s ease-in-out infinite; }
+  .anim-t { animation:tilt 3s ease-in-out infinite; }
 </style>
 </head>
 <body>
 <div class="app">
   <header class="header-bar">
-    <div><span class="logo-text">Your First <span>Flock</span></span></div>
+    <div><span class="logo-text">Your First <span class="accent">Flock</span></span></div>
     <div class="header-stats">
-      <div class="header-stat">📅 Day <span class="hs-val" id="hDay">1</span></div>
-      <div class="header-stat">🥚 <span class="hs-val" id="hEggs">0</span> eggs</div>
-      <div class="header-stat">🐔 <span class="hs-val" id="hFlock">3/3</span></div>
+      <div class="hstat">📅 Day <span class="val" id="hDay">1</span></div>
+      <div class="hstat">🥚 <span class="val" id="hEggs">0</span></div>
+      <div class="hstat">🐔 <span class="val" id="hFlock">3/3</span></div>
     </div>
-    <div class="feed-indicator">Feed: <strong id="hFeed">10</strong> scoops</div>
+    <div class="feed-pill">🌾 <strong id="hFeed">10</strong> scoops</div>
   </header>
 
   <div class="scene-wrap" id="sceneWrap">
-    <svg viewBox="0 0 920 500" id="sceneSvg"></svg>
+    <svg viewBox="0 0 920 520" id="sceneSvg"></svg>
   </div>
 
   <div class="action-bar" id="actionBar"></div>
 
-  <div class="tip-card new-tip" id="tipCard">
-    <div class="tip-badge">🐣 Chicken Knowledge</div>
-    <div class="tip-title" id="tipTitle"></div>
-    <div class="tip-body" id="tipBody"></div>
-    <div class="tip-action" id="tipAction"></div>
+  <div class="tip-card" id="tipCard">
+    <div class="tbadge">🐣 Chicken Knowledge</div>
+    <div class="ttitle" id="tipTitle"></div>
+    <div class="tbody" id="tipBody"></div>
+    <div class="taction" id="tipAction"></div>
   </div>
-  <div class="reset-link"><button onclick="resetGame()">Reset flock & start over</button></div>
+  <div class="rst-area"><button onclick="resetGame()">Reset flock & start over</button></div>
 </div>
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
 // ═══════════════════════════════════════════════════════════
-// GAME STATE
+// STATE
 // ═══════════════════════════════════════════════════════════
-const NAMES = ['Henrietta','Nugget','Cluckles','Eggwina','Pecky','Sunny','Daisy','Maple'];
-const USED = new Set();
-const TIPS = [
-  {title:'Eggshells Are Mostly Calcium',body:'A single eggshell contains about 2 grams of calcium. Without enough dietary calcium, hens produce thin-shelled or shell-less eggs.',action:'💡 Supplement: crushed oyster shells or limestone grit.'},
-  {title:'Chickens Need Grit to Digest',body:'Chickens don\'t have teeth. They swallow small stones that sit in their gizzard, grinding food like a natural mill.',action:'💡 Provide coarse sand or commercial poultry grit.'},
-  {title:'A Hen Lays Every 24–26 Hours',body:'It takes about 25 hours for a hen to form an egg. They lay slightly later each day, eventually skipping a day.',action:'💡 Expect 5–6 eggs per hen per week, not one daily.'},
-  {title:'Fresh Water > Food',body:'A chicken can survive weeks without food but only days without water. A laying hen drinks about 2 cups per day.',action:'💡 Check waterers twice daily. Ice cubes in summer.'},
-  {title:'The Comb Reveals Health',body:'A bright red, plump comb means a healthy, laying hen. Pale or shrunken combs signal illness or mites.',action:'💡 Quick comb check every time you collect eggs.'},
-  {title:'Dust Baths, Not Water Baths',body:'Chickens clean themselves by fluffing dry dirt through their feathers — it smothers parasites and absorbs oil.',action:'💡 Provide dry dirt, sand, and a little wood ash.'},
-  {title:'Egg Color = Breed',body:'White earlobes usually mean white eggs. Red earlobes usually mean brown eggs. Some breeds lay blue or green.',action:'💡 Ameraucana and Cream Legbar lay blue eggs.'},
-  {title:'Overfeeding Is Common',body:'Obesity leads to fatty liver syndrome, egg-binding, and reduced laying. Most backyard flocks are overfed.',action:'💡 About ¼ lb of feed per hen per day. Limit treats.'},
-  {title:'Chickens Recognize Faces',body:'Chickens recognize up to 100 faces, including humans. They form social hierarchies that last for months.',action:'💡 Spend time near your flock daily — they\'ll trust you.'},
-  {title:'The Bloom Protects Eggs',body:'Fresh eggs have a natural coating called the "bloom" that seals the pores. Unwashed eggs last weeks at room temp.',action:'💡 Only wash eggs right before use, then refrigerate.'},
-  {title:'Body Temp: 105–107°F',body:'That high metabolism means they need constant food and water. Extra feed before bedtime helps in cold weather.',action:'💡 Scratch grains or corn before bed on cold nights.'},
-  {title:'Molting = No Eggs',body:'Once a year, hens shed and regrow feathers for 8–16 weeks. They stop laying entirely during molt.',action:'💡 Switch to higher-protein feed (18–20%) during molt.'},
-  {title:'Predators Come From All Sides',body:'Hawks, raccoons, foxes, and weasels are top threats. A weasel can squeeze through a 1-inch gap.',action:'💡 Use ½-inch hardware cloth, buried 12 inches deep.'},
-  {title:'Yolk Color = Diet',body:'Deep orange yolks come from carotenoids in marigolds, alfalfa, and leafy greens. Pale yolks = grain-only diet.',action:'💡 Free-range access to grass and bugs for rich yolks.'},
-  {title:'Descendants of Dinosaurs',body:'Chickens descend from the Red Junglefowl. T. rex is closer to chickens than to Stegosaurus.',action:'💡 Your flock carries 150 million years of lineage.'},
+const NAMES=['Henrietta','Nugget','Cluckles','Eggwina','Pecky','Sunny','Daisy','Maple'];
+const USED=new Set();
+const TIPS=[
+  {t:'Eggshells Are Mostly Calcium',b:'A single eggshell contains about 2 grams of calcium. Without enough dietary calcium, hens produce thin-shelled or shell-less eggs.',a:'💡 Supplement: crushed oyster shells or limestone grit.'},
+  {t:'Chickens Need Grit to Digest',b:'Chickens don\'t have teeth. They swallow small stones that sit in their gizzard, grinding food like a natural mill.',a:'💡 Provide coarse sand or commercial poultry grit.'},
+  {t:'A Hen Lays Every 24–26 Hours',b:'It takes about 25 hours for a hen to form an egg. They lay slightly later each day, eventually skipping a day.',a:'💡 Expect 5–6 eggs per hen per week, not one daily.'},
+  {t:'Fresh Water > Food',b:'A chicken can survive weeks without food but only days without water. A laying hen drinks about 2 cups per day.',a:'💡 Check waterers twice daily. Ice cubes in summer.'},
+  {t:'The Comb Reveals Health',b:'A bright red, plump comb means a healthy, laying hen. Pale or shrunken combs signal illness or mites.',a:'💡 Quick comb check every time you collect eggs.'},
+  {t:'Dust Baths, Not Water Baths',b:'Chickens clean themselves by fluffing dry dirt through their feathers — it smothers parasites and absorbs oil.',a:'💡 Provide dry dirt, sand, and a little wood ash.'},
+  {t:'Egg Color = Breed',b:'White earlobes usually mean white eggs. Red earlobes usually mean brown eggs. Some breeds lay blue or green.',a:'💡 Ameraucana and Cream Legbar lay blue eggs.'},
+  {t:'Overfeeding Is Common',b:'Obesity leads to fatty liver syndrome, egg-binding, and reduced laying. Most backyard flocks are overfed.',a:'💡 About ¼ lb of feed per hen per day. Limit treats.'},
+  {t:'Chickens Recognize Faces',b:'Chickens recognize up to 100 faces, including humans. They form social hierarchies that last for months.',a:'💡 Spend time near your flock daily — they\'ll trust you.'},
+  {t:'The Bloom Protects Eggs',b:'Fresh eggs have a natural coating called the "bloom" that seals the pores. Unwashed eggs last weeks at room temp.',a:'💡 Only wash eggs right before use, then refrigerate.'},
+  {t:'Body Temp: 105–107°F',b:'That high metabolism means they need constant food and water. Extra feed before bedtime helps in cold weather.',a:'💡 Scratch grains or corn before bed on cold nights.'},
+  {t:'Molting = No Eggs',b:'Once a year, hens shed and regrow feathers for 8–16 weeks. They stop laying entirely during molt.',a:'💡 Switch to higher-protein feed (18–20%) during molt.'},
+  {t:'Predators Come From All Sides',b:'Hawks, raccoons, foxes, and weasels are top threats. A weasel can squeeze through a 1-inch gap.',a:'💡 Use ½-inch hardware cloth, buried 12 inches deep.'},
+  {t:'Yolk Color = Diet',b:'Deep orange yolks come from carotenoids in marigolds, alfalfa, and leafy greens. Pale yolks = grain-only diet.',a:'💡 Free-range access to grass and bugs for rich yolks.'},
+  {t:'Descendants of Dinosaurs',b:'Chickens descend from the Red Junglefowl. T. rex is closer to chickens than to Stegosaurus.',a:'💡 Your flock carries 150 million years of lineage.'},
 ];
-
-let G = loadState();
-function dflt(){
-  USED.clear();
-  return {day:1,totalEggs:0,feedSupply:10,tipIdx:0,usedTips:[],selChk:null,
-    chickens:[
-      {name:pick(),health:100,hunger:25,thirst:20,eggT:10,laid:0},
-      {name:pick(),health:100,hunger:20,thirst:30,eggT:50,laid:0},
-      {name:pick(),health:100,hunger:30,thirst:15,eggT:75,laid:0}
-    ]};
-}
+let G=load();
+function dflt(){USED.clear();return{day:1,eggs:0,feed:10,ti:0,ut:[],sel:null,
+  cks:[{n:pick(),h:100,hu:25,th:20,et:10,ld:0},{n:pick(),h:100,hu:20,th:30,et:50,ld:0},{n:pick(),h:100,hu:30,th:15,et:75,ld:0}]};}
 function pick(){const a=NAMES.filter(n=>!USED.has(n));const n=a.length?a[Math.floor(Math.random()*a.length)]:'Chicky';USED.add(n);return n;}
-function loadState(){try{const s=JSON.parse(localStorage.getItem('yff-v4'));if(s){s.chickens.forEach(c=>USED.add(c.name));return s;}}catch(e){}return dflt();}
-function save(){localStorage.setItem('yff-v4',JSON.stringify(G));}
-function resetGame(){G=dflt();save();renderAll();toast('Fresh flock! 🐣','success');}
+function load(){try{const s=JSON.parse(localStorage.getItem('yff-v5'));if(s){s.cks.forEach(c=>USED.add(c.n));return s;}}catch(e){}return dflt();}
+function save(){localStorage.setItem('yff-v5',JSON.stringify(G));}
+function resetGame(){G=dflt();save();renderAll();toast('Fresh flock! 🐣','ok');}
 
 // ═══════════════════════════════════════════════════════════
-// GAME LOGIC
+// LOGIC
 // ═══════════════════════════════════════════════════════════
 function tick(n){
-  for(const c of G.chickens){
-    if(c.health<=0)continue;
-    c.hunger=Math.min(100,c.hunger+n*2);
-    c.thirst=Math.min(100,c.thirst+n*3);
-    if(c.hunger>=80||c.thirst>=80)c.health=Math.max(0,c.health-n*2);
-    c.eggT=Math.min(100,c.eggT+n*3);
-  }
+  for(const c of G.cks){if(c.h<=0)continue;c.hu=Math.min(100,c.hu+n*2);c.th=Math.min(100,c.th+n*3);if(c.hu>=80||c.th>=80)c.h=Math.max(0,c.h-n*2);c.et=Math.min(100,c.et+n*3);}
   G.day+=Math.floor(n/5);
 }
-function feedOne(i){
-  const c=G.chickens[i];
-  if(c.health<=0)return toast(c.name+' is gone. 😢','warning');
-  if(G.feedSupply<=0)return toast('Out of feed! Buy more. 🏪','warning');
-  G.feedSupply--;c.hunger=Math.max(0,c.hunger-35);
-  if(c.hunger<30&&c.health<100&&c.thirst<80)c.health=Math.min(100,c.health+3);
-  tick(2);save();renderAll();nextTip();toast('Fed '+c.name+'!','success');
-}
-function waterOne(i){
-  const c=G.chickens[i];
-  if(c.health<=0)return toast(c.name+' is gone. 😢','warning');
-  c.thirst=Math.max(0,c.thirst-40);
-  if(c.thirst<30&&c.health<100&&c.hunger<80)c.health=Math.min(100,c.health+3);
-  tick(2);save();renderAll();nextTip();toast('Watered '+c.name+'!','success');
-}
-function eggOne(i){
-  const c=G.chickens[i];
-  if(c.health<=0)return toast(c.name+' is gone. 😢','warning');
-  if(c.eggT<80)return toast(c.name+' isn\'t ready. ⏳','warning');
-  c.eggT=0;c.laid++;G.totalEggs++;
-  tick(2);save();renderAll();nextTip();toast('🥚 +1 egg from '+c.name+'!','success');
-}
-function feedAll(){
-  if(G.feedSupply<=0)return toast('Out of feed! 🏪','warning');
-  const al=G.chickens.filter(c=>c.health>0);
-  if(!al.length)return toast('No chickens. 😢','warning');
-  const n=Math.min(G.feedSupply,al.length);G.feedSupply-=n;
-  al.slice(0,n).forEach(c=>{c.hunger=Math.max(0,c.hunger-30);if(c.hunger<30&&c.health<100)c.health=Math.min(100,c.health+3);});
-  tick(3);save();renderAll();nextTip();toast('Fed '+n+' chicken(s)!','success');
-}
-function waterAll(){
-  const al=G.chickens.filter(c=>c.health>0);
-  if(!al.length)return toast('No chickens. 😢','warning');
-  al.forEach(c=>{c.thirst=Math.max(0,c.thirst-35);if(c.thirst<30&&c.health<100)c.health=Math.min(100,c.health+3);});
-  tick(3);save();renderAll();nextTip();toast('Watered all! 💧','success');
-}
-function collectAll(){
-  const rd=G.chickens.filter(c=>c.health>0&&c.eggT>=80);
-  if(!rd.length)return toast('No eggs ready. ⏳','warning');
-  rd.forEach(c=>{c.eggT=0;c.laid++;G.totalEggs++;});
-  tick(3);save();renderAll();nextTip();toast('Collected '+rd.length+' egg(s)! 🥚','success');
-}
-function buyFeed(){G.feedSupply+=10;save();renderAll();toast('+10 scoops! 🛒','success');}
-function selChk(i){G.selChk=G.selChk===i?null:i;renderAll();}
-function nextTip(){
-  const av=TIPS.map((_,i)=>i).filter(i=>!G.usedTips.includes(i));
-  if(!av.length){G.usedTips=[];return nextTip();}
-  G.tipIdx=av[Math.floor(Math.random()*av.length)];
-  G.usedTips.push(G.tipIdx);
-}
-function toast(m,t){
-  const c=document.getElementById('toastContainer');
-  const e=document.createElement('div');
-  e.className='toast '+(t||'');e.textContent=m;c.appendChild(e);
-  setTimeout(()=>e.remove(),2400);
+function feed1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(G.feed<=0)return toast('Out of feed! 🏪','warn');G.feed--;c.hu=Math.max(0,c.hu-35);if(c.hu<30&&c.h<100&&c.th<80)c.h=Math.min(100,c.h+3);tick(2);save();renderAll();ntip();toast('Fed '+c.n+'!','ok');}
+function water1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');c.th=Math.max(0,c.th-40);if(c.th<30&&c.h<100&&c.hu<80)c.h=Math.min(100,c.h+3);tick(2);save();renderAll();ntip();toast('Watered '+c.n+'!','ok');}
+function egg1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(c.et<80)return toast(c.n+' isn\'t ready ⏳','warn');c.et=0;c.ld++;G.eggs++;tick(2);save();renderAll();ntip();toast('🥚 +1 from '+c.n+'!','ok');}
+function feedAll(){if(G.feed<=0)return toast('Out of feed! 🏪','warn');const al=G.cks.filter(c=>c.h>0);if(!al.length)return toast('No chickens 😢','warn');const n=Math.min(G.feed,al.length);G.feed-=n;al.slice(0,n).forEach(c=>{c.hu=Math.max(0,c.hu-30);if(c.hu<30&&c.h<100)c.h=Math.min(100,c.h+3);});tick(3);save();renderAll();ntip();toast('Fed '+n+' chicken(s)!','ok');}
+function waterAll(){const al=G.cks.filter(c=>c.h>0);if(!al.length)return toast('No chickens 😢','warn');al.forEach(c=>{c.th=Math.max(0,c.th-35);if(c.th<30&&c.h<100)c.h=Math.min(100,c.h+3);});tick(3);save();renderAll();ntip();toast('Watered all!','ok');}
+function collAll(){const rd=G.cks.filter(c=>c.h>0&&c.et>=80);if(!rd.length)return toast('No eggs ready ⏳','warn');rd.forEach(c=>{c.et=0;c.ld++;G.eggs++;});tick(3);save();renderAll();ntip();toast('Collected '+rd.length+' egg(s)! 🥚','ok');}
+function buyFeed(){G.feed+=10;save();renderAll();toast('+10 scoops! 🛒','ok');}
+function sel(i){G.sel=G.sel===i?null:i;renderAll();}
+function ntip(){const av=TIPS.map((_,i)=>i).filter(i=>!G.ut.includes(i));if(!av.length){G.ut=[];return ntip();}G.ti=av[Math.floor(Math.random()*av.length)];G.ut.push(G.ti);}
+function toast(m,t){const c=document.getElementById('toastContainer');const e=document.createElement('div');e.className='toast '+(t||'');e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),2400);}
+
+// ═══════════════════════════════════════════════════════════
+// SVG HELPERS
+// ═══════════════════════════════════════════════════════════
+const NS='http://www.w3.org/2000/svg';
+function E(t,a,x){const e=document.createElementNS(NS,t);for(const[k,v]of Object.entries(a||{}))e.setAttribute(k,v);if(x!==undefined)e.textContent=x;return e;}
+const OL={stroke:'#4A3028','stroke-width':'2.5','stroke-linecap':'round','stroke-linejoin':'round'};
+
+// Draw a cartoon chicken
+function drawChicken(c,dotColor,animClass){
+  const g=E('g',{class:'chicken-g '+animClass});
+  // Drop shadow
+  g.appendChild(E('ellipse',{cx:0,cy:26,rx:22,ry:6,fill:'rgba(74,48,40,0.15)'}));
+  // Legs
+  g.appendChild(E('line',{x1:-8,y1:14,x2:-10,y2:24,...OL,stroke:'#D49530','stroke-width':'3'}));
+  g.appendChild(E('line',{x1:8,y1:14,x2:10,y2:24,...OL,stroke:'#D49530','stroke-width':'3'}));
+  g.appendChild(E('line',{x1:-14,y1:24,x2:-6,y2:24,...OL,stroke:'#D49530','stroke-width':'2.5'}));
+  g.appendChild(E('line',{x1:6,y1:24,x2:14,y2:24,...OL,stroke:'#D49530','stroke-width':'2.5'}));
+  // Body (small, scrawny)
+  g.appendChild(E('ellipse',{cx:0,cy:4,rx:18,ry:14,fill:'#FDF8F0',...OL}));
+  // Wing
+  g.appendChild(E('path',{d:'M-4,2 Q-12,4 -8,12 Q-2,14 4,10 Q0,6 -4,2Z',fill:'#F0E8D8',...OL,'stroke-width':'1.5'}));
+  // Tail
+  g.appendChild(E('path',{d:'M-14,-2 Q-22,-8 -18,2 Q-16,6 -10,4Z',fill:'#F8F0E4',...OL,'stroke-width':'2'}));
+  // Neck
+  g.appendChild(E('ellipse',{cx:8,cy:-10,rx:7,ry:10,fill:'#FDF8F0',...OL}));
+  // HEAD (big — chibi style)
+  g.appendChild(E('circle',{cx:9,cy:-22,r:14,fill:'#FDF8F0',...OL}));
+  // Comb (wavy)
+  g.appendChild(E('path',{d:'M2,-34 Q4,-40 6,-34 Q8,-40 10,-34 Q12,-40 14,-34 Q14,-36 16,-34 Q10,-28 4,-28Z',fill:'#E57373',...OL,'stroke-width':'2'}));
+  // Eyes (huge googly)
+  g.appendChild(E('circle',{cx:5,cy:-24,r:6,fill:'white',...OL,'stroke-width':'2'}));
+  g.appendChild(E('circle',{cx:15,cy:-25,r:5.5,fill:'white',...OL,'stroke-width':'2'}));
+  // Pupils
+  g.appendChild(E('circle',{cx:5,cy:-23,r:2.8,fill:'#4A3028'}));
+  g.appendChild(E('circle',{cx:15,cy:-24,r:2.5,fill:'#4A3028'}));
+  // Catchlights
+  g.appendChild(E('circle',{cx:6,cy:-25,r:1.2,fill:'white'}));
+  g.appendChild(E('circle',{cx:16,cy:-26,r:1,fill:'white'}));
+  // Eyebrows
+  g.appendChild(E('line',{x1:1,y1:-31,x2:8,y2:-30,...OL,'stroke-width':'2'}));
+  g.appendChild(E('line',{x1:12,y1:-31,x2:18,y2:-32,...OL,'stroke-width':'2'}));
+  // Beak
+  g.appendChild(E('polygon',{points:'20,-24 27,-22 20,-19',fill:'#F4B840',...OL,'stroke-width':'2'}));
+  // Wattle
+  g.appendChild(E('path',{d:'M6,-10 Q9,-6 12,-10 Q10,-12 6,-10Z',fill:'#E57373',...OL,'stroke-width':'1.5'}));
+  // Health dot
+  g.appendChild(E('circle',{cx:9,cy:-42,r:5,fill:dotColor,...OL,'stroke-width':'2'}));
+
+  return g;
 }
 
 // ═══════════════════════════════════════════════════════════
-// SVG SCENE RENDERER
+// SCENE RENDER
 // ═══════════════════════════════════════════════════════════
-function svgEl(tag,attrs,text){
-  const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
-  for(const[k,v]of Object.entries(attrs||{}))el.setAttribute(k,v);
-  if(text!==undefined)el.textContent=text;
-  return el;
-}
-
 function renderScene(){
-  const svg=document.getElementById('sceneSvg');
-  svg.innerHTML='';
+  const svg=document.getElementById('sceneSvg');svg.innerHTML='';
 
-  // ═══ Defs ═══
-  const defs=svgEl('defs');
-  // Gradients
-  const addGrad=(id,stops)=>{
-    const g=svgEl('linearGradient',{id,x1:'0',y1:'0',x2:'0',y2:'1'});
-    stops.forEach(([off,color])=>g.appendChild(svgEl('stop',{offset:off,'stop-color':color})));
+  // ── Defs ──
+  const defs=E('defs');
+  const addG=(id,stops)=>{
+    const g=E('linearGradient',{id,x1:'0',y1:'0',x2:'0',y2:'1'});
+    stops.forEach(([o,c])=>g.appendChild(E('stop',{offset:o,'stop-color':c})));
     defs.appendChild(g);
   };
-  addGrad('skyGrad',[['0%','#B0CEE0'],['100%','#E2EEF4']]);
-  addGrad('grassGrad',[['0%','#8DB86A'],['100%','#5C8A3E']]);
-  addGrad('dirtGrad',[['0%','#D4C0A0'],['100%','#B89870']]);
-  addGrad('woodGrad',[['0%','#D4B896'],['100%','#A88860']]);
-  addGrad('roofGrad',[['0%','#9B6040'],['100%','#6B3820']]);
-  addGrad('chickGrad',[['0%','#FAF2E4'],['100%','#EDD8B8']]);
-  addGrad('nestGrad',[['0%','#F0E0C0'],['100%','#D4B896']]);
-
-  // Drop shadow filter
-  const filt=svgEl('filter',{id:'shadow',x:'-20%',y:'-20%',width:'140%',height:'140%'});
-  filt.innerHTML='<feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#2C2416" flood-opacity="0.15"/>';
-  defs.appendChild(filt);
-  const filt2=svgEl('filter',{id:'shadowLg',x:'-20%',y:'-20%',width:'140%',height:'140%'});
-  filt2.innerHTML='<feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#2C2416" flood-opacity="0.2"/>';
-  defs.appendChild(filt2);
+  addG('skyG',[['0%','#C5E3F0'],['100%','#E5F2F8']]);
+  addG('grassG',[['0%','#AED8B8'],['100%','#8CC09A']]);
+  addG('woodG',[['0%','#F0E0CC'],['100%','#E0CCB0']]);
+  addG('roofG',[['0%','#D4907A'],['100%','#B06850']]);
+  const sh=E('filter',{id:'sh',x:'-20%',y:'-20%',width:'140%',height:'140%'});
+  sh.innerHTML='<feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#4A3028" flood-opacity="0.12"/>';
+  defs.appendChild(sh);
   svg.appendChild(defs);
 
-  // ═══ Background ═══
-  svg.appendChild(svgEl('rect',{x:0,y:0,width:920,height:180,fill:'url(#skyGrad)'}));
-
-  // Sun
-  const sun=svgEl('g',{transform:'translate(820,40)'});
-  sun.appendChild(svgEl('circle',{r:30,fill:'#F8E8A0',opacity:'0.7'}));
-  sun.appendChild(svgEl('circle',{r:24,fill:'#FCF0C0'}));
+  // ── Sky & Clouds ──
+  svg.appendChild(E('rect',{x:0,y:0,width:920,height:180,fill:'url(#skyG)'}));
+  const sun=E('g',{transform:'translate(810,40)'});
+  sun.appendChild(E('circle',{r:28,fill:'#FFF3C0',...OL,'stroke-width':'2.5'}));
+  sun.appendChild(E('circle',{r:20,fill:'#FFE8A0'}));
   svg.appendChild(sun);
-
   // Clouds
-  const addCloud=(cx,cy,scale)=>{
-    const g=svgEl('g',{transform:`translate(${cx},${cy}) scale(${scale})`,opacity:'0.75'});
-    g.appendChild(svgEl('ellipse',{cx:0,cy:0,rx:40,ry:16,fill:'white'}));
-    g.appendChild(svgEl('circle',{cx:-20,cy:-6,r:18,fill:'white'}));
-    g.appendChild(svgEl('circle',{cx:10,cy:-10,r:22,fill:'white'}));
-    g.appendChild(svgEl('circle',{cx:28,cy:-2,r:16,fill:'white'}));
+  const addC=(cx,cy,s)=>{
+    const g=E('g',{transform:`translate(${cx},${cy}) scale(${s})`,opacity:'0.8'});
+    g.appendChild(E('ellipse',{cx:0,cy:0,rx:36,ry:14,fill:'white',...OL,'stroke-width':'2'}));
+    g.appendChild(E('circle',{cx:-18,cy:-4,r:16,fill:'white',...OL,'stroke-width':'2'}));
+    g.appendChild(E('circle',{cx:10,cy:-8,r:19,fill:'white',...OL,'stroke-width':'2'}));
+    g.appendChild(E('circle',{cx:26,cy:-1,r:14,fill:'white',...OL,'stroke-width':'2'}));
     svg.appendChild(g);
   };
-  addCloud(100,35,1);
-  addCloud(320,25,0.8);
-  addCloud(600,40,0.9);
+  addC(100,35,1);addC(340,25,0.8);addC(580,40,0.9);
 
-  // ═══ Ground ═══
-  svg.appendChild(svgEl('rect',{x:0,y:160,width:920,height:340,fill:'url(#grassGrad)'}));
+  // ── Ground ──
+  svg.appendChild(E('rect',{x:0,y:160,width:920,height:360,fill:'url(#grassG)'}));
   // Dirt patches
-  svg.appendChild(svgEl('ellipse',{cx:460,cy:320,rx:300,ry:40,fill:'url(#dirtGrad)',opacity:'0.35'}));
+  svg.appendChild(E('ellipse',{cx:460,cy:340,rx:320,ry:50,fill:'#E8D8C0',opacity:'0.4'}));
 
-  // ═══ Fence ═══
-  const fenceG=svgEl('g');
-  // Horizontal rails
-  fenceG.appendChild(svgEl('line',{x1:30,y1:190,x2:890,y2:190,stroke:'#C8A878',opacity:'0.5','stroke-width':3}));
-  // Posts
-  for(let x=40;x<900;x+=100){
-    fenceG.appendChild(svgEl('rect',{x:x-4,y:180,width:8,height:22,rx:2,fill:'#A07850'}));
+  // ── Fence ──
+  for(let x=40;x<900;x+=95){
+    svg.appendChild(E('rect',{x:x-5,y:175,width:10,height:24,rx:3,fill:'#D4B896',...OL,'stroke-width':'2'}));
   }
-  svg.appendChild(fenceG);
+  svg.appendChild(E('line',{x1:35,y1:186,x2:885,y2:186,...OL,stroke:'#C8A878','stroke-width':'2'}));
 
-  // ═══ Trees/Bushes (decoration) ═══
-  const addBush=(x,y,s)=>{
-    const g=svgEl('g',{transform:`translate(${x},${y}) scale(${s})`});
-    g.appendChild(svgEl('circle',{cx:-12,cy:-4,r:14,fill:'#6B9A50'}));
-    g.appendChild(svgEl('circle',{cx:12,cy:-4,r:14,fill:'#7BAA60'}));
-    g.appendChild(svgEl('circle',{cx:0,cy:-14,r:16,fill:'#8DB86A'}));
+  // ── Decorative elements ──
+  const bush=(x,y,s)=>{
+    const g=E('g',{transform:`translate(${x},${y}) scale(${s})`});
+    g.appendChild(E('circle',{cx:-10,cy:-2,r:12,fill:'#7BA860',...OL,'stroke-width':'2'}));
+    g.appendChild(E('circle',{cx:10,cy:-2,r:12,fill:'#8CB870',...OL,'stroke-width':'2'}));
+    g.appendChild(E('circle',{cx:0,cy:-12,r:14,fill:'#9CC880',...OL,'stroke-width':'2'}));
     svg.appendChild(g);
   };
-  addBush(870,210,1.1);
-  addBush(50,200,0.9);
+  bush(870,220,1.1);bush(50,200,0.9);
 
-  // ═══ Coop Structure ═══
-  const coop=svgEl('g',{transform:'translate(40,195)',filter:'url(#shadowLg)'});
-  // Shadow
-  coop.appendChild(svgEl('rect',{x:-5,y:5,width:280,height:145,rx:6,fill:'rgba(0,0,0,0.08)'}));
+  // ── COOP ──
+  const coop=E('g',{transform:'translate(35,195)',filter:'url(#sh)'});
   // Walls
-  coop.appendChild(svgEl('rect',{x:0,y:30,width:270,height:115,rx:4,fill:'url(#woodGrad)',stroke:'#8B6F4E','stroke-width':2}));
-  // Wood plank lines
-  for(let py=48;py<145;py+=20){
-    coop.appendChild(svgEl('line',{x1:2,y1:py,x2:268,y2:py,stroke:'rgba(0,0,0,0.06)','stroke-width':1}));
-  }
+  coop.appendChild(E('rect',{x:0,y:30,width:280,height:120,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3'}));
+  // Planks
+  for(let y=50;y<150;y+=22)
+    coop.appendChild(E('line',{x1:2,y1:y,x2:278,y2:y,stroke:'rgba(0,0,0,0.08)','stroke-width':'1'}));
   // Roof
-  coop.appendChild(svgEl('polygon',{points:'-8,30 135,-10 278,30',fill:'url(#roofGrad)',stroke:'#5B3018','stroke-width':2}));
-  // Roof ridge
-  coop.appendChild(svgEl('line',{x1:135,y1:-10,x2:135,y2:-10,stroke:'#5B3018','stroke-width':4,'stroke-linecap':'round'}));
+  coop.appendChild(E('polygon',{points:'-10,30 140,-14 290,30',fill:'url(#roofG)',...OL,'stroke-width':'3'}));
+  coop.appendChild(E('line',{x1:140,y1:-14,x2:140,y2:-14,stroke:'#4A3028','stroke-width':'5','stroke-linecap':'round'}));
   // Door
-  coop.appendChild(svgEl('rect',{x:190,y:60,width:50,height:70,rx:25,fill:'#6B3820',stroke:'#4A2010','stroke-width':2}));
-  coop.appendChild(svgEl('circle',{cx:228,cy:95,r:3,fill:'#D4A04A'}));
+  coop.appendChild(E('rect',{x:200,y:60,width:52,height:74,rx:26,fill:'#8B5E3C',...OL,'stroke-width':'3'}));
+  coop.appendChild(E('circle',{cx:238,cy:98,r:3.5,fill:'#F4B840',...OL,'stroke-width':'1.5'}));
   // Window
-  coop.appendChild(svgEl('rect',{x:40,y:55,width:36,height:36,rx:2,fill:'#D8EAF4',stroke:'#8B6F4E','stroke-width':2}));
-  coop.appendChild(svgEl('line',{x1:58,y1:55,x2:58,y2:91,stroke:'#8B6F4E','stroke-width':1.5}));
-  coop.appendChild(svgEl('line',{x1:40,y1:73,x2:76,y2:73,stroke:'#8B6F4E','stroke-width':1.5}));
+  coop.appendChild(E('rect',{x:35,y:52,width:38,height:38,rx:3,fill:'#E5F2F8',...OL,'stroke-width':'2.5'}));
+  coop.appendChild(E('line',{x1:54,y1:52,x2:54,y2:90,stroke:'#4A3028','stroke-width':'2'}));
+  coop.appendChild(E('line',{x1:35,y1:71,x2:73,y2:71,stroke:'#4A3028','stroke-width':'2'}));
   // COOP label
-  const lblW=60,lblH=20;
-  coop.appendChild(svgEl('rect',{x:135-lblW/2,y:-22,width:lblW,height:lblH,rx:10,fill:'rgba(44,36,22,0.85)'}));
-  coop.appendChild(svgEl('text',{x:135,y:-8,'text-anchor':'middle',fill:'white','font-family':'Inter,sans-serif','font-weight':'600','font-size':'11'},'COOP'));
+  coop.appendChild(E('rect',{x:110,y:-8,width:60,height:22,rx:11,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
+  coop.appendChild(E('text',{x:140,y:7,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'11'},'COOP'));
   svg.appendChild(coop);
 
-  // ═══ Nesting Boxes ═══
-  const nestG=svgEl('g',{transform:'translate(55,340)'});
-  // Straw bedding
-  nestG.appendChild(svgEl('ellipse',{cx:70,cy:18,rx:80,ry:14,fill:'#E8D0A0',opacity:'0.6'}));
-  // Nesting Boxes label
-  const nlW=100;
-  nestG.appendChild(svgEl('rect',{x:70-nlW/2,y:-18,width:nlW,height:16,rx:8,fill:'rgba(44,36,22,0.85)'}));
-  nestG.appendChild(svgEl('text',{x:70,y:-6,'text-anchor':'middle',fill:'white','font-family':'Inter,sans-serif','font-weight':'600','font-size':'10'},'NESTING BOXES'));
+  // ── NESTING BOXES ──
+  const nestG=E('g',{transform:'translate(50,340)',filter:'url(#sh)'});
+  nestG.appendChild(E('ellipse',{cx:70,cy:18,rx:82,ry:15,fill:'#F0E0C0',opacity:'0.5'}));
+  nestG.appendChild(E('rect',{x:18,y:-20,width:104,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
+  nestG.appendChild(E('text',{x:70,y:-7,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'NESTING BOXES'));
 
-  G.chickens.forEach((c,i)=>{
-    if(c.health<=0)return;
-    const bx=15+i*52;
-    const eggReady=c.eggT>=80;
-    const box=svgEl('g',{class:'clickable',transform:`translate(${bx},0)`});
-    // Box body
-    box.appendChild(svgEl('rect',{x:0,y:0,width:44,height:36,rx:3,fill:'url(#nestGrad)',stroke:'#A08050','stroke-width':2}));
-    // Straw inside
-    box.appendChild(svgEl('path',{d:'M4,6 Q12,2 22,6 Q32,2 40,6',stroke:'#E8D0A0','stroke-width':2,fill:'none',opacity:'0.7'}));
-    // Egg (if ready)
-    if(eggReady){
-      box.appendChild(svgEl('ellipse',{cx:22,cy:14,rx:7,ry:9,fill:'#F8F0E0',stroke:'#D8C8B0','stroke-width':1}));
-      box.appendChild(svgEl('ellipse',{cx:22,cy:12,rx:4,ry:5,fill:'white',opacity:'0.3'}));
+  G.cks.forEach((c,i)=>{
+    if(c.h<=0)return;
+    const bx=12+i*54,eggR=c.et>=80;
+    const box=E('g',{class:'clickable',transform:`translate(${bx},0)`});
+    box.appendChild(E('rect',{x:0,y:0,width:46,height:38,rx:4,fill:'url(#woodG)',...OL,'stroke-width':'2.5'}));
+    box.appendChild(E('path',{d:'M5,7 Q12,3 23,7 Q34,3 41,7',stroke:'#E8D0A0','stroke-width':'2',fill:'none'}));
+    if(eggR){
+      box.appendChild(E('ellipse',{cx:23,cy:16,rx:8,ry:10,fill:'#FDF8F0',...OL,'stroke-width':'2'}));
+      box.appendChild(E('ellipse',{cx:23,cy:14,rx:4,ry:5,fill:'white',opacity:'0.4'}));
     }
-    // Hen name
-    box.appendChild(svgEl('text',{x:22,y:50,'text-anchor':'middle',fill:'#6B5D4E','font-family':'Inter,sans-serif','font-size':'9','font-weight':'600'},c.name.split(' ')[0]));
-    box.onclick=()=>eggOne(i);
+    box.appendChild(E('text',{x:23,y:52,'text-anchor':'middle',fill:'#8B7060','font-family':'Nunito,sans-serif','font-size':'9','font-weight':'700'},c.n.split(' ')[0]));
+    box.onclick=()=>egg1(i);
     nestG.appendChild(box);
   });
   svg.appendChild(nestG);
 
-  // ═══ Waterer ═══
-  const watG=svgEl('g',{class:'clickable',transform:'translate(240,360)',filter:'url(#shadow)'});
-  // Base
-  watG.appendChild(svgEl('ellipse',{cx:22,cy:24,rx:24,ry:10,fill:'#A0C8D8',stroke:'#7AADC0','stroke-width':2}));
-  // Body
-  watG.appendChild(svgEl('path',{d:'M8,24 Q8,4 22,2 Q36,4 36,24',fill:'#D8ECF4',stroke:'#7AADC0','stroke-width':2}));
-  // Water line
-  watG.appendChild(svgEl('ellipse',{cx:22,cy:14,rx:12,ry:5,fill:'#B0D8E8',opacity:'0.5'}));
-  // Drop icon
-  watG.appendChild(svgEl('path',{d:'M22,8 Q22,4 22,4 Q22,4 22,8 Q18,12 18,15 Q18,18 22,18 Q26,18 26,15 Q26,12 22,8Z',fill:'#5B8BA0'}));
-  // Label
-  watG.appendChild(svgEl('rect',{x:-2,y:36,width:48,height:16,rx:8,fill:'rgba(44,36,22,0.85)'}));
-  watG.appendChild(svgEl('text',{x:22,y:47,'text-anchor':'middle',fill:'white','font-family':'Inter,sans-serif','font-weight':'600','font-size':'10'},'WATER'));
-  watG.onclick=()=>waterAll();
-  svg.appendChild(watG);
+  // ── WATERER ──
+  const wat=E('g',{class:'clickable',transform:'translate(250,365)',filter:'url(#sh)'});
+  wat.appendChild(E('ellipse',{cx:22,cy:22,rx:22,ry:9,fill:'#B8DCE8',...OL,'stroke-width':'2.5'}));
+  wat.appendChild(E('path',{d:'M8,22 Q8,4 22,3 Q36,4 36,22',fill:'#D8EEF4',...OL,'stroke-width':'2.5'}));
+  wat.appendChild(E('ellipse',{cx:22,cy:13,rx:14,ry:6,fill:'#B0DCE8',opacity:'0.5'}));
+  wat.appendChild(E('path',{d:'M22,6 Q22,3 22,3 Q22,3 22,6 Q18,10 18,13 Q18,17 22,17 Q26,17 26,13 Q26,10 22,6Z',fill:'#6BA8C0',...OL,'stroke-width':'1.5'}));
+  wat.appendChild(E('rect',{x:0,y:34,width:44,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
+  wat.appendChild(E('text',{x:22,y:46,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'WATER'));
+  wat.onclick=()=>waterAll();
+  svg.appendChild(wat);
 
-  // ═══ Chickens in the yard ═══
-  const chkPositions=[
-    {x:380,y:395,anim:'anim-bob'},
-    {x:540,y:380,anim:'anim-peck'},
-    {x:700,y:400,anim:'anim-bob'},
-  ];
+  // ── CHICKENS ──
+  const cP=[{x:380,y:390,a:'anim-b'},{x:540,y:380,a:'anim-p'},{x:710,y:395,a:'anim-t'}];
+  G.cks.forEach((c,i)=>{
+    if(c.h<=0)return;
+    const p=cP[i]||cP[0];
+    let dc='#8CC09A';
+    if(c.h<30||c.hu>=80||c.th>=80)dc='#E57373';
+    else if(c.h<60||c.hu>=50||c.th>=50)dc='#F4B840';
 
-  G.chickens.forEach((c,i)=>{
-    if(c.health<=0)return;
-    const pos=chkPositions[i]||chkPositions[0];
-    const sel=G.selChk===i;
+    const chk=E('g',{class:'clickable',transform:`translate(${p.x},${p.y})`,filter:'url(#sh)'});
+    chk.appendChild(drawChicken(c,dc,p.a));
 
-    // Health dot color
-    let dotColor='#5B8C5A';
-    if(c.health<30||c.hunger>=80||c.thirst>=80)dotColor='#D4634C';
-    else if(c.health<60||c.hunger>=50||c.thirst>=50)dotColor='#D4A04A';
-
-    const chk=svgEl('g',{class:`chicken-group ${sel?'selected':''}`,transform:`translate(${pos.x},${pos.y})`,filter:'url(#shadow)'});
-    // Animation wrapper — keeps animation separate from position transform
-    const animWrap=svgEl('g',{class:pos.anim});
-    chk.appendChild(animWrap);
-
-    // Health dot
-    animWrap.appendChild(svgEl('circle',{cx:0,cy:-44,r:6,fill:dotColor,stroke:'white','stroke-width':2}));
-
-    // Legs
-    animWrap.appendChild(svgEl('line',{x1:-10,y1:20,x2:-12,y2:30,stroke:'#E8A030','stroke-width':3,'stroke-linecap':'round'}));
-    animWrap.appendChild(svgEl('line',{x1:10,y1:20,x2:12,y2:30,stroke:'#E8A030','stroke-width':3,'stroke-linecap':'round'}));
-    // Feet
-    animWrap.appendChild(svgEl('line',{x1:-16,y1:30,x2:-8,y2:30,stroke:'#E8A030','stroke-width':2,'stroke-linecap':'round'}));
-    animWrap.appendChild(svgEl('line',{x1:8,y1:30,x2:16,y2:30,stroke:'#E8A030','stroke-width':2,'stroke-linecap':'round'}));
-
-    // Body
-    animWrap.appendChild(svgEl('ellipse',{cx:0,cy:2,rx:26,ry:19,fill:'url(#chickGrad)'}));
-    // Wing detail
-    animWrap.appendChild(svgEl('path',{d:'M-5,0 Q-12,2 -10,12 Q-2,16 5,12 Q2,6 -5,0Z',fill:'#E8D0B0',opacity:'0.6'}));
-    // Tail feathers
-    animWrap.appendChild(svgEl('path',{d:'M-22,-8 Q-34,-14 -30,-2 Q-28,4 -20,4',fill:'#F0E0C0',stroke:'#E0D0B0','stroke-width':1}));
-    animWrap.appendChild(svgEl('path',{d:'M-20,-10 Q-32,-18 -26,-6 Q-24,2 -18,0',fill:'#F8F0E4',stroke:'#E0D0B0','stroke-width':1}));
-
-    // Neck
-    animWrap.appendChild(svgEl('ellipse',{cx:14,cy:-14,rx:10,ry:14,fill:'#F8F0E0'}));
-    // Head
-    animWrap.appendChild(svgEl('circle',{cx:16,cy:-28,r:11,fill:'#FAF2E4'}));
-    // Comb
-    animWrap.appendChild(svgEl('path',{d:'M10,-36 Q12,-42 14,-36 Q16,-42 18,-36 Q20,-42 22,-36 Q18,-30 14,-30Z',fill:'#D44040'}));
-    // Eye
-    animWrap.appendChild(svgEl('circle',{cx:20,cy:-29,r:2.5,fill:'#2C2416'}));
-    // Eye highlight
-    animWrap.appendChild(svgEl('circle',{cx:21,cy:-30,r:1,fill:'white',opacity:'0.6'}));
-    // Beak
-    animWrap.appendChild(svgEl('polygon',{points:'26,-28 32,-26 26,-24',fill:'#E8A030'}));
-    // Wattle
-    animWrap.appendChild(svgEl('path',{d:'M12,-18 Q14,-14 16,-18 Q14,-20 12,-18Z',fill:'#D44040'}));
-
-    // Name tag (on hover/select)
-    const tagW=c.name.length*6+16;
-    const tag=svgEl('g',{class:'chicken-label',transform:`translate(0,${-52})`});
-    tag.appendChild(svgEl('rect',{x:-tagW/2,y:-8,width:tagW,height:16,rx:8,fill:'rgba(255,255,255,0.94)'}));
-    tag.appendChild(svgEl('text',{x:0,y:3,'text-anchor':'middle',fill:'#2C2416','font-family':'Inter,sans-serif','font-size':'10','font-weight':'600'},c.name));
-    animWrap.appendChild(tag);
-
-    chk.onclick=(e)=>{e.stopPropagation();selChk(i);};
+    // Name tag
+    const tw=c.n.length*7+18;
+    const tag=E('g',{transform:'translate(0,-48)',opacity:G.sel===i?'1':'0',style:'transition:opacity 0.2s'});
+    tag.appendChild(E('rect',{x:-tw/2,y:-8,width:tw,height:17,rx:8,fill:'white',...OL,'stroke-width':'2.5'}));
+    tag.appendChild(E('text',{x:0,y:4,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'700','font-size':'10'},c.n));
+    chk.appendChild(tag);
+    chk.onmouseenter=()=>tag.setAttribute('opacity','1');
+    chk.onmouseleave=()=>tag.setAttribute('opacity',G.sel===i?'1':'0');
+    chk.onclick=(e)=>{e.stopPropagation();sel(i);};
     svg.appendChild(chk);
   });
 
-  // ═══ Feed Trough ═══
-  const trough=svgEl('g',{class:'clickable',transform:'translate(400,445)',filter:'url(#shadow)'});
-  // Shadow base
-  trough.appendChild(svgEl('rect',{x:0,y:2,width:120,height:20,rx:5,fill:'rgba(0,0,0,0.08)'}));
-  // Trough body
-  trough.appendChild(svgEl('rect',{x:0,y:0,width:120,height:20,rx:5,fill:'url(#woodGrad)',stroke:'#8B6F4E','stroke-width':2}));
-  // Feed inside
-  trough.appendChild(svgEl('rect',{x:4,y:2,width:112,height:12,rx:3,fill:'#F0E0B0'}));
-  // Feed texture dots
-  for(let i=0;i<12;i++){
-    trough.appendChild(svgEl('circle',{cx:10+i*9,cy:8,r:1.2,fill:'#D4C090',opacity:'0.7'}));
-  }
-  // Label
-  trough.appendChild(svgEl('rect',{x:10,y:24,width:100,height:16,rx:8,fill:'rgba(44,36,22,0.85)'}));
-  trough.appendChild(svgEl('text',{x:60,y:35,'text-anchor':'middle',fill:'white','font-family':'Inter,sans-serif','font-weight':'600','font-size':'10'},'FEED TROUGH'));
-  trough.onclick=()=>feedAll();
-  svg.appendChild(trough);
+  // ── FEED TROUGH ──
+  const tr=E('g',{class:'clickable',transform:'translate(390,445)',filter:'url(#sh)'});
+  tr.appendChild(E('rect',{x:2,y:3,width:136,height:22,rx:6,fill:'rgba(0,0,0,0.06)'}));
+  tr.appendChild(E('rect',{x:0,y:0,width:140,height:22,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3'}));
+  tr.appendChild(E('rect',{x:5,y:3,width:130,height:12,rx:4,fill:'#F0E0B0'}));
+  for(let i=0;i<13;i++)tr.appendChild(E('circle',{cx:12+i*10,cy:9,r:1.5,fill:'#D4C090',opacity:'0.6'}));
+  tr.appendChild(E('rect',{x:10,y:26,width:120,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'2.5'}));
+  tr.appendChild(E('text',{x:70,y:38,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'FEED TROUGH'));
+  tr.onclick=()=>feedAll();
+  svg.appendChild(tr);
 
-  // ═══ Chicken Popup ═══
-  if(G.selChk!==null){
-    const c=G.chickens[G.selChk];
-    const pos=chkPositions[G.selChk]||chkPositions[0];
-    const eggReady=c.eggT>=80;
-
-    // Render popup as HTML overlay over the SVG
+  // ── POPUP ──
+  if(G.sel!==null){
+    const c=G.cks[G.sel],p=cP[G.sel]||cP[0],eggR=c.et>=80;
     const wrap=document.getElementById('sceneWrap');
-    // Remove existing popup
     wrap.querySelectorAll('.chicken-popup').forEach(e=>e.remove());
-
-    const popup=document.createElement('div');
-    popup.className='chicken-popup';
-    // Position relative to the scene wrap
-    const pctX=(pos.x/920)*100;
-    popup.style.cssText=`position:absolute;top:${pos.y-180}px;left:${pctX<35?pos.x+60:pos.x-210}px;z-index:25;pointer-events:auto;`;
-    popup.innerHTML=`
-      <button class="close-popup" onclick="event.stopPropagation();G.selChk=null;renderAll();">&times;</button>
-      <div class="popup-name">${c.name} 🐔</div>
-      <div class="popup-stat">Health <div class="popup-bar"><div class="popup-bar-fill hbar" style="width:${c.health}%"></div></div></div>
-      <div class="popup-stat">Hunger <div class="popup-bar"><div class="popup-bar-fill gbar" style="width:${c.hunger}%"></div></div></div>
-      <div class="popup-stat">Thirst <div class="popup-bar"><div class="popup-bar-fill tbar" style="width:${c.thirst}%"></div></div></div>
-      <div class="popup-stat" style="font-size:0.72rem;">🥚 ${c.laid} eggs laid${eggReady?' — Ready!':''}</div>
-      <div class="popup-actions">
-        <button class="mini-btn" onclick="event.stopPropagation();feedOne(${G.selChk})">🍽️ Feed</button>
-        <button class="mini-btn" onclick="event.stopPropagation();waterOne(${G.selChk})">💧 Water</button>
-        <button class="mini-btn ${eggReady?'primary':''}" onclick="event.stopPropagation();eggOne(${G.selChk})" ${!eggReady?'disabled':''}>🥚 Collect</button>
-      </div>
-    `;
-    wrap.appendChild(popup);
+    const pop=document.createElement('div');pop.className='chicken-popup';
+    const pctX=(p.x/920)*100;
+    pop.style.cssText=`position:absolute;top:${p.y-195}px;left:${pctX<35?p.x+65:p.x-215}px;z-index:25;`;
+    pop.innerHTML=`
+      <button class="close-p" onclick="event.stopPropagation();G.sel=null;renderAll();">&times;</button>
+      <div class="pn">${c.n} 🐔</div>
+      <div class="ps">Health <div class="pb"><div class="pbf h" style="width:${c.h}%"></div></div></div>
+      <div class="ps">Hunger <div class="pb"><div class="pbf g" style="width:${c.hu}%"></div></div></div>
+      <div class="ps">Thirst <div class="pb"><div class="pbf t" style="width:${c.th}%"></div></div></div>
+      <div class="ps" style="font-size:0.74rem;">🥚 ${c.ld} eggs${eggR?' — Ready!':''}</div>
+      <div class="pa">
+        <button class="mini-btn" onclick="event.stopPropagation();feed1(${G.sel})">🍽️ Feed</button>
+        <button class="mini-btn" onclick="event.stopPropagation();water1(${G.sel})">💧 Water</button>
+        <button class="mini-btn ${eggR?'accent':''}" onclick="event.stopPropagation();egg1(${G.sel})">🥚 Collect</button>
+      </div>`;
+    wrap.appendChild(pop);
   }
-
-  // Click-away
-  svg.querySelector('rect[x="0"][y="160"]').onclick=()=>{
-    if(G.selChk!==null){G.selChk=null;renderAll();}
-  };
 }
 
 // ═══════════════════════════════════════════════════════════
 // FULL RENDER
 // ═══════════════════════════════════════════════════════════
 function renderAll(){
-  const al=G.chickens.filter(c=>c.health>0);
+  const al=G.cks.filter(c=>c.h>0);
   document.getElementById('hDay').textContent=G.day;
-  document.getElementById('hEggs').textContent=G.totalEggs;
-  document.getElementById('hFlock').textContent=al.length+'/'+G.chickens.length;
-  document.getElementById('hFeed').textContent=G.feedSupply;
-
+  document.getElementById('hEggs').textContent=G.eggs;
+  document.getElementById('hFlock').textContent=al.length+'/'+G.cks.length;
+  document.getElementById('hFeed').textContent=G.feed;
   renderScene();
-
-  const hasFeed=G.feedSupply>0,hasAlive=al.length>0,anyEgg=al.some(c=>c.eggT>=80);
+  const hf=G.feed>0,ha=al.length>0,ae=al.some(c=>c.et>=80);
   document.getElementById('actionBar').innerHTML=`
-    <button class="action-btn" onclick="feedAll()" ${!hasFeed||!hasAlive?'disabled':''}>🍽️ Feed All</button>
-    <button class="action-btn" onclick="waterAll()" ${!hasAlive?'disabled':''}>💧 Water All</button>
-    <button class="action-btn ${anyEgg?'primary-btn':''}" onclick="collectAll()" ${!anyEgg?'disabled':''}>🥚 Collect All Eggs</button>
-    <button class="action-btn" onclick="buyFeed()">🛒 Buy Feed (+10)</button>
-  `;
-
-  const tip=TIPS[G.tipIdx%TIPS.length];
-  document.getElementById('tipTitle').textContent=tip.title;
-  document.getElementById('tipBody').textContent=tip.body;
-  document.getElementById('tipAction').textContent=tip.action;
-  const card=document.getElementById('tipCard');
-  card.classList.remove('new-tip');void card.offsetWidth;card.classList.add('new-tip');
+    <button class="abtn" onclick="feedAll()" ${!hf||!ha?'disabled':''}>🍽️ Feed All</button>
+    <button class="abtn" onclick="waterAll()" ${!ha?'disabled':''}>💧 Water All</button>
+    <button class="abtn ${ae?'accent':''}" onclick="collAll()" ${!ae?'disabled':''}>🥚 Collect All</button>
+    <button class="abtn" onclick="buyFeed()">🛒 Buy Feed (+10)</button>`;
+  const tip=TIPS[G.ti%TIPS.length];
+  document.getElementById('tipTitle').textContent=tip.t;
+  document.getElementById('tipBody').textContent=tip.b;
+  document.getElementById('tipAction').textContent=tip.a;
 }
 
 // ═══════════════════════════════════════════════════════════
