@@ -36,6 +36,7 @@
     --gold: #D4A04A;
     --shadow: 0 2px 16px rgba(44, 36, 22, 0.10);
     --radius: 14px;
+    --scene-height: 520px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,7 +48,6 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 0;
     overflow-x: hidden;
   }
 
@@ -118,36 +118,30 @@
   }
   .feed-indicator strong { color: var(--text); }
 
-  /* ── Main Scene ──────────────────────────────── */
+  /* ── Scene Wrapper ───────────────────────────── */
   .scene-wrapper {
-    position: relative;
     margin: 16px 20px;
-    perspective: 1200px;
-    perspective-origin: 50% 40%;
-    height: 420px;
+    height: var(--scene-height);
+    position: relative;
   }
   .scene {
-    position: relative;
     width: 100%;
     height: 100%;
-    transform: rotateX(12deg);
-    transform-style: preserve-3d;
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: 0 8px 40px rgba(44, 36, 22, 0.12);
+    position: relative;
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 60%, #E8DCC8 100%);
+    cursor: default;
   }
 
-  /* Sky */
-  .sky {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 70%, #E8DCC8 100%);
-  }
+  /* Sky elements */
   .cloud {
     position: absolute;
     background: white;
     border-radius: 50px;
-    opacity: 0.80;
+    opacity: 0.78;
+    z-index: 0;
   }
   .cloud::before, .cloud::after {
     content: '';
@@ -155,353 +149,369 @@
     background: white;
     border-radius: 50%;
   }
-  .cloud-1 { width: 100px; height: 36px; top: 8%; left: 12%; }
-  .cloud-1::before { width: 44px; height: 44px; top: -22px; left: 20px; }
-  .cloud-1::after { width: 36px; height: 36px; top: -14px; left: 50px; }
-  .cloud-2 { width: 80px; height: 28px; top: 6%; right: 18%; }
-  .cloud-2::before { width: 36px; height: 36px; top: -18px; left: 16px; }
-  .cloud-2::after { width: 28px; height: 28px; top: -10px; left: 44px; }
+  .cloud-1 {
+    width: 110px; height: 40px;
+    top: 6%; left: 8%;
+  }
+  .cloud-1::before { width: 50px; height: 50px; top: -24px; left: 22px; }
+  .cloud-1::after { width: 40px; height: 40px; top: -16px; left: 56px; }
+  .cloud-2 {
+    width: 90px; height: 32px;
+    top: 4%; right: 12%;
+  }
+  .cloud-2::before { width: 40px; height: 40px; top: -20px; left: 18px; }
+  .cloud-2::after { width: 32px; height: 32px; top: -12px; left: 48px; }
 
-  /* Ground */
-  .ground {
+  /* Ground plane */
+  .ground-plane {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 75%;
+    height: 72%;
     background: linear-gradient(180deg,
-      #C4A87C 0%,
-      #B8956E 5%,
-      var(--grass) 15%,
-      var(--grass-dark) 100%
+      #D4C4A4 0%,
+      #C4A87C 3%,
+      var(--grass) 10%,
+      #6B9A4E 100%
     );
+    z-index: 1;
   }
-  .grass-blade {
-    position: absolute;
-    width: 3px;
-    background: var(--grass-dark);
-    border-radius: 2px 2px 0 0;
-    transform-origin: bottom center;
-  }
-
-  /* Coop */
-  .coop {
-    position: absolute;
-    bottom: 18%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 340px;
-    height: 160px;
-  }
-  .coop-wall {
-    position: absolute;
-    bottom: 0;
-    left: 0; right: 0;
-    height: 100px;
-    background: linear-gradient(180deg, var(--wood-light) 0%, var(--wood) 100%);
-    border-radius: 4px 4px 0 0;
-    border: 3px solid var(--wood-dark);
-    border-bottom: none;
-  }
-  .coop-wall::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 18px,
-      rgba(0,0,0,0.04) 18px,
-      rgba(0,0,0,0.04) 20px
-    );
-  }
-  .coop-roof {
-    position: absolute;
-    bottom: 96px;
-    left: -16px; right: -16px;
-    height: 50px;
-    background: linear-gradient(180deg, var(--roof) 0%, var(--roof-dark) 100%);
-    clip-path: polygon(0% 100%, 8% 0%, 92% 0%, 100% 100%);
-  }
-  .coop-door {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 56px;
-    height: 72px;
-    background: var(--wood-dark);
-    border-radius: 28px 28px 0 0;
-    border: 3px solid rgba(0,0,0,0.2);
-  }
-  .coop-window {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background: #E8F0F4;
-    border: 3px solid var(--wood-dark);
-    border-radius: 4px;
-    top: 20px;
-  }
-  .coop-window.left { left: 40px; }
-  .coop-window.right { right: 40px; }
-
-  /* Run / Yard */
-  .run {
-    position: absolute;
-    bottom: 8%;
-    left: 10%;
-    right: 10%;
-    height: 120px;
-    border: 4px solid var(--fence);
-    border-radius: 8px;
-    background: linear-gradient(180deg, rgba(123,160,91,0.5) 0%, rgba(92,122,62,0.6) 100%);
-  }
-  .run::before {
-    content: '';
+  .grass-texture {
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at 15% 20%, rgba(0,0,0,0.05) 1px, transparent 1px),
-      radial-gradient(circle at 35% 60%, rgba(0,0,0,0.05) 1px, transparent 1px),
-      radial-gradient(circle at 65% 30%, rgba(0,0,0,0.05) 1px, transparent 1px),
-      radial-gradient(circle at 85% 70%, rgba(0,0,0,0.05) 1px, transparent 1px);
-    background-size: 30px 30px;
-    border-radius: 4px;
-  }
-  .fence-post {
-    position: absolute;
-    width: 8px;
-    background: var(--fence-post);
-    border-radius: 2px 2px 0 0;
+      radial-gradient(circle at 12% 18%, rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(circle at 25% 35%, rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(circle at 38% 52%, rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(circle at 52% 28%, rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(circle at 65% 45%, rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(circle at 78% 22%, rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(circle at 88% 55%, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
   }
 
-  /* Interactive zones */
-  .zone {
+  /* ── Fence boundary ──────────────────────────── */
+  .fence-area {
+    position: absolute;
+    top: 28%;
+    left: 4%;
+    right: 4%;
+    bottom: 4%;
+    border: 4px solid var(--fence);
+    border-radius: 6px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .fence-post-el {
+    position: absolute;
+    width: 9px;
+    background: var(--fence-post);
+    border-radius: 2px 2px 0 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* ── Coop structure (back wall, inside fence) ── */
+  .coop-structure {
+    position: absolute;
+    top: 28%;
+    left: 4%;
+    width: 44%;
+    height: 38%;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .coop-back-wall {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--wood-light) 0%, var(--wood) 100%);
+    border: 3px solid var(--wood-dark);
+    border-radius: 4px 4px 0 0;
+  }
+  .coop-back-wall::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 16px,
+      rgba(0,0,0,0.03) 16px, rgba(0,0,0,0.03) 18px
+    );
+  }
+  .coop-roof-slant {
+    position: absolute;
+    top: -28px; left: -8px; right: -8px;
+    height: 32px;
+    background: linear-gradient(180deg, var(--roof) 0%, var(--roof-dark) 100%);
+    clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
+  }
+  .coop-label {
+    position: absolute;
+    top: -44px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(44,36,22,0.85);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* ── Interactive Props ───────────────────────── */
+  .prop {
     position: absolute;
     cursor: pointer;
-    transition: transform 0.2s, filter 0.2s;
     z-index: 10;
+    transition: transform 0.15s, filter 0.15s;
   }
-  .zone:hover {
-    transform: scale(1.08);
-    filter: brightness(1.1);
+  .prop:hover { transform: scale(1.06); filter: brightness(1.08); }
+  .prop:active { transform: scale(0.94); }
+
+  .prop-label {
+    position: absolute;
+    bottom: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(44,36,22,0.88);
+    color: white;
+    padding: 3px 11px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.68rem;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    pointer-events: none;
   }
-  .zone:active { transform: scale(0.95); }
-  .zone-label {
+  .prop:hover .prop-label { background: rgba(44,36,22,0.95); }
+
+  /* Nesting boxes — 3 boxes along coop back wall */
+  .nesting-boxes-row {
+    position: absolute;
+    display: flex;
+    gap: 8px;
+    z-index: 11;
+  }
+  .nest-box {
+    width: 52px;
+    height: 44px;
+    background: linear-gradient(180deg, #F0E0C0, #D4B896);
+    border: 3px solid var(--dirt-dark);
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s;
+  }
+  .nest-box:hover { transform: translateY(-3px); }
+  .nest-box .egg-in-nest {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .nest-box.has-egg .egg-in-nest { opacity: 1; }
+  .nest-box .hen-label {
     position: absolute;
     bottom: -22px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.65rem;
+    font-size: 0.58rem;
     font-weight: 600;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
     white-space: nowrap;
-    font-family: 'Inter', sans-serif;
-    opacity: 0.7;
-    transition: opacity 0.2s;
     pointer-events: none;
+    font-family: 'Inter', sans-serif;
   }
-  .zone:hover .zone-label { opacity: 1; }
-
-  /* Nesting boxes */
-  .nesting-boxes {
+  .nest-row-label {
     position: absolute;
-    bottom: 12px;
-    left: 24px;
-    display: flex;
-    gap: 6px;
-  }
-  .nest-box {
-    width: 44px;
-    height: 36px;
-    background: linear-gradient(180deg, #E8D5B0, var(--dirt));
-    border: 2px solid var(--dirt-dark);
-    border-radius: 4px 4px 0 0;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .nest-box:hover { transform: translateY(-3px); }
-  .nest-box .egg-indicator {
-    position: absolute;
-    top: -14px;
+    top: -24px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 1rem;
-    opacity: 0;
-    transition: opacity 0.3s;
+    background: rgba(44,36,22,0.85);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.65rem;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    pointer-events: none;
   }
-  .nest-box.has-egg .egg-indicator { opacity: 1; }
+
+  /* Feed trough */
+  .feed-trough-prop {
+    position: absolute;
+    z-index: 11;
+    cursor: pointer;
+  }
+  .trough-body {
+    width: 80px;
+    height: 30px;
+    background: linear-gradient(180deg, var(--wood-light), var(--wood));
+    border: 3px solid var(--wood-dark);
+    border-radius: 6px;
+    position: relative;
+  }
+  .trough-body::after {
+    content: '';
+    position: absolute;
+    top: 4px; left: 6px; right: 6px; bottom: 4px;
+    background: #F0E0B0;
+    border-radius: 3px;
+  }
 
   /* Waterer */
-  .waterer {
+  .waterer-prop {
     position: absolute;
-    bottom: 20px;
-    right: 50px;
+    z-index: 11;
+    cursor: pointer;
+  }
+  .waterer-body {
     width: 48px;
     height: 40px;
-    background: linear-gradient(180deg, #D4E8F0, #A0C8D8);
+    background: linear-gradient(180deg, #D8ECF4, #A0C8D8);
     border: 3px solid #7AADC0;
     border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
   }
-  .waterer:hover { transform: scale(1.1); }
 
-  /* Feed trough */
-  .feed-trough {
-    position: absolute;
-    bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 28px;
-    background: linear-gradient(180deg, var(--wood-light), var(--wood));
-    border: 2px solid var(--wood-dark);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .feed-trough::after {
-    content: '';
-    position: absolute;
-    top: 4px; left: 6px; right: 6px; bottom: 4px;
-    background: #E8D5A0;
-    border-radius: 3px;
-  }
-  .feed-trough:hover { transform: translateX(-50%) scale(1.05); }
-
-  /* Chickens */
+  /* ── Chicken Sprites ─────────────────────────── */
   .chicken-sprite {
     position: absolute;
     cursor: pointer;
-    transition: transform 0.2s;
-    z-index: 8;
+    z-index: 9;
+    transition: transform 0.15s;
   }
-  .chicken-sprite:hover { transform: scale(1.1); }
-  .chicken-sprite.selected { z-index: 15; }
+  .chicken-sprite:hover { transform: scale(1.08); }
+  .chicken-sprite.selected { z-index: 14; }
+
   .chicken-body {
-    width: 40px;
-    height: 30px;
-    background: linear-gradient(180deg, #F5E6D0, #E8D0B0);
+    width: 52px;
+    height: 38px;
+    background: linear-gradient(180deg, #F8F0E0, #EDD8B8);
     border-radius: 50% 50% 45% 45%;
     position: relative;
-    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.08);
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.06);
   }
   .chicken-head {
     position: absolute;
-    top: -18px;
+    top: -22px;
     left: 50%;
     transform: translateX(-50%);
-    width: 22px;
-    height: 22px;
-    background: #F5E6D0;
+    width: 26px;
+    height: 26px;
+    background: #F8F0E0;
     border-radius: 50%;
   }
   .chicken-comb {
     position: absolute;
-    top: -10px;
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    width: 14px;
-    height: 10px;
+    width: 16px;
+    height: 12px;
     background: #E8504A;
     border-radius: 50% 50% 0 0;
   }
   .chicken-beak {
     position: absolute;
-    top: 4px;
-    right: -5px;
-    width: 0;
-    height: 0;
-    border-left: 6px solid #E8A030;
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
+    top: 6px;
+    right: -6px;
+    width: 0; height: 0;
+    border-left: 7px solid #E8A030;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
   }
   .chicken-eye {
     position: absolute;
-    top: 5px;
-    right: 2px;
-    width: 5px;
-    height: 5px;
+    top: 6px;
+    right: 1px;
+    width: 6px; height: 6px;
     background: #2C2416;
     border-radius: 50%;
   }
   .chicken-wattle {
     position: absolute;
-    bottom: -4px;
+    bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
-    width: 8px;
-    height: 6px;
+    width: 10px; height: 7px;
     background: #E8504A;
     border-radius: 0 0 50% 50%;
   }
   .chicken-legs {
     position: absolute;
-    bottom: -12px;
+    bottom: -14px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 6px;
+    gap: 8px;
   }
   .chicken-leg {
-    width: 2px;
-    height: 12px;
+    width: 3px; height: 14px;
     background: #E8A030;
     border-radius: 1px;
   }
+
   .health-dot {
     position: absolute;
-    top: -30px;
+    top: -36px;
     left: 50%;
     transform: translateX(-50%);
-    width: 10px;
-    height: 10px;
+    width: 12px; height: 12px;
     border-radius: 50%;
     border: 2px solid white;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+    z-index: 1;
   }
   .health-dot.good { background: var(--green); }
   .health-dot.ok { background: var(--gold); }
   .health-dot.bad { background: var(--red); }
+
   .chicken-name-tag {
     position: absolute;
-    top: -44px;
+    top: -52px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.62rem;
+    font-size: 0.64rem;
     font-weight: 600;
     color: var(--text);
-    background: rgba(255,255,255,0.9);
-    padding: 2px 8px;
+    background: rgba(255,255,255,0.94);
+    padding: 2px 9px;
     border-radius: 10px;
     white-space: nowrap;
     opacity: 0;
     transition: opacity 0.2s;
     pointer-events: none;
     font-family: 'Inter', sans-serif;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
   }
   .chicken-sprite:hover .chicken-name-tag,
   .chicken-sprite.selected .chicken-name-tag { opacity: 1; }
 
   @keyframes chicken-bob {
     0%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-3px); }
+    30% { transform: translateY(-4px); }
     60% { transform: translateY(-1px); }
   }
   @keyframes chicken-peck {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    40% { transform: translateY(2px) rotate(-5deg); }
-    80% { transform: translateY(1px) rotate(3deg); }
+    40% { transform: translateY(3px) rotate(-4deg); }
+    80% { transform: translateY(1px) rotate(2deg); }
   }
-  .chicken-anim-idle { animation: chicken-bob 2.5s ease-in-out infinite; }
-  .chicken-anim-peck { animation: chicken-peck 1.2s ease-in-out infinite; }
+  .chicken-anim-idle { animation: chicken-bob 2.8s ease-in-out infinite; }
+  .chicken-anim-peck { animation: chicken-peck 1.4s ease-in-out infinite; }
 
   /* ── Selected Chicken Popup ─────────────────── */
   .chicken-popup {
@@ -509,9 +519,9 @@
     background: white;
     border-radius: var(--radius);
     padding: 16px 20px;
-    box-shadow: 0 8px 32px rgba(44, 36, 22, 0.18);
+    box-shadow: 0 8px 32px rgba(44,36,22,0.20);
     z-index: 25;
-    min-width: 180px;
+    min-width: 190px;
     pointer-events: auto;
     font-family: 'Inter', sans-serif;
   }
@@ -527,7 +537,7 @@
     gap: 8px;
     font-size: 0.78rem;
     color: var(--text-muted);
-    margin-bottom: 4px;
+    margin-bottom: 5px;
   }
   .chicken-popup .popup-bar {
     flex: 1;
@@ -567,7 +577,7 @@
     position: absolute;
     top: 8px; right: 12px;
     background: none; border: none;
-    font-size: 1.1rem; cursor: pointer;
+    font-size: 1.2rem; cursor: pointer;
     color: var(--text-muted);
     line-height: 1;
   }
@@ -599,7 +609,7 @@
   }
   .action-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(44, 36, 22, 0.14);
+    box-shadow: 0 4px 20px rgba(44,36,22,0.14);
   }
   .action-btn:active { transform: translateY(0); }
   .action-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
@@ -730,13 +740,7 @@
   <!-- Scene -->
   <div class="scene-wrapper">
     <div class="scene" id="sceneContainer">
-      <div class="sky">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
-      </div>
-      <div class="ground" id="groundContainer"></div>
-      <!-- Chickens rendered by JS -->
-      <!-- Nesting boxes, feed trough, waterer rendered by JS -->
+      <!-- Static scene built by JS -->
     </div>
   </div>
 
@@ -806,14 +810,14 @@ function pickName() {
 
 function loadState() {
   try {
-    const s = JSON.parse(localStorage.getItem('your-first-flock-v2'));
+    const s = JSON.parse(localStorage.getItem('your-first-flock-v3'));
     if (s) { s.chickens.forEach(c => USED_NAMES.add(c.name)); return s; }
   } catch(e) {}
   return defaultState();
 }
 
 function saveState() {
-  localStorage.setItem('your-first-flock-v2', JSON.stringify(gameState));
+  localStorage.setItem('your-first-flock-v3', JSON.stringify(gameState));
 }
 
 function resetGame() {
@@ -893,7 +897,7 @@ function waterAll() {
   });
   advanceTime(3);
   saveState(); renderAll(); showRandomTip();
-  toast(`Watered all chickens! 💧`, 'success');
+  toast('Watered all chickens! 💧', 'success');
 }
 
 function collectAll() {
@@ -924,12 +928,187 @@ function showRandomTip() {
   gameState.usedTips.push(gameState.tipIndex);
 }
 
-// ── Render ──────────────────────────────────────────────────
+// ── Scene Render (flat layout, no perspective transform) ───
+function renderScene() {
+  const container = document.getElementById('sceneContainer');
+  const gs = gameState;
+  const aliveChickens = gs.chickens.filter(c => c.health > 0);
+
+  // Build static base HTML
+  container.innerHTML = `
+    <!-- Sky -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+
+    <!-- Ground -->
+    <div class="ground-plane">
+      <div class="grass-texture"></div>
+    </div>
+
+    <!-- Fence boundary -->
+    <div class="fence-area" id="fenceArea"></div>
+  `;
+
+  // Add fence posts along the boundary
+  const fenceArea = container.querySelector('#fenceArea');
+  const postPositions = [
+    { top: '0%', left: '0%' },
+    { top: '0%', left: '25%' },
+    { top: '0%', left: '50%' },
+    { top: '0%', left: '75%' },
+    { top: '0%', left: '100%', style: 'transform:translateX(-9px)' },
+    { top: '50%', left: '0%' },
+    { top: '50%', left: '100%', style: 'transform:translateX(-9px)' },
+  ];
+  postPositions.forEach(p => {
+    const post = document.createElement('div');
+    post.className = 'fence-post-el';
+    post.style.cssText = `top:${p.top};left:${p.left};height:30px;${p.style||''}`;
+    container.appendChild(post);
+  });
+
+  // Coop structure (left side, inside fence)
+  const coop = document.createElement('div');
+  coop.className = 'coop-structure';
+  coop.style.cssText = 'position:absolute;top:29%;left:5%;width:42%;height:36%;z-index:3;pointer-events:none;';
+  coop.innerHTML = `
+    <span class="coop-label">COOP</span>
+    <div class="coop-roof-slant"></div>
+    <div class="coop-back-wall"></div>
+  `;
+  container.appendChild(coop);
+
+  // Nesting boxes row (inside coop, bottom of coop area)
+  const nestRow = document.createElement('div');
+  nestRow.className = 'nesting-boxes-row';
+  nestRow.style.cssText = 'position:absolute;top:58%;left:7%;z-index:11;pointer-events:auto;';
+  // Label above nesting boxes
+  const nestLabel = document.createElement('div');
+  nestLabel.className = 'nest-row-label';
+  nestLabel.textContent = 'Nesting Boxes';
+  nestLabel.style.cssText = 'position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:rgba(44,36,22,0.85);color:white;padding:3px 10px;border-radius:10px;font-family:Inter,sans-serif;font-weight:600;font-size:0.65rem;white-space:nowrap;pointer-events:none;z-index:12;';
+  nestRow.appendChild(nestLabel);
+
+  gs.chickens.forEach((c, i) => {
+    if (c.health <= 0) return;
+    const box = document.createElement('div');
+    box.className = 'nest-box' + (c.eggTimer >= 80 ? ' has-egg' : '');
+    box.innerHTML = `
+      <span class="egg-in-nest">🥚</span>
+      <span class="hen-label">${c.name.split(' ')[0]}</span>
+    `;
+    box.title = `Collect egg from ${c.name}`;
+    box.onclick = (e) => { e.stopPropagation(); collectEggs(i); };
+    nestRow.appendChild(box);
+  });
+  container.appendChild(nestRow);
+
+  // Waterer (right side of coop interior, below nesting boxes)
+  const waterer = document.createElement('div');
+  waterer.className = 'waterer-prop prop';
+  waterer.style.cssText = 'position:absolute;top:56%;right:10%;z-index:11;cursor:pointer;';
+  waterer.innerHTML = `
+    <div class="waterer-body">💧</div>
+    <div class="prop-label">WATER</div>
+  `;
+  waterer.onclick = (e) => { e.stopPropagation(); waterAll(); };
+  container.appendChild(waterer);
+
+  // Feed trough (middle of the run area, below the coop)
+  const trough = document.createElement('div');
+  trough.className = 'feed-trough-prop prop';
+  trough.style.cssText = 'position:absolute;top:72%;left:50%;transform:translateX(-50%);z-index:11;cursor:pointer;';
+  trough.innerHTML = `
+    <div class="trough-body"></div>
+    <div class="prop-label">FEED TROUGH</div>
+  `;
+  trough.onclick = (e) => { e.stopPropagation(); feedAll(); };
+  container.appendChild(trough);
+
+  // Chickens — positioned with clear spacing, no overlapping props
+  // Chicken positions: spread across the open run area
+  const chickenLayouts = [
+    { top: '44%', left: '18%', anim: 'chicken-anim-idle' },   // far left, in run
+    { top: '47%', left: '48%', anim: 'chicken-anim-peck' },   // center
+    { top: '43%', left: '72%', anim: 'chicken-anim-idle' },   // right side, well away from waterer
+  ];
+
+  gs.chickens.forEach((c, i) => {
+    if (c.health <= 0) return;
+    const pos = chickenLayouts[i] || { top: '45%', left: '50%', anim: 'chicken-anim-idle' };
+    const sel = gs.selectedChicken === i;
+
+    // Determine health dot color
+    let dotClass = 'good';
+    if (c.health < 30 || c.hunger >= 80 || c.thirst >= 80) dotClass = 'bad';
+    else if (c.health < 60 || c.hunger >= 50 || c.thirst >= 50) dotClass = 'ok';
+
+    const sprite = document.createElement('div');
+    sprite.className = 'chicken-sprite' + (sel ? ' selected' : '');
+    sprite.style.cssText = `position:absolute;top:${pos.top};left:${pos.left};z-index:${sel ? 14 : 9};cursor:pointer;`;
+    sprite.innerHTML = `
+      <div class="health-dot ${dotClass}"></div>
+      <div class="chicken-name-tag">${c.name}</div>
+      <div class="chicken-body ${pos.anim}">
+        <div class="chicken-head">
+          <div class="chicken-comb"></div>
+          <div class="chicken-eye"></div>
+          <div class="chicken-beak"></div>
+        </div>
+        <div class="chicken-wattle"></div>
+      </div>
+      <div class="chicken-legs">
+        <div class="chicken-leg"></div>
+        <div class="chicken-leg"></div>
+      </div>
+    `;
+    sprite.onclick = (e) => { e.stopPropagation(); selectChicken(i); };
+    container.appendChild(sprite);
+  });
+
+  // Popup for selected chicken
+  if (gs.selectedChicken !== null) {
+    const c = gs.chickens[gs.selectedChicken];
+    const pos = chickenLayouts[gs.selectedChicken] || { top: '45%', left: '50%' };
+    const popup = document.createElement('div');
+    popup.className = 'chicken-popup';
+    // Position popup near the chicken but offset to avoid covering it
+    const leftPct = parseFloat(pos.left);
+    const popupLeft = leftPct < 40 ? `calc(${pos.left} + 60px)` : `calc(${pos.left} - 220px)`;
+    popup.style.cssText = `position:absolute;top:${pos.top};left:${popupLeft};z-index:25;pointer-events:auto;`;
+
+    const eggReady = c.eggTimer >= 80;
+    popup.innerHTML = `
+      <button class="close-popup" onclick="event.stopPropagation();gameState.selectedChicken=null;renderAll();">×</button>
+      <div class="popup-name">${c.name} 🐔</div>
+      <div class="popup-stat">Health <div class="popup-bar"><div class="popup-bar-fill health-bar" style="width:${c.health}%"></div></div></div>
+      <div class="popup-stat">Hunger <div class="popup-bar"><div class="popup-bar-fill hunger-bar" style="width:${c.hunger}%"></div></div></div>
+      <div class="popup-stat">Thirst <div class="popup-bar"><div class="popup-bar-fill thirst-bar" style="width:${c.thirst}%"></div></div></div>
+      <div class="popup-stat" style="font-size:0.72rem;">🥚 ${c.eggsLaid} eggs laid${eggReady ? ' — Ready!' : ''}</div>
+      <div class="popup-actions">
+        <button class="mini-btn" onclick="event.stopPropagation();feedChicken(${gs.selectedChicken})">🍽️ Feed</button>
+        <button class="mini-btn" onclick="event.stopPropagation();waterChicken(${gs.selectedChicken})">💧 Water</button>
+        <button class="mini-btn ${eggReady ? 'primary' : ''}" onclick="event.stopPropagation();collectEggs(${gs.selectedChicken})" ${!eggReady ? 'disabled' : ''}>🥚 Collect</button>
+      </div>
+    `;
+    container.appendChild(popup);
+  }
+
+  // Click background to deselect
+  container.querySelector('.ground-plane').onclick = () => {
+    if (gameState.selectedChicken !== null) {
+      gameState.selectedChicken = null;
+      renderAll();
+    }
+  };
+}
+
+// ── Full Render ─────────────────────────────────────────────
 function renderAll() {
   const gs = gameState;
   const alive = gs.chickens.filter(c => c.health > 0);
 
-  // Header
+  // Header stats
   document.getElementById('hDay').textContent = gs.day;
   document.getElementById('hEggs').textContent = gs.totalEggs;
   document.getElementById('hFlock').textContent = `${alive.length}/${gs.chickens.length}`;
@@ -958,7 +1137,7 @@ function renderAll() {
     </button>
   `;
 
-  // Tip
+  // Tip card
   const tip = TIPS[gs.tipIndex % TIPS.length];
   document.getElementById('tipTitle').textContent = tip.title;
   document.getElementById('tipBody').textContent = tip.body;
@@ -967,162 +1146,6 @@ function renderAll() {
   card.classList.remove('new-tip');
   void card.offsetWidth;
   card.classList.add('new-tip');
-}
-
-function renderScene() {
-  const container = document.getElementById('sceneContainer');
-  const gs = gameState;
-
-  // Preserve static elements (sky, ground, coop, run)
-  // Rebuild only dynamic: chickens, nesting boxes, waterer, feed trough, popup
-
-  // Remove existing dynamic elements
-  container.querySelectorAll('.chicken-sprite,.nesting-boxes,.waterer,.feed-trough,.chicken-popup,.zone,.fence-post,.grass-blade').forEach(el => el.remove());
-
-  // Add grass blades
-  const ground = container.querySelector('.ground');
-  if (ground) {
-    for (let i = 0; i < 40; i++) {
-      const blade = document.createElement('div');
-      blade.className = 'grass-blade';
-      blade.style.left = Math.random() * 98 + '%';
-      blade.style.bottom = Math.random() * 5 + '%';
-      blade.style.height = (Math.random() * 16 + 6) + 'px';
-      blade.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
-      blade.style.opacity = (Math.random() * 0.3 + 0.3);
-      container.appendChild(blade);
-    }
-  }
-
-  // Add fence posts around the run area
-  const runEl = container.querySelector('.run');
-  if (!runEl) {
-    // Create run
-    const run = document.createElement('div');
-    run.className = 'run';
-    run.style.cssText = 'position:absolute;bottom:8%;left:10%;right:10%;height:120px;border:4px solid var(--fence);border-radius:8px;background:linear-gradient(180deg, rgba(123,160,91,0.5) 0%, rgba(92,122,62,0.6) 100%);';
-    container.appendChild(run);
-  }
-
-  // Add fence posts
-  const posts = [
-    { left: '10%', bottom: '8%', height: '36px' },
-    { left: '25%', bottom: '8%', height: '36px' },
-    { left: '50%', bottom: '8%', height: '36px' },
-    { left: '75%', bottom: '8%', height: '36px' },
-    { left: '90%', bottom: '8%', height: '36px' },
-  ];
-  posts.forEach(p => {
-    const post = document.createElement('div');
-    post.className = 'fence-post';
-    post.style.cssText = `position:absolute;left:${p.left};bottom:${p.bottom};width:8px;height:${p.height};background:var(--fence-post);border-radius:2px 2px 0 0;z-index:3;`;
-    container.appendChild(post);
-  });
-
-  // Nesting boxes in coop
-  const nestContainer = document.createElement('div');
-  nestContainer.className = 'nesting-boxes';
-  nestContainer.style.cssText = 'position:absolute;bottom:22%;left:calc(50% - 80px);display:flex;gap:6px;z-index:9;';
-  gs.chickens.forEach((c, i) => {
-    if (c.health <= 0) return;
-    const box = document.createElement('div');
-    box.className = 'nest-box' + (c.eggTimer >= 80 ? ' has-egg' : '');
-    box.innerHTML = '<span class="egg-indicator">🥚</span>';
-    box.title = `${c.name}'s nest`;
-    box.onclick = (e) => { e.stopPropagation(); collectEggs(i); };
-    nestContainer.appendChild(box);
-  });
-  container.appendChild(nestContainer);
-
-  // Waterer in coop
-  const waterEl = document.createElement('div');
-  waterEl.className = 'waterer zone';
-  waterEl.style.cssText = 'position:absolute;bottom:18%;right:calc(50% - 170px);z-index:9;cursor:pointer;';
-  waterEl.innerHTML = '💧<span class="zone-label">Water</span>';
-  waterEl.onclick = (e) => { e.stopPropagation(); waterAll(); };
-  container.appendChild(waterEl);
-
-  // Feed trough in run
-  const troughEl = document.createElement('div');
-  troughEl.className = 'feed-trough zone';
-  troughEl.style.cssText = 'position:absolute;bottom:11%;left:50%;z-index:9;cursor:pointer;';
-  troughEl.innerHTML = '<span class="zone-label" style="bottom:-20px;">Feed Trough</span>';
-  troughEl.onclick = (e) => { e.stopPropagation(); feedAll(); };
-  container.appendChild(troughEl);
-
-  // Chickens
-  const chickenPositions = [
-    { bottom: '24%', left: '28%', anim: 'chicken-anim-idle' },
-    { bottom: '13%', left: '42%', anim: 'chicken-anim-peck' },
-    { bottom: '14%', left: '62%', anim: 'chicken-anim-idle' },
-  ];
-
-  gs.chickens.forEach((c, i) => {
-    if (c.health <= 0) return;
-    const pos = chickenPositions[i] || chickenPositions[0];
-    const sel = gs.selectedChicken === i;
-
-    const sprite = document.createElement('div');
-    sprite.className = 'chicken-sprite' + (sel ? ' selected' : '');
-    sprite.style.cssText = `position:absolute;bottom:${pos.bottom};left:${pos.left};z-index:${sel ? 15 : 8};cursor:pointer;`;
-
-    // Health dot
-    let dotClass = 'good';
-    if (c.health < 30 || c.hunger >= 80 || c.thirst >= 80) dotClass = 'bad';
-    else if (c.health < 60 || c.hunger >= 50 || c.thirst >= 50) dotClass = 'ok';
-
-    sprite.innerHTML = `
-      <div class="health-dot ${dotClass}"></div>
-      <div class="chicken-name-tag">${c.name}</div>
-      <div class="chicken-body ${pos.anim}">
-        <div class="chicken-head">
-          <div class="chicken-comb"></div>
-          <div class="chicken-eye"></div>
-          <div class="chicken-beak"></div>
-        </div>
-        <div class="chicken-wattle"></div>
-      </div>
-      <div class="chicken-legs">
-        <div class="chicken-leg"></div>
-        <div class="chicken-leg"></div>
-      </div>
-    `;
-    sprite.onclick = (e) => { e.stopPropagation(); selectChicken(i); };
-    container.appendChild(sprite);
-  });
-
-  // Popup for selected chicken
-  if (gs.selectedChicken !== null) {
-    const c = gs.chickens[gs.selectedChicken];
-    const pos = chickenPositions[gs.selectedChicken] || chickenPositions[0];
-    const popup = document.createElement('div');
-    popup.className = 'chicken-popup';
-    popup.style.cssText = `position:absolute;bottom:${parseInt(pos.bottom) + 8}%;left:${parseInt(pos.left) + 6}%;z-index:25;pointer-events:auto;`;
-
-    const eggReady = c.eggTimer >= 80;
-    popup.innerHTML = `
-      <button class="close-popup" onclick="event.stopPropagation();gameState.selectedChicken=null;renderAll();">×</button>
-      <div class="popup-name">${c.name} 🐔</div>
-      <div class="popup-stat">Health <div class="popup-bar"><div class="popup-bar-fill health-bar" style="width:${c.health}%"></div></div></div>
-      <div class="popup-stat">Hunger <div class="popup-bar"><div class="popup-bar-fill hunger-bar" style="width:${c.hunger}%"></div></div></div>
-      <div class="popup-stat">Thirst <div class="popup-bar"><div class="popup-bar-fill thirst-bar" style="width:${c.thirst}%"></div></div></div>
-      <div class="popup-stat" style="font-size:0.72rem;">🥚 ${c.eggsLaid} eggs laid${eggReady ? ' — Ready!' : ''}</div>
-      <div class="popup-actions">
-        <button class="mini-btn" onclick="event.stopPropagation();feedChicken(${gs.selectedChicken})">🍽️ Feed</button>
-        <button class="mini-btn" onclick="event.stopPropagation();waterChicken(${gs.selectedChicken})">💧 Water</button>
-        <button class="mini-btn ${eggReady ? 'primary' : ''}" onclick="event.stopPropagation();collectEggs(${gs.selectedChicken})" ${!eggReady ? 'disabled' : ''}>🥚 Collect</button>
-      </div>
-    `;
-    container.appendChild(popup);
-  }
-
-  // Click off to deselect
-  container.onclick = (e) => {
-    if (e.target === container || e.target.classList.contains('ground') || e.target.classList.contains('sky')) {
-      gameState.selectedChicken = null;
-      renderAll();
-    }
-  };
 }
 
 // ── Toast ───────────────────────────────────────────────────
@@ -1138,7 +1161,7 @@ function toast(msg, type) {
 // ── Init ────────────────────────────────────────────────────
 renderAll();
 
-// Decay over time
+// Passive decay
 setInterval(() => {
   advanceTime(1);
   saveState();
