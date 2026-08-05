@@ -4,370 +4,664 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your First Flock — Chicken Care Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FEF9F0;
-    --warm-white: #FFFBF5;
-    --card-bg: #FFFFFF;
-    --text: #3D2B1F;
-    --text-muted: #8B7355;
-    --gold: #C4956A;
-    --gold-light: #E8D5B7;
-    --green: #6B8F71;
-    --green-light: #A8C9A5;
-    --red: #C46B5C;
-    --red-light: #F0C4BB;
+    --bg: #F5F0E8;
+    --header-bg: rgba(255, 252, 247, 0.92);
+    --sky-top: #B8D4E3;
+    --sky-bottom: #E8F0F4;
+    --grass: #7BA05B;
+    --grass-dark: #5C7A3E;
+    --dirt: #C4A87C;
+    --dirt-dark: #A8895C;
+    --wood: #B8956E;
+    --wood-dark: #8B6F4E;
+    --wood-light: #D4B896;
+    --roof: #8B5E3C;
+    --roof-dark: #6B3F22;
+    --fence: #D4B896;
+    --fence-post: #A07850;
+    --text: #2C2416;
+    --text-muted: #6B5D4E;
+    --accent: #D4855E;
+    --accent-hover: #C0704A;
+    --green: #5B8C5A;
+    --green-light: #A8D4A6;
+    --red: #D4634C;
+    --red-light: #F0B4A8;
     --blue: #5B8BA0;
-    --blue-light: #B8D4DE;
-    --terracotta: #C67B5C;
-    --border: #E8DDD0;
-    --shadow: 0 2px 12px rgba(61, 43, 31, 0.06);
-    --shadow-hover: 0 4px 20px rgba(61, 43, 31, 0.10);
-    --radius: 16px;
-    --radius-sm: 10px;
-    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-display: 'Georgia', 'Times New Roman', serif;
+    --gold: #D4A04A;
+    --shadow: 0 2px 16px rgba(44, 36, 22, 0.10);
+    --radius: 14px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: var(--font);
-    background: var(--cream);
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 20px;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(212, 165, 116, 0.08) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 100%, rgba(107, 143, 113, 0.06) 0%, transparent 60%);
+    padding: 0;
+    overflow-x: hidden;
   }
 
   .app {
     width: 100%;
-    max-width: 720px;
+    max-width: 960px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    min-height: 100vh;
   }
 
-  /* Header */
-  .header {
-    text-align: center;
-    padding: 28px 20px 16px;
+  /* ── Header Bar ──────────────────────────────── */
+  .header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    background: var(--header-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    gap: 16px;
+    flex-wrap: wrap;
   }
-  .header .logo {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: bold;
+  .header-bar .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-bar .logo-icon { font-size: 1.6rem; }
+  .header-bar .logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
     color: var(--text);
     letter-spacing: -0.3px;
   }
-  .header .logo span { color: var(--terracotta); }
-  .header .subtitle {
+  .header-bar .logo-text span { color: var(--accent); }
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .header-stat {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: 4px;
+  }
+  .header-stat .hs-val {
+    color: var(--text);
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+  }
+  .header-stat .hs-icon { font-size: 1.15rem; }
+  .feed-indicator {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.04);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+  .feed-indicator strong { color: var(--text); }
+
+  /* ── Main Scene ──────────────────────────────── */
+  .scene-wrapper {
+    position: relative;
+    margin: 16px 20px;
+    perspective: 1200px;
+    perspective-origin: 50% 40%;
+    height: 420px;
+  }
+  .scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: rotateX(12deg);
+    transform-style: preserve-3d;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(44, 36, 22, 0.12);
   }
 
-  /* Stats Bar */
-  .stats-bar {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
+  /* Sky */
+  .sky {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 70%, #E8DCC8 100%);
   }
-  .stat-card {
-    flex: 1;
-    min-width: 100px;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    text-align: center;
-    box-shadow: var(--shadow);
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.80;
   }
-  .stat-card .stat-value {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--text);
-    font-family: var(--font-display);
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
   }
-  .stat-card .stat-label {
-    font-size: 0.75rem;
+  .cloud-1 { width: 100px; height: 36px; top: 8%; left: 12%; }
+  .cloud-1::before { width: 44px; height: 44px; top: -22px; left: 20px; }
+  .cloud-1::after { width: 36px; height: 36px; top: -14px; left: 50px; }
+  .cloud-2 { width: 80px; height: 28px; top: 6%; right: 18%; }
+  .cloud-2::before { width: 36px; height: 36px; top: -18px; left: 16px; }
+  .cloud-2::after { width: 28px; height: 28px; top: -10px; left: 44px; }
+
+  /* Ground */
+  .ground {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 75%;
+    background: linear-gradient(180deg,
+      #C4A87C 0%,
+      #B8956E 5%,
+      var(--grass) 15%,
+      var(--grass-dark) 100%
+    );
+  }
+  .grass-blade {
+    position: absolute;
+    width: 3px;
+    background: var(--grass-dark);
+    border-radius: 2px 2px 0 0;
+    transform-origin: bottom center;
+  }
+
+  /* Coop */
+  .coop {
+    position: absolute;
+    bottom: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 340px;
+    height: 160px;
+  }
+  .coop-wall {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 100px;
+    background: linear-gradient(180deg, var(--wood-light) 0%, var(--wood) 100%);
+    border-radius: 4px 4px 0 0;
+    border: 3px solid var(--wood-dark);
+    border-bottom: none;
+  }
+  .coop-wall::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 18px,
+      rgba(0,0,0,0.04) 18px,
+      rgba(0,0,0,0.04) 20px
+    );
+  }
+  .coop-roof {
+    position: absolute;
+    bottom: 96px;
+    left: -16px; right: -16px;
+    height: 50px;
+    background: linear-gradient(180deg, var(--roof) 0%, var(--roof-dark) 100%);
+    clip-path: polygon(0% 100%, 8% 0%, 92% 0%, 100% 100%);
+  }
+  .coop-door {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 72px;
+    background: var(--wood-dark);
+    border-radius: 28px 28px 0 0;
+    border: 3px solid rgba(0,0,0,0.2);
+  }
+  .coop-window {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #E8F0F4;
+    border: 3px solid var(--wood-dark);
+    border-radius: 4px;
+    top: 20px;
+  }
+  .coop-window.left { left: 40px; }
+  .coop-window.right { right: 40px; }
+
+  /* Run / Yard */
+  .run {
+    position: absolute;
+    bottom: 8%;
+    left: 10%;
+    right: 10%;
+    height: 120px;
+    border: 4px solid var(--fence);
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(123,160,91,0.5) 0%, rgba(92,122,62,0.6) 100%);
+  }
+  .run::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(0,0,0,0.05) 1px, transparent 1px),
+      radial-gradient(circle at 35% 60%, rgba(0,0,0,0.05) 1px, transparent 1px),
+      radial-gradient(circle at 65% 30%, rgba(0,0,0,0.05) 1px, transparent 1px),
+      radial-gradient(circle at 85% 70%, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    border-radius: 4px;
+  }
+  .fence-post {
+    position: absolute;
+    width: 8px;
+    background: var(--fence-post);
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* Interactive zones */
+  .zone {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s;
+    z-index: 10;
+  }
+  .zone:hover {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+  }
+  .zone:active { transform: scale(0.95); }
+  .zone-label {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-top: 2px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    pointer-events: none;
   }
+  .zone:hover .zone-label { opacity: 1; }
 
-  /* Flock Section */
-  .section-title {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .flock {
+  /* Nesting boxes */
+  .nesting-boxes {
+    position: absolute;
+    bottom: 12px;
+    left: 24px;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    gap: 6px;
   }
+  .nest-box {
+    width: 44px;
+    height: 36px;
+    background: linear-gradient(180deg, #E8D5B0, var(--dirt));
+    border: 2px solid var(--dirt-dark);
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .nest-box:hover { transform: translateY(-3px); }
+  .nest-box .egg-indicator {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .nest-box.has-egg .egg-indicator { opacity: 1; }
 
-  .chicken-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    box-shadow: var(--shadow);
-    transition: box-shadow 0.2s, transform 0.2s;
-    display: grid;
-    grid-template-columns: 60px 1fr;
-    gap: 16px;
-    align-items: center;
-    cursor: default;
-  }
-  .chicken-card:hover {
-    box-shadow: var(--shadow-hover);
-  }
-  .chicken-card.sick {
-    border-color: var(--red-light);
-  }
-
-  .chicken-avatar {
-    width: 60px;
-    height: 60px;
+  /* Waterer */
+  .waterer {
+    position: absolute;
+    bottom: 20px;
+    right: 50px;
+    width: 48px;
+    height: 40px;
+    background: linear-gradient(180deg, #D4E8F0, #A0C8D8);
+    border: 3px solid #7AADC0;
     border-radius: 50%;
-    background: var(--gold-light);
+    cursor: pointer;
+    transition: transform 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.2rem;
-    position: relative;
-    animation: chicken-bob 2s ease-in-out infinite;
-    transition: background 0.3s;
+    font-size: 1.3rem;
   }
-  .chicken-card.sick .chicken-avatar {
-    background: var(--red-light);
-    animation: chicken-sick 0.6s ease-in-out infinite;
-  }
-  .egg-ready .chicken-avatar::after {
-    content: '🥚';
+  .waterer:hover { transform: scale(1.1); }
+
+  /* Feed trough */
+  .feed-trough {
     position: absolute;
-    bottom: -6px;
-    right: -6px;
-    font-size: 1.1rem;
-    animation: egg-pop 0.4s ease-out;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 28px;
+    background: linear-gradient(180deg, var(--wood-light), var(--wood));
+    border: 2px solid var(--wood-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
   }
+  .feed-trough::after {
+    content: '';
+    position: absolute;
+    top: 4px; left: 6px; right: 6px; bottom: 4px;
+    background: #E8D5A0;
+    border-radius: 3px;
+  }
+  .feed-trough:hover { transform: translateX(-50%) scale(1.05); }
+
+  /* Chickens */
+  .chicken-sprite {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.2s;
+    z-index: 8;
+  }
+  .chicken-sprite:hover { transform: scale(1.1); }
+  .chicken-sprite.selected { z-index: 15; }
+  .chicken-body {
+    width: 40px;
+    height: 30px;
+    background: linear-gradient(180deg, #F5E6D0, #E8D0B0);
+    border-radius: 50% 50% 45% 45%;
+    position: relative;
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.08);
+  }
+  .chicken-head {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    background: #F5E6D0;
+    border-radius: 50%;
+  }
+  .chicken-comb {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 10px;
+    background: #E8504A;
+    border-radius: 50% 50% 0 0;
+  }
+  .chicken-beak {
+    position: absolute;
+    top: 4px;
+    right: -5px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid #E8A030;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+  }
+  .chicken-eye {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    width: 5px;
+    height: 5px;
+    background: #2C2416;
+    border-radius: 50%;
+  }
+  .chicken-wattle {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 6px;
+    background: #E8504A;
+    border-radius: 0 0 50% 50%;
+  }
+  .chicken-legs {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+  }
+  .chicken-leg {
+    width: 2px;
+    height: 12px;
+    background: #E8A030;
+    border-radius: 1px;
+  }
+  .health-dot {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .health-dot.good { background: var(--green); }
+  .health-dot.ok { background: var(--gold); }
+  .health-dot.bad { background: var(--red); }
+  .chicken-name-tag {
+    position: absolute;
+    top: -44px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--text);
+    background: rgba(255,255,255,0.9);
+    padding: 2px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    font-family: 'Inter', sans-serif;
+  }
+  .chicken-sprite:hover .chicken-name-tag,
+  .chicken-sprite.selected .chicken-name-tag { opacity: 1; }
+
   @keyframes chicken-bob {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
+    30% { transform: translateY(-3px); }
+    60% { transform: translateY(-1px); }
   }
-  @keyframes chicken-sick {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-2px); }
-    75% { transform: translateX(2px); }
+  @keyframes chicken-peck {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    40% { transform: translateY(2px) rotate(-5deg); }
+    80% { transform: translateY(1px) rotate(3deg); }
   }
-  @keyframes egg-pop {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.3); }
-    100% { transform: scale(1); opacity: 1; }
-  }
+  .chicken-anim-idle { animation: chicken-bob 2.5s ease-in-out infinite; }
+  .chicken-anim-peck { animation: chicken-peck 1.2s ease-in-out infinite; }
 
-  .chicken-info {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  /* ── Selected Chicken Popup ─────────────────── */
+  .chicken-popup {
+    position: absolute;
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    box-shadow: 0 8px 32px rgba(44, 36, 22, 0.18);
+    z-index: 25;
+    min-width: 180px;
+    pointer-events: auto;
+    font-family: 'Inter', sans-serif;
   }
-  .chicken-name {
-    font-weight: 600;
+  .chicken-popup .popup-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
     font-size: 1rem;
-    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .chicken-popup .popup-stat {
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-  .chicken-name .egg-count {
-    font-size: 0.78rem;
-    color: var(--gold);
-    font-weight: 500;
-  }
-  .chicken-status {
     font-size: 0.78rem;
     color: var(--text-muted);
-    font-style: italic;
+    margin-bottom: 4px;
   }
-
-  .bar-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  .bar-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.72rem;
-    color: var(--text-muted);
-  }
-  .bar-row .bar-label {
-    width: 42px;
-    text-align: right;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .bar-track {
+  .chicken-popup .popup-bar {
     flex: 1;
-    height: 7px;
-    background: var(--gold-light);
-    border-radius: 10px;
+    height: 6px;
+    background: #E8DDD0;
+    border-radius: 3px;
     overflow: hidden;
   }
-  .bar-fill {
+  .chicken-popup .popup-bar-fill {
     height: 100%;
-    border-radius: 10px;
-    transition: width 0.5s ease;
+    border-radius: 3px;
+    transition: width 0.4s;
   }
-  .bar-fill.hunger { background: var(--gold); }
-  .bar-fill.thirst { background: var(--blue); }
-  .bar-fill.health { background: var(--green); }
-  .bar-fill.danger { background: var(--red); }
-
-  /* Actions */
-  .actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 10px;
+  .chicken-popup .popup-bar-fill.health-bar { background: var(--green); }
+  .chicken-popup .popup-bar-fill.hunger-bar { background: var(--gold); }
+  .chicken-popup .popup-bar-fill.thirst-bar { background: var(--blue); }
+  .chicken-popup .popup-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
   }
-  .btn {
-    padding: 14px 18px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--card-bg);
-    color: var(--text);
-    font-size: 0.9rem;
-    font-weight: 500;
+  .chicken-popup .mini-btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #E8DDD0;
+    background: #FAF7F2;
+    font-size: 0.72rem;
     cursor: pointer;
-    box-shadow: var(--shadow);
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+  }
+  .chicken-popup .mini-btn:hover { background: #F0EBE0; }
+  .chicken-popup .mini-btn.primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .chicken-popup .mini-btn.primary:hover { background: var(--accent-hover); }
+  .chicken-popup .close-popup {
+    position: absolute;
+    top: 8px; right: 12px;
+    background: none; border: none;
+    font-size: 1.1rem; cursor: pointer;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+
+  /* ── Action Bar ─────────────────────────────── */
+  .action-bar {
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .action-btn {
+    padding: 12px 22px;
+    border-radius: 12px;
+    border: 1px solid #E0D8CC;
+    background: white;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
     transition: all 0.15s;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .btn:hover:not(:disabled) {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-1px);
-  }
-  .btn:active:not(:disabled) {
-    transform: translateY(0);
+    gap: 7px;
     box-shadow: var(--shadow);
+    user-select: none;
   }
-  .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  .action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(44, 36, 22, 0.14);
   }
-  .btn.primary {
-    background: var(--gold);
-    border-color: var(--gold);
+  .action-btn:active { transform: translateY(0); }
+  .action-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  .action-btn.primary-btn {
+    background: var(--accent);
+    border-color: var(--accent);
     color: white;
-    font-weight: 600;
   }
-  .btn.primary:hover:not(:disabled) {
-    background: #B8875D;
-    border-color: #B8875D;
-  }
-  .btn .btn-icon { font-size: 1.3rem; }
+  .action-btn.primary-btn:hover { background: var(--accent-hover); }
+  .action-btn .btn-icon { font-size: 1.2rem; }
 
-  /* Feed supply indicator */
-  .feed-supply {
-    text-align: center;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    padding: 4px;
-  }
-  .feed-supply strong { color: var(--text); }
-
-  /* Tip Card */
+  /* ── Tip Card ────────────────────────────────── */
   .tip-card {
-    background: linear-gradient(135deg, #FFF8EC, #FFFBF5);
-    border: 1px solid var(--gold-light);
+    margin: 14px 20px 20px;
+    background: white;
     border-radius: var(--radius);
-    padding: 20px;
+    padding: 18px 22px;
     box-shadow: var(--shadow);
     position: relative;
-    overflow: hidden;
-  }
-  .tip-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--gold);
-    border-radius: 4px 0 0 4px;
+    border-left: 4px solid var(--gold);
   }
   .tip-card .tip-badge {
     display: inline-block;
     background: var(--gold);
     color: white;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
     padding: 3px 10px;
     border-radius: 20px;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
   }
   .tip-card .tip-title {
-    font-family: var(--font-display);
+    font-family: 'Outfit', sans-serif;
     font-weight: 600;
     font-size: 1.05rem;
-    margin-bottom: 6px;
-    color: var(--text);
+    margin-bottom: 5px;
   }
   .tip-card .tip-body {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     line-height: 1.55;
   }
   .tip-card .tip-action {
     display: inline-block;
-    margin-top: 10px;
-    font-size: 0.82rem;
-    color: var(--terracotta);
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--accent);
     font-weight: 600;
   }
   @keyframes tip-in {
-    0% { opacity: 0; transform: translateY(10px); }
+    0% { opacity: 0; transform: translateY(8px); }
     100% { opacity: 1; transform: translateY(0); }
   }
   .tip-card.new-tip { animation: tip-in 0.4s ease-out; }
 
-  /* Reset button */
-  .reset-area {
-    text-align: center;
-    padding-top: 8px;
-  }
-  .btn-reset {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 8px;
-  }
-  .btn-reset:hover { color: var(--red); }
-
-  /* Toast */
+  /* ── Toast ───────────────────────────────────── */
   .toast-container {
     position: fixed;
-    top: 20px;
+    top: 80px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
@@ -377,68 +671,79 @@
     pointer-events: none;
   }
   .toast {
-    background: var(--text);
+    background: #2C2416;
     color: white;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 0.88rem;
+    padding: 10px 22px;
+    border-radius: 24px;
+    font-size: 0.85rem;
     font-weight: 500;
     text-align: center;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-    animation: toast-in 0.35s ease-out, toast-out 0.3s 2.2s ease-in forwards;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    animation: toast-in 0.3s ease-out, toast-out 0.25s 2s ease-in forwards;
     pointer-events: auto;
+    font-family: 'Inter', sans-serif;
   }
-  .toast.warning { background: var(--terracotta); }
+  .toast.warning { background: var(--accent); }
   .toast.success { background: var(--green); }
   @keyframes toast-in {
-    0% { opacity: 0; transform: translateY(-20px); }
+    0% { opacity: 0; transform: translateY(-16px); }
     100% { opacity: 1; transform: translateY(0); }
   }
   @keyframes toast-out {
     0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 0; transform: translateY(-16px); }
   }
 
-  /* Mobile */
-  @media (max-width: 480px) {
-    .header .logo { font-size: 1.55rem; }
-    .stats-bar { gap: 8px; }
-    .stat-card { padding: 10px 12px; }
-    .stat-card .stat-value { font-size: 1.3rem; }
-    .chicken-card {
-      grid-template-columns: 48px 1fr;
-      padding: 14px;
-      gap: 12px;
-    }
-    .chicken-avatar { width: 48px; height: 48px; font-size: 1.8rem; }
-    .actions { grid-template-columns: 1fr 1fr; }
-    .btn { padding: 12px 14px; font-size: 0.82rem; }
+  .reset-link {
+    text-align: center;
+    padding: 8px 20px 28px;
   }
+  .reset-link button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: 'Inter', sans-serif;
+  }
+  .reset-link button:hover { color: var(--red); }
 </style>
 </head>
 <body>
 
 <div class="app">
   <!-- Header -->
-  <header class="header">
-    <div class="logo">Your First <span>Flock</span></div>
-    <div class="subtitle">Learn to care for your chickens, one day at a time 🐔</div>
+  <header class="header-bar">
+    <div class="logo-area">
+      <span class="logo-icon">🏠</span>
+      <span class="logo-text">Your First <span>Flock</span></span>
+    </div>
+    <div class="header-stats">
+      <div class="header-stat"><span class="hs-icon">📅</span> Day <span class="hs-val" id="hDay">1</span></div>
+      <div class="header-stat"><span class="hs-icon">🥚</span> <span class="hs-val" id="hEggs">0</span> eggs</div>
+      <div class="header-stat"><span class="hs-icon">🐔</span> <span class="hs-val" id="hFlock">3/3</span></div>
+    </div>
+    <div class="feed-indicator">Feed: <strong id="hFeed">10</strong> scoops</div>
   </header>
 
-  <!-- Stats Bar -->
-  <div class="stats-bar" id="statsBar"></div>
-
-  <!-- Flock -->
-  <div style="display:flex;justify-content:space-between;align-items:baseline;">
-    <div class="section-title">🐔 Your Flock</div>
-    <div class="feed-supply">Feed supply: <strong id="feedSupply">10</strong> scoops</div>
+  <!-- Scene -->
+  <div class="scene-wrapper">
+    <div class="scene" id="sceneContainer">
+      <div class="sky">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+      </div>
+      <div class="ground" id="groundContainer"></div>
+      <!-- Chickens rendered by JS -->
+      <!-- Nesting boxes, feed trough, waterer rendered by JS -->
+    </div>
   </div>
-  <div class="flock" id="flockContainer"></div>
 
-  <!-- Actions -->
-  <div class="actions" id="actionsContainer"></div>
+  <!-- Action Bar -->
+  <div class="action-bar" id="actionBar"></div>
 
-  <!-- Did You Know? -->
+  <!-- Tip -->
   <div class="tip-card new-tip" id="tipCard">
     <div class="tip-badge">🐣 Chicken Knowledge</div>
     <div class="tip-title" id="tipTitle"></div>
@@ -446,346 +751,399 @@
     <div class="tip-action" id="tipAction"></div>
   </div>
 
-  <!-- Reset -->
-  <div class="reset-area">
-    <button class="btn-reset" onclick="resetGame()">Reset flock & start over</button>
+  <div class="reset-link">
+    <button onclick="resetGame()">Reset flock & start over</button>
   </div>
 </div>
 
-<!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
 // ── Game State ──────────────────────────────────────────────
-const CHICKEN_NAMES = ['Henrietta', 'Nugget', 'Cluckles', 'Eggwina', 'Pecky', 'Feathers', 'Sunny', 'Daisy'];
+const CHICKEN_NAMES = ['Henrietta', 'Nugget', 'Cluckles', 'Eggwina', 'Pecky', 'Sunny', 'Daisy', 'Maple'];
 const USED_NAMES = new Set();
 
 const TIPS = [
-  {
-    title: 'Eggshells Are Mostly Calcium',
-    body: 'A single eggshell contains about 2 grams of calcium. If your hens don\'t get enough calcium in their diet, they\'ll produce thin-shelled or shell-less eggs.',
-    action: '💡 Supplement: crushed oyster shells or limestone grit in their feed.'
-  },
-  {
-    title: 'Chickens Need Grit to Digest Food',
-    body: 'Chickens don\'t have teeth. They swallow small stones and grit that sit in their gizzard, grinding up food like a natural mill.',
-    action: '💡 Fix: provide coarse sand or commercial poultry grit — especially if they eat anything besides commercial feed.'
-  },
-  {
-    title: 'A Hen Lays Every 24–26 Hours',
-    body: 'It takes about 25 hours for a hen to form an egg. That\'s why they tend to lay slightly later each day, eventually skipping a day.',
-    action: '💡 Expect about 5–6 eggs per hen per week, not one every single day.'
-  },
-  {
-    title: 'Fresh Water Is More Important Than Food',
-    body: 'A chicken can survive weeks without food but only days without water. A laying hen drinks about 2 cups of water per day — more in hot weather.',
-    action: '💡 Fix: check waterers twice daily. In summer, add ice cubes. In winter, use a heated waterer base.'
-  },
-  {
-    title: 'The Comb Tells You About Health',
-    body: 'A bright red, plump comb usually means a healthy, laying hen. A pale, shrunken, or discolored comb can signal illness, mites, or that she\'s stopped laying.',
-    action: '💡 Do a quick comb check every time you collect eggs.'
-  },
-  {
-    title: 'Chickens Take Dust Baths — Not Water Baths',
-    body: 'Chickens clean themselves by fluffing dry dirt or sand through their feathers. It smothers parasites like mites and absorbs excess oil.',
-    action: '💡 Provide a dry area with fine dirt, sand, and a little wood ash — they\'ll do the rest.'
-  },
-  {
-    title: 'Egg Color Depends on the Breed',
-    body: 'White earlobes usually mean white eggs. Red earlobes usually mean brown eggs. Some breeds lay blue, green, or even chocolate-colored eggs.',
-    action: '💡 Fun fact: the Ameraucana and Cream Legbar breeds lay blue eggs naturally.'
-  },
-  {
-    title: 'Overfeeding Is a Real Problem',
-    body: 'Obesity in hens leads to fatty liver syndrome, egg-binding, and reduced laying. Most backyard flocks are overfed, not underfed.',
-    action: '💡 Fix: measure feed — about ¼ lb per hen per day. Limit treats to 10% of their diet.'
-  },
-  {
-    title: 'Chickens Recognize Each Other — and You',
-    body: 'Chickens can recognize up to 100 individual faces, including human ones. They form social hierarchies (the "pecking order") and remember it for months.',
-    action: '💡 Spend time near your flock daily — they\'ll learn to trust you.'
-  },
-  {
-    title: 'Eggs Don\'t Need Refrigeration — At First',
-    body: 'Freshly laid eggs have a natural protective coating called the "bloom" that seals the pores. Unwashed eggs stay fresh at room temperature for weeks.',
-    action: '💡 Only wash eggs right before using them. Once washed, refrigerate within 2 hours.'
-  },
-  {
-    title: 'A Chicken\'s Body Temp Is 105–107°F',
-    body: 'That\'s hotter than a human\'s 98.6°F. This high metabolism is why they need constant access to food and water — they burn through energy fast.',
-    action: '💡 In cold weather, extra feed (especially corn/scratch before bedtime) helps them stay warm overnight.'
-  },
-  {
-    title: 'Molting Shuts Down Egg Production',
-    body: 'Once a year, hens shed and regrow their feathers. During this 8–16 week molting period, they stop laying entirely — all their protein goes to feathers.',
-    action: '💡 Switch to a higher-protein feed (18–20%) during molt to speed up recovery.'
-  },
-  {
-    title: 'Predators Attack From Above and Below',
-    body: 'Hawks, owls, raccoons, foxes, and weasels are the top chicken predators. A weasel can squeeze through a 1-inch gap.',
-    action: '💡 Use ½-inch hardware cloth (not chicken wire) and bury it 12 inches deep around the coop.'
-  },
-  {
-    title: 'The Yolk Color Comes From Diet',
-    body: 'Deep orange yolks come from carotenoids in plants like marigolds, alfalfa, and leafy greens. Pale yellow yolks usually mean a grain-only diet.',
-    action: '💡 Free-range access to grass and bugs gives you those Instagram-worthy orange yolks.'
-  },
-  {
-    title: 'Chickens Are Descendants of Dinosaurs',
-    body: 'Specifically, the Red Junglefowl of Southeast Asia. The T. rex is actually a closer relative to chickens than to other dinosaurs like the Stegosaurus.',
-    action: '💡 Next time someone calls your chicken a "tiny dinosaur," they\'re scientifically correct.'
-  },
+  { title: 'Eggshells Are Mostly Calcium', body: 'A single eggshell contains about 2 grams of calcium. Without enough dietary calcium, hens produce thin-shelled or shell-less eggs.', action: '💡 Supplement: crushed oyster shells or limestone grit.' },
+  { title: 'Chickens Need Grit to Digest', body: 'Chickens don\'t have teeth. They swallow small stones that sit in their gizzard, grinding food like a natural mill.', action: '💡 Provide coarse sand or commercial poultry grit.' },
+  { title: 'A Hen Lays Every 24–26 Hours', body: 'It takes about 25 hours for a hen to form an egg. They lay slightly later each day, eventually skipping a day.', action: '💡 Expect 5–6 eggs per hen per week, not one daily.' },
+  { title: 'Fresh Water > Food', body: 'A chicken can survive weeks without food but only days without water. A laying hen drinks about 2 cups per day.', action: '💡 Check waterers twice daily. Ice cubes in summer.' },
+  { title: 'The Comb Reveals Health', body: 'A bright red, plump comb means a healthy, laying hen. Pale or shrunken combs signal illness or mites.', action: '💡 Quick comb check every time you collect eggs.' },
+  { title: 'Dust Baths, Not Water Baths', body: 'Chickens clean themselves by fluffing dry dirt through their feathers — it smothers parasites and absorbs oil.', action: '💡 Provide dry dirt, sand, and a little wood ash.' },
+  { title: 'Egg Color = Breed', body: 'White earlobes usually mean white eggs. Red earlobes usually mean brown eggs. Some breeds lay blue or green.', action: '💡 Ameraucana and Cream Legbar lay blue eggs.' },
+  { title: 'Overfeeding Is Common', body: 'Obesity leads to fatty liver syndrome, egg-binding, and reduced laying. Most backyard flocks are overfed.', action: '💡 About ¼ lb of feed per hen per day. Limit treats.' },
+  { title: 'Chickens Recognize Faces', body: 'Chickens recognize up to 100 faces, including humans. They form social hierarchies that last for months.', action: '💡 Spend time near your flock daily — they\'ll trust you.' },
+  { title: 'The Bloom Protects Eggs', body: 'Fresh eggs have a natural coating called the "bloom" that seals the pores. Unwashed eggs last weeks at room temp.', action: '💡 Only wash eggs right before use, then refrigerate.' },
+  { title: 'Body Temp: 105–107°F', body: 'That high metabolism means they need constant food and water. Extra feed before bedtime helps in cold weather.', action: '💡 Scratch grains or corn before bed on cold nights.' },
+  { title: 'Molting = No Eggs', body: 'Once a year, hens shed and regrow feathers for 8–16 weeks. They stop laying entirely during molt.', action: '💡 Switch to higher-protein feed (18–20%) during molt.' },
+  { title: 'Predators Come From All Sides', body: 'Hawks, raccoons, foxes, and weasels are top threats. A weasel can squeeze through a 1-inch gap.', action: '💡 Use ½-inch hardware cloth, buried 12 inches deep.' },
+  { title: 'Yolk Color = Diet', body: 'Deep orange yolks come from carotenoids in marigolds, alfalfa, and leafy greens. Pale yolks = grain-only diet.', action: '💡 Free-range access to grass and bugs for rich yolks.' },
+  { title: 'Descendants of Dinosaurs', body: 'Chickens descend from the Red Junglefowl. T. rex is closer to chickens than to Stegosaurus.', action: '💡 Your flock carries 150 million years of lineage.' },
 ];
 
 let gameState = loadState();
 
 function defaultState() {
+  USED_NAMES.clear();
   return {
-    day: 1,
-    totalEggs: 0,
-    feedSupply: 10,
-    tipIndex: 0,
-    usedTips: [],
+    day: 1, totalEggs: 0, feedSupply: 10,
+    tipIndex: 0, usedTips: [],
+    selectedChicken: null,
     chickens: [
-      { name: pickName(), health: 100, hunger: 20, thirst: 20, eggTimer: 0, eggsLaid: 0 },
-      { name: pickName(), health: 100, hunger: 25, thirst: 15, eggTimer: 40, eggsLaid: 0 },
-      { name: pickName(), health: 100, hunger: 15, thirst: 25, eggTimer: 70, eggsLaid: 0 },
+      { name: pickName(), health: 100, hunger: 25, thirst: 20, eggTimer: 10, eggsLaid: 0 },
+      { name: pickName(), health: 100, hunger: 20, thirst: 30, eggTimer: 50, eggsLaid: 0 },
+      { name: pickName(), health: 100, hunger: 30, thirst: 15, eggTimer: 75, eggsLaid: 0 },
     ]
   };
 }
 
 function pickName() {
-  const available = CHICKEN_NAMES.filter(n => !USED_NAMES.has(n));
-  const name = available.length > 0 ? available[Math.floor(Math.random() * available.length)] : 'Chicky';
+  const avail = CHICKEN_NAMES.filter(n => !USED_NAMES.has(n));
+  const name = avail.length ? avail[Math.floor(Math.random() * avail.length)] : 'Chicky';
   USED_NAMES.add(name);
   return name;
 }
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('your-first-flock');
-    if (saved) {
-      const s = JSON.parse(saved);
-      s.chickens.forEach(c => USED_NAMES.add(c.name));
-      return s;
-    }
+    const s = JSON.parse(localStorage.getItem('your-first-flock-v2'));
+    if (s) { s.chickens.forEach(c => USED_NAMES.add(c.name)); return s; }
   } catch(e) {}
   return defaultState();
 }
 
 function saveState() {
-  localStorage.setItem('your-first-flock', JSON.stringify(gameState));
+  localStorage.setItem('your-first-flock-v2', JSON.stringify(gameState));
 }
 
 function resetGame() {
-  USED_NAMES.clear();
   gameState = defaultState();
   saveState();
-  render();
-  toast('Flock reset! Fresh start. 🐣', 'success');
+  renderAll();
+  toast('Fresh flock! 🐣', 'success');
 }
 
 // ── Game Logic ──────────────────────────────────────────────
 function advanceTime(ticks) {
   for (const c of gameState.chickens) {
     if (c.health <= 0) continue;
-    c.hunger = Math.min(100, c.hunger + ticks * 3);
-    c.thirst = Math.min(100, c.thirst + ticks * 4);
-    if (c.hunger >= 85 || c.thirst >= 85) {
-      c.health = Math.max(0, c.health - ticks * 2);
-    }
-    c.eggTimer = Math.min(100, c.eggTimer + ticks * 4);
+    c.hunger = Math.min(100, c.hunger + ticks * 2);
+    c.thirst = Math.min(100, c.thirst + ticks * 3);
+    if (c.hunger >= 80 || c.thirst >= 80) c.health = Math.max(0, c.health - ticks * 2);
+    c.eggTimer = Math.min(100, c.eggTimer + ticks * 3);
   }
-  gameState.day += Math.floor(ticks / 4);
+  gameState.day += Math.floor(ticks / 5);
 }
 
 function feedChicken(index) {
   const c = gameState.chickens[index];
-  if (c.health <= 0) return toast(`${c.name} has passed away. 😢 Start a new flock.`, 'warning');
-  if (gameState.feedSupply <= 0) return toast('Out of feed! Buy more at the supply shop. 🏪', 'warning');
+  if (c.health <= 0) return toast(`${c.name} is gone. 😢`, 'warning');
+  if (gameState.feedSupply <= 0) return toast('Out of feed! Buy more. 🏪', 'warning');
   gameState.feedSupply--;
   c.hunger = Math.max(0, c.hunger - 35);
-  if (c.hunger < 30 && c.health < 100 && c.thirst < 80) c.health = Math.min(100, c.health + 5);
+  if (c.hunger < 30 && c.health < 100 && c.thirst < 80) c.health = Math.min(100, c.health + 3);
   advanceTime(2);
-  saveState();
-  render();
-  showRandomTip();
-  toast(`Fed ${c.name}! 🍽️`, 'success');
+  saveState(); renderAll(); showRandomTip();
+  toast(`Fed ${c.name}!`, 'success');
 }
 
 function waterChicken(index) {
   const c = gameState.chickens[index];
-  if (c.health <= 0) return toast(`${c.name} has passed away. 😢`, 'warning');
+  if (c.health <= 0) return toast(`${c.name} is gone. 😢`, 'warning');
   c.thirst = Math.max(0, c.thirst - 40);
-  if (c.thirst < 30 && c.health < 100 && c.hunger < 80) c.health = Math.min(100, c.health + 5);
+  if (c.thirst < 30 && c.health < 100 && c.hunger < 80) c.health = Math.min(100, c.health + 3);
   advanceTime(2);
-  saveState();
-  render();
-  showRandomTip();
-  toast(`Watered ${c.name}! 💧`, 'success');
+  saveState(); renderAll(); showRandomTip();
+  toast(`Watered ${c.name}!`, 'success');
 }
 
 function collectEggs(index) {
   const c = gameState.chickens[index];
-  if (c.health <= 0) return toast(`${c.name} has passed away. 😢`, 'warning');
-  if (c.eggTimer < 80) return toast(`${c.name} isn't ready to lay yet. ⏳`, 'warning');
+  if (c.health <= 0) return toast(`${c.name} is gone. 😢`, 'warning');
+  if (c.eggTimer < 80) return toast(`${c.name} isn't ready to lay. ⏳`, 'warning');
   c.eggTimer = 0;
   c.eggsLaid++;
   gameState.totalEggs++;
   advanceTime(2);
-  saveState();
-  render();
-  showRandomTip();
-  toast(`Collected an egg from ${c.name}! 🥚`, 'success');
+  saveState(); renderAll(); showRandomTip();
+  toast(`🥚 +1 egg from ${c.name}!`, 'success');
+}
+
+function feedAll() {
+  if (gameState.feedSupply <= 0) return toast('Out of feed! Buy more. 🏪', 'warning');
+  const alive = gameState.chickens.filter(c => c.health > 0);
+  if (alive.length === 0) return toast('No chickens to feed. 😢', 'warning');
+  const needed = Math.min(gameState.feedSupply, alive.length);
+  gameState.feedSupply -= needed;
+  alive.slice(0, needed).forEach(c => {
+    c.hunger = Math.max(0, c.hunger - 30);
+    if (c.hunger < 30 && c.health < 100) c.health = Math.min(100, c.health + 3);
+  });
+  advanceTime(3);
+  saveState(); renderAll(); showRandomTip();
+  toast(`Fed ${needed} chicken(s)! 🍽️`, 'success');
+}
+
+function waterAll() {
+  const alive = gameState.chickens.filter(c => c.health > 0);
+  if (alive.length === 0) return toast('No chickens to water. 😢', 'warning');
+  alive.forEach(c => {
+    c.thirst = Math.max(0, c.thirst - 35);
+    if (c.thirst < 30 && c.health < 100) c.health = Math.min(100, c.health + 3);
+  });
+  advanceTime(3);
+  saveState(); renderAll(); showRandomTip();
+  toast(`Watered all chickens! 💧`, 'success');
+}
+
+function collectAll() {
+  const ready = gameState.chickens.filter(c => c.health > 0 && c.eggTimer >= 80);
+  if (ready.length === 0) return toast('No eggs ready yet. ⏳', 'warning');
+  ready.forEach(c => { c.eggTimer = 0; c.eggsLaid++; gameState.totalEggs++; });
+  advanceTime(3);
+  saveState(); renderAll(); showRandomTip();
+  toast(`Collected ${ready.length} egg(s)! 🥚`, 'success');
 }
 
 function buyFeed() {
   gameState.feedSupply += 10;
-  saveState();
-  render();
-  toast('Bought 10 scoops of feed! 🛒', 'success');
+  saveState(); renderAll();
+  toast('Bought 10 scoops! 🛒', 'success');
+}
+
+function selectChicken(index) {
+  gameState.selectedChicken = gameState.selectedChicken === index ? null : index;
+  renderAll();
 }
 
 // ── Tips ────────────────────────────────────────────────────
 function showRandomTip() {
-  const available = TIPS.filter((_, i) => !gameState.usedTips.includes(i));
-  if (available.length === 0) { gameState.usedTips = []; return showRandomTip(); }
-  const idx = TIPS.indexOf(available[Math.floor(Math.random() * available.length)]);
-  gameState.usedTips.push(idx);
-  gameState.tipIndex = idx;
-  saveState();
-  renderTip(idx);
+  const avail = TIPS.map((_, i) => i).filter(i => !gameState.usedTips.includes(i));
+  if (avail.length === 0) { gameState.usedTips = []; return showRandomTip(); }
+  gameState.tipIndex = avail[Math.floor(Math.random() * avail.length)];
+  gameState.usedTips.push(gameState.tipIndex);
 }
 
 // ── Render ──────────────────────────────────────────────────
-function render() {
+function renderAll() {
   const gs = gameState;
-
-  // Stats
   const alive = gs.chickens.filter(c => c.health > 0);
-  document.getElementById('statsBar').innerHTML = `
-    <div class="stat-card">
-      <div class="stat-value">${gs.day}</div>
-      <div class="stat-label">Day</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">${gs.totalEggs}</div>
-      <div class="stat-label">Eggs Collected</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">${alive.length}/${gs.chickens.length}</div>
-      <div class="stat-label">Flock Health</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">${Math.round(alive.reduce((s, c) => s + c.health, 0) / Math.max(1, alive.length))}%</div>
-      <div class="stat-label">Avg Health</div>
-    </div>
-  `;
 
-  document.getElementById('feedSupply').textContent = gs.feedSupply;
+  // Header
+  document.getElementById('hDay').textContent = gs.day;
+  document.getElementById('hEggs').textContent = gs.totalEggs;
+  document.getElementById('hFlock').textContent = `${alive.length}/${gs.chickens.length}`;
+  document.getElementById('hFeed').textContent = gs.feedSupply;
 
-  // Flock
-  document.getElementById('flockContainer').innerHTML = gs.chickens.map((c, i) => {
-    const dead = c.health <= 0;
-    const eggReady = c.eggTimer >= 80 && !dead;
-    const sick = !dead && (c.hunger >= 85 || c.thirst >= 85 || c.health < 30);
-    const healthClass = c.health < 30 ? 'danger' : 'health';
-    const hungerClass = c.hunger >= 85 ? 'danger' : 'hunger';
-    const thirstClass = c.thirst >= 85 ? 'danger' : 'thirst';
+  // Scene
+  renderScene();
 
-    let status = dead ? '💀 Passed away' :
-      sick ? '🤒 Needs attention!' :
-      eggReady ? '🥚 Ready to lay!' :
-      c.hunger > 60 ? '🍽️ Getting hungry' :
-      c.thirst > 60 ? '💧 Getting thirsty' :
-      '😊 Healthy';
+  // Action bar
+  const hasFeed = gs.feedSupply > 0;
+  const hasAlive = alive.length > 0;
+  const anyEggReady = alive.some(c => c.eggTimer >= 80);
 
-    return `
-      <div class="chicken-card ${sick ? 'sick' : ''} ${eggReady ? 'egg-ready' : ''}">
-        <div class="chicken-avatar">${dead ? '💀' : '🐔'}</div>
-        <div class="chicken-info">
-          <div class="chicken-name">${c.name} <span class="egg-count">🥚 ${c.eggsLaid} eggs</span></div>
-          <div class="chicken-status">${status}</div>
-          <div class="bar-group">
-            <div class="bar-row">
-              <span class="bar-label">Health</span>
-              <div class="bar-track"><div class="bar-fill ${healthClass}" style="width:${dead ? 0 : c.health}%"></div></div>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">Hunger</span>
-              <div class="bar-track"><div class="bar-fill ${hungerClass}" style="width:${dead ? 100 : c.hunger}%"></div></div>
-            </div>
-            <div class="bar-row">
-              <span class="bar-label">Thirst</span>
-              <div class="bar-track"><div class="bar-fill ${thirstClass}" style="width:${dead ? 100 : c.thirst}%"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // Actions
-  document.getElementById('actionsContainer').innerHTML = gs.chickens.map((c, i) => {
-    if (c.health <= 0) return '';
-    const eggReady = c.eggTimer >= 80;
-    return `
-      <button class="btn" onclick="feedChicken(${i})" ${gameState.feedSupply <= 0 ? 'disabled' : ''}>
-        <span class="btn-icon">🍽️</span> Feed ${c.name.split(' ')[0]}
-      </button>
-      <button class="btn" onclick="waterChicken(${i})">
-        <span class="btn-icon">💧</span> Water ${c.name.split(' ')[0]}
-      </button>
-      <button class="btn ${eggReady ? 'primary' : ''}" onclick="collectEggs(${i})" ${!eggReady ? 'disabled' : ''}>
-        <span class="btn-icon">🥚</span> Collect Egg
-      </button>
-    `;
-  }).join('') + `
-    <button class="btn" onclick="buyFeed()" style="grid-column:1/-1;">
-      <span class="btn-icon">🛒</span> Buy Feed (+10 scoops)
+  document.getElementById('actionBar').innerHTML = `
+    <button class="action-btn" onclick="feedAll()" ${!hasFeed || !hasAlive ? 'disabled' : ''}>
+      <span class="btn-icon">🍽️</span> Feed All
+    </button>
+    <button class="action-btn" onclick="waterAll()" ${!hasAlive ? 'disabled' : ''}>
+      <span class="btn-icon">💧</span> Water All
+    </button>
+    <button class="action-btn ${anyEggReady ? 'primary-btn' : ''}" onclick="collectAll()" ${!anyEggReady ? 'disabled' : ''}>
+      <span class="btn-icon">🥚</span> Collect All Eggs
+    </button>
+    <button class="action-btn" onclick="buyFeed()">
+      <span class="btn-icon">🛒</span> Buy Feed (+10)
     </button>
   `;
 
   // Tip
-  renderTip(gs.tipIndex);
-
-  // Feed supply display
-  document.getElementById('feedSupply').textContent = gs.feedSupply;
-}
-
-function renderTip(idx) {
-  const tip = TIPS[idx % TIPS.length];
+  const tip = TIPS[gs.tipIndex % TIPS.length];
   document.getElementById('tipTitle').textContent = tip.title;
   document.getElementById('tipBody').textContent = tip.body;
   document.getElementById('tipAction').textContent = tip.action;
-
-  // Re-trigger animation
   const card = document.getElementById('tipCard');
   card.classList.remove('new-tip');
   void card.offsetWidth;
   card.classList.add('new-tip');
 }
 
+function renderScene() {
+  const container = document.getElementById('sceneContainer');
+  const gs = gameState;
+
+  // Preserve static elements (sky, ground, coop, run)
+  // Rebuild only dynamic: chickens, nesting boxes, waterer, feed trough, popup
+
+  // Remove existing dynamic elements
+  container.querySelectorAll('.chicken-sprite,.nesting-boxes,.waterer,.feed-trough,.chicken-popup,.zone,.fence-post,.grass-blade').forEach(el => el.remove());
+
+  // Add grass blades
+  const ground = container.querySelector('.ground');
+  if (ground) {
+    for (let i = 0; i < 40; i++) {
+      const blade = document.createElement('div');
+      blade.className = 'grass-blade';
+      blade.style.left = Math.random() * 98 + '%';
+      blade.style.bottom = Math.random() * 5 + '%';
+      blade.style.height = (Math.random() * 16 + 6) + 'px';
+      blade.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+      blade.style.opacity = (Math.random() * 0.3 + 0.3);
+      container.appendChild(blade);
+    }
+  }
+
+  // Add fence posts around the run area
+  const runEl = container.querySelector('.run');
+  if (!runEl) {
+    // Create run
+    const run = document.createElement('div');
+    run.className = 'run';
+    run.style.cssText = 'position:absolute;bottom:8%;left:10%;right:10%;height:120px;border:4px solid var(--fence);border-radius:8px;background:linear-gradient(180deg, rgba(123,160,91,0.5) 0%, rgba(92,122,62,0.6) 100%);';
+    container.appendChild(run);
+  }
+
+  // Add fence posts
+  const posts = [
+    { left: '10%', bottom: '8%', height: '36px' },
+    { left: '25%', bottom: '8%', height: '36px' },
+    { left: '50%', bottom: '8%', height: '36px' },
+    { left: '75%', bottom: '8%', height: '36px' },
+    { left: '90%', bottom: '8%', height: '36px' },
+  ];
+  posts.forEach(p => {
+    const post = document.createElement('div');
+    post.className = 'fence-post';
+    post.style.cssText = `position:absolute;left:${p.left};bottom:${p.bottom};width:8px;height:${p.height};background:var(--fence-post);border-radius:2px 2px 0 0;z-index:3;`;
+    container.appendChild(post);
+  });
+
+  // Nesting boxes in coop
+  const nestContainer = document.createElement('div');
+  nestContainer.className = 'nesting-boxes';
+  nestContainer.style.cssText = 'position:absolute;bottom:22%;left:calc(50% - 80px);display:flex;gap:6px;z-index:9;';
+  gs.chickens.forEach((c, i) => {
+    if (c.health <= 0) return;
+    const box = document.createElement('div');
+    box.className = 'nest-box' + (c.eggTimer >= 80 ? ' has-egg' : '');
+    box.innerHTML = '<span class="egg-indicator">🥚</span>';
+    box.title = `${c.name}'s nest`;
+    box.onclick = (e) => { e.stopPropagation(); collectEggs(i); };
+    nestContainer.appendChild(box);
+  });
+  container.appendChild(nestContainer);
+
+  // Waterer in coop
+  const waterEl = document.createElement('div');
+  waterEl.className = 'waterer zone';
+  waterEl.style.cssText = 'position:absolute;bottom:18%;right:calc(50% - 170px);z-index:9;cursor:pointer;';
+  waterEl.innerHTML = '💧<span class="zone-label">Water</span>';
+  waterEl.onclick = (e) => { e.stopPropagation(); waterAll(); };
+  container.appendChild(waterEl);
+
+  // Feed trough in run
+  const troughEl = document.createElement('div');
+  troughEl.className = 'feed-trough zone';
+  troughEl.style.cssText = 'position:absolute;bottom:11%;left:50%;z-index:9;cursor:pointer;';
+  troughEl.innerHTML = '<span class="zone-label" style="bottom:-20px;">Feed Trough</span>';
+  troughEl.onclick = (e) => { e.stopPropagation(); feedAll(); };
+  container.appendChild(troughEl);
+
+  // Chickens
+  const chickenPositions = [
+    { bottom: '24%', left: '28%', anim: 'chicken-anim-idle' },
+    { bottom: '13%', left: '42%', anim: 'chicken-anim-peck' },
+    { bottom: '14%', left: '62%', anim: 'chicken-anim-idle' },
+  ];
+
+  gs.chickens.forEach((c, i) => {
+    if (c.health <= 0) return;
+    const pos = chickenPositions[i] || chickenPositions[0];
+    const sel = gs.selectedChicken === i;
+
+    const sprite = document.createElement('div');
+    sprite.className = 'chicken-sprite' + (sel ? ' selected' : '');
+    sprite.style.cssText = `position:absolute;bottom:${pos.bottom};left:${pos.left};z-index:${sel ? 15 : 8};cursor:pointer;`;
+
+    // Health dot
+    let dotClass = 'good';
+    if (c.health < 30 || c.hunger >= 80 || c.thirst >= 80) dotClass = 'bad';
+    else if (c.health < 60 || c.hunger >= 50 || c.thirst >= 50) dotClass = 'ok';
+
+    sprite.innerHTML = `
+      <div class="health-dot ${dotClass}"></div>
+      <div class="chicken-name-tag">${c.name}</div>
+      <div class="chicken-body ${pos.anim}">
+        <div class="chicken-head">
+          <div class="chicken-comb"></div>
+          <div class="chicken-eye"></div>
+          <div class="chicken-beak"></div>
+        </div>
+        <div class="chicken-wattle"></div>
+      </div>
+      <div class="chicken-legs">
+        <div class="chicken-leg"></div>
+        <div class="chicken-leg"></div>
+      </div>
+    `;
+    sprite.onclick = (e) => { e.stopPropagation(); selectChicken(i); };
+    container.appendChild(sprite);
+  });
+
+  // Popup for selected chicken
+  if (gs.selectedChicken !== null) {
+    const c = gs.chickens[gs.selectedChicken];
+    const pos = chickenPositions[gs.selectedChicken] || chickenPositions[0];
+    const popup = document.createElement('div');
+    popup.className = 'chicken-popup';
+    popup.style.cssText = `position:absolute;bottom:${parseInt(pos.bottom) + 8}%;left:${parseInt(pos.left) + 6}%;z-index:25;pointer-events:auto;`;
+
+    const eggReady = c.eggTimer >= 80;
+    popup.innerHTML = `
+      <button class="close-popup" onclick="event.stopPropagation();gameState.selectedChicken=null;renderAll();">×</button>
+      <div class="popup-name">${c.name} 🐔</div>
+      <div class="popup-stat">Health <div class="popup-bar"><div class="popup-bar-fill health-bar" style="width:${c.health}%"></div></div></div>
+      <div class="popup-stat">Hunger <div class="popup-bar"><div class="popup-bar-fill hunger-bar" style="width:${c.hunger}%"></div></div></div>
+      <div class="popup-stat">Thirst <div class="popup-bar"><div class="popup-bar-fill thirst-bar" style="width:${c.thirst}%"></div></div></div>
+      <div class="popup-stat" style="font-size:0.72rem;">🥚 ${c.eggsLaid} eggs laid${eggReady ? ' — Ready!' : ''}</div>
+      <div class="popup-actions">
+        <button class="mini-btn" onclick="event.stopPropagation();feedChicken(${gs.selectedChicken})">🍽️ Feed</button>
+        <button class="mini-btn" onclick="event.stopPropagation();waterChicken(${gs.selectedChicken})">💧 Water</button>
+        <button class="mini-btn ${eggReady ? 'primary' : ''}" onclick="event.stopPropagation();collectEggs(${gs.selectedChicken})" ${!eggReady ? 'disabled' : ''}>🥚 Collect</button>
+      </div>
+    `;
+    container.appendChild(popup);
+  }
+
+  // Click off to deselect
+  container.onclick = (e) => {
+    if (e.target === container || e.target.classList.contains('ground') || e.target.classList.contains('sky')) {
+      gameState.selectedChicken = null;
+      renderAll();
+    }
+  };
+}
+
 // ── Toast ───────────────────────────────────────────────────
 function toast(msg, type) {
-  const container = document.getElementById('toastContainer');
+  const ctr = document.getElementById('toastContainer');
   const el = document.createElement('div');
-  el.className = `toast ${type || ''}`;
+  el.className = 'toast ' + (type || '');
   el.textContent = msg;
-  container.appendChild(el);
-  setTimeout(() => el.remove(), 2600);
+  ctr.appendChild(el);
+  setTimeout(() => el.remove(), 2400);
 }
 
 // ── Init ────────────────────────────────────────────────────
-render();
+renderAll();
 
-// Decay loop: every 30 seconds, advance time by 1 tick
+// Decay over time
 setInterval(() => {
   advanceTime(1);
   saveState();
-  render();
-}, 30000);
+  renderAll();
+}, 25000);
 </script>
 
 </body>
