@@ -9,187 +9,116 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FFF8F0;
-    --sky: #C5E3F0;
-    --grass: #AED8B8;
-    --grass-dk: #8CC09A;
-    --wood: #F0E0CC;
-    --wood-dk: #5C3D2E;
-    --roof: #D4907A;
-    --roof-dk: #B06850;
-    --cream: #FDF8F0;
-    --salmon: #E57373;
-    --gold: #F4B840;
-    --pink: #F0A0A0;
-    --blue-btn: #8EC8D8;
-    --green-btn: #8CC09A;
-    --text: #4A3028;
-    --text-muted: #8B7060;
-    --outline: #4A3028;
-    --radius: 18px;
-    --radius-sm: 14px;
-    --font-display: 'Baloo 2', cursive;
-    --font-body: 'Nunito', sans-serif;
+    --bg: #FFF8F0; --sky: #C5E3F0; --grass: #AED8B8;
+    --wood: #F0E0CC; --roof: #D4907A; --roof-dk: #B06850;
+    --salmon: #E57373; --gold: #F4B840; --pink: #F0A0A0;
+    --blue-btn: #6BA8C8; --green-btn: #8CC09A;
+    --text: #4A3028; --text-muted: #8B7060; --outline: #4A3028;
+    --radius: 18px; --radius-sm: 14px;
+    --fd: 'Baloo 2', cursive; --fb: 'Nunito', sans-serif;
   }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family:var(--font-body);
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    background-image:
-      radial-gradient(ellipse at 20% 20%, rgba(240,160,160,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(142,200,216,0.08) 0%, transparent 50%);
-  }
-  .app { width:100%; max-width:960px; display:flex; flex-direction:column; min-height:100vh; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;background-image:radial-gradient(ellipse at 20% 20%,rgba(240,160,160,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(142,200,216,0.08) 0%,transparent 50%)}
+  .app{width:100%;max-width:960px;display:flex;flex-direction:column;min-height:100vh}
 
-  /* ── Header ─────────────────────────────────── */
-  .header-bar {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:16px 28px; background:rgba(255,252,247,0.94);
-    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-    border-bottom:4px solid var(--outline);
-    position:sticky; top:0; z-index:50; gap:16px; flex-wrap:wrap;
-  }
-  .logo-text {
-    font-family:var(--font-display); font-weight:800; font-size:1.4rem;
-    color:var(--text); letter-spacing:-0.3px;
-  }
-  .logo-text .accent { color:var(--salmon); }
-  .header-stats { display:flex; gap:20px; align-items:center; }
-  .hstat {
-    display:flex; align-items:center; gap:6px;
-    font-family:var(--font-body); font-weight:700; font-size:0.88rem; color:var(--text-muted);
-  }
-  .hstat .val {
-    color:var(--text); font-family:var(--font-display); font-size:1.15rem;
-  }
-  .feed-pill {
-    font-family:var(--font-body); font-weight:700; font-size:0.82rem;
-    color:var(--text-muted); background:white;
-    padding:6px 16px; border-radius:20px; border:3px solid var(--outline);
-  }
-  .feed-pill strong { color:var(--text); }
+  /* Header */
+  .header-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:rgba(255,252,247,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:4px solid var(--outline);position:sticky;top:0;z-index:50;gap:12px;flex-wrap:wrap}
+  .logo-text{font-family:var(--fd);font-weight:800;font-size:1.35rem;color:var(--text);letter-spacing:-0.3px}
+  .logo-text .accent{color:var(--salmon)}
+  .header-stats{display:flex;gap:16px;align-items:center}
+  .hstat{display:flex;align-items:center;gap:5px;font-weight:700;font-size:0.82rem;color:var(--text-muted)}
+  .hstat .val{color:var(--text);font-family:var(--fd);font-size:1.1rem}
+  .coin-pill{font-weight:700;font-size:0.82rem;color:var(--text);background:linear-gradient(135deg,#FFF3C0,#FFE8A0);padding:5px 14px;border-radius:20px;border:3px solid var(--outline)}
+  .feed-pill{font-weight:700;font-size:0.78rem;color:var(--text-muted);background:white;padding:5px 14px;border-radius:20px;border:3px solid var(--outline)}
+  .feed-pill strong{color:var(--text)}
 
-  /* ── Scene ──────────────────────────────────── */
-  .scene-wrap { margin:20px 20px 12px; position:relative; }
-  .scene-wrap svg {
-    display:block; width:100%; background:var(--sky);
-    border-radius:22px; border:4px solid var(--outline);
-    box-shadow:0 6px 0 var(--outline), 0 10px 30px rgba(74,48,40,0.15);
-  }
-  .clickable { cursor:pointer; transition:transform 0.12s; }
-  .clickable:hover { transform:scale(1.04); }
-  .clickable:active { transform:scale(0.94); }
+  /* Scene */
+  .scene-wrap{margin:18px 20px 10px;position:relative}
+  .scene-wrap svg{display:block;width:100%;background:var(--sky);border-radius:22px;border:4px solid var(--outline);box-shadow:0 6px 0 var(--outline),0 10px 30px rgba(74,48,40,0.15)}
+  .clickable{cursor:pointer;transition:transform 0.12s}
+  .clickable:hover{transform:scale(1.04)}
+  .clickable:active{transform:scale(0.94)}
 
-  /* ── Chicken Popup ──────────────────────────── */
-  .chicken-popup {
-    position:absolute; background:white; border-radius:var(--radius);
-    padding:18px 22px; border:4px solid var(--outline);
-    box-shadow:0 6px 0 var(--outline), 0 8px 28px rgba(74,48,40,0.18);
-    z-index:25; min-width:200px; pointer-events:auto;
-    font-family:var(--font-body);
-  }
-  .chicken-popup .pn {
-    font-family:var(--font-display); font-weight:700; font-size:1.1rem;
-    color:var(--text); margin-bottom:10px;
-  }
-  .chicken-popup .ps {
-    display:flex; align-items:center; gap:8px;
-    font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;
-  }
-  .chicken-popup .pb {
-    flex:1; height:8px; background:#F0E8DD; border-radius:4px;
-    border:2px solid var(--outline); overflow:hidden;
-  }
-  .chicken-popup .pbf { height:100%; border-radius:2px; transition:width 0.4s; }
-  .pbf.h { background:var(--green-btn); } .pbf.g { background:var(--gold); } .pbf.t { background:var(--blue-btn); }
-  .chicken-popup .pa { display:flex; gap:7px; margin-top:12px; }
-  .mini-btn {
-    padding:7px 14px; border-radius:10px; border:3px solid var(--outline);
-    background:white; font-family:var(--font-body); font-size:0.75rem; font-weight:700;
-    cursor:pointer; transition:all 0.1s; box-shadow:0 3px 0 var(--outline);
-  }
-  .mini-btn:hover { transform:translateY(-1px); box-shadow:0 4px 0 var(--outline); }
-  .mini-btn:active { transform:translateY(2px); box-shadow:0 1px 0 var(--outline); }
-  .mini-btn.accent { background:var(--pink); color:white; }
-  .close-p { position:absolute; top:8px; right:12px; background:none; border:none;
-    font-size:1.3rem; cursor:pointer; color:var(--text-muted); font-family:var(--font-body); font-weight:700; }
+  /* Popup */
+  .chicken-popup{position:absolute;background:white;border-radius:var(--radius);padding:18px 22px;border:4px solid var(--outline);box-shadow:0 6px 0 var(--outline),0 8px 28px rgba(74,48,40,0.18);z-index:25;min-width:200px;pointer-events:auto;font-family:var(--fb)}
+  .chicken-popup .pn{font-family:var(--fd);font-weight:700;font-size:1.1rem;color:var(--text);margin-bottom:10px}
+  .chicken-popup .ps{display:flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:700;color:var(--text-muted);margin-bottom:6px}
+  .chicken-popup .pb{flex:1;height:8px;background:#F0E8DD;border-radius:4px;border:2px solid var(--outline);overflow:hidden}
+  .chicken-popup .pbf{height:100%;border-radius:2px;transition:width 0.4s}
+  .pbf.h{background:var(--green-btn)}.pbf.g{background:var(--gold)}.pbf.t{background:var(--blue-btn)}
+  .chicken-popup .pa{display:flex;gap:7px;margin-top:12px}
+  .mini-btn{padding:7px 14px;border-radius:10px;border:3px solid var(--outline);background:white;font-family:var(--fb);font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.1s;box-shadow:0 3px 0 var(--outline)}
+  .mini-btn:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--outline)}
+  .mini-btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--outline)}
+  .mini-btn.accent{background:var(--pink);color:white}
+  .close-p{position:absolute;top:8px;right:12px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-muted);font-family:var(--fb);font-weight:700}
 
-  /* ── Action Bar ─────────────────────────────── */
-  .action-bar { display:flex; gap:10px; padding:0 20px; flex-wrap:wrap; justify-content:center; }
-  .abtn {
-    padding:14px 24px; border-radius:var(--radius-sm); border:3.5px solid var(--outline);
-    color:white; font-family:var(--font-body); font-size:0.9rem;
-    font-weight:700; cursor:pointer; transition:all 0.1s;
-    box-shadow:0 4px 0 var(--outline); display:flex; align-items:center; gap:7px; user-select:none;
-  }
-  .abtn:hover { transform:translateY(-2px); box-shadow:0 6px 0 var(--outline); }
-  .abtn:active { transform:translateY(2px); box-shadow:0 2px 0 var(--outline); }
-  .abtn:disabled { opacity:0.35; cursor:not-allowed; transform:none; box-shadow:0 4px 0 var(--outline); }
-  .abtn.feed { background:#F0B860; }
-  .abtn.water { background:#6BA8C8; }
-  .abtn.collect { background:#E57373; }
-  .abtn.shop { background:#8CC09A; }
-  .abtn .bi { font-size:1.25rem; }
+  /* Store Modal */
+  .store-overlay{position:fixed;inset:0;background:rgba(74,48,40,0.45);z-index:80;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .store-modal{background:white;border-radius:var(--radius);border:4px solid var(--outline);box-shadow:0 8px 0 var(--outline),0 12px 40px rgba(74,48,40,0.25);padding:28px;max-width:580px;width:90%;max-height:85vh;overflow-y:auto;position:relative;font-family:var(--fb)}
+  .store-modal h2{font-family:var(--fd);font-size:1.5rem;margin-bottom:4px;text-align:center}
+  .store-modal .store-coins{text-align:center;font-weight:700;color:var(--text-muted);margin-bottom:18px;font-size:0.95rem}
+  .store-modal .store-coins strong{color:#C4902A;font-family:var(--fd);font-size:1.2rem}
+  .store-grid{display:flex;flex-direction:column;gap:12px}
+  .store-item{display:flex;gap:14px;align-items:center;padding:16px;border-radius:var(--radius-sm);border:3px solid var(--outline);background:#FFFAF5;box-shadow:0 3px 0 var(--outline);transition:all 0.15s}
+  .store-item:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--outline)}
+  .store-item.owned{opacity:0.55;pointer-events:none}
+  .store-icon{width:56px;height:56px;border-radius:14px;border:3px solid var(--outline);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+  .store-info{flex:1}
+  .store-info .sin{font-family:var(--fd);font-weight:700;font-size:0.95rem;color:var(--text)}
+  .store-info .sid{font-size:0.75rem;color:var(--text-muted);margin-top:2px;font-weight:600}
+  .store-buy{padding:8px 18px;border-radius:10px;border:3px solid var(--outline);font-family:var(--fb);font-size:0.8rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--outline);transition:all 0.1s;white-space:nowrap}
+  .store-buy:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--outline)}
+  .store-buy:active{transform:translateY(2px);box-shadow:0 1px 0 var(--outline)}
+  .store-buy:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+  .store-buy.buy-c{border-color:var(--outline)}
+  .store-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);font-family:var(--fb);font-weight:700}
 
-  /* ── Tip Card ────────────────────────────────── */
-  .tip-card {
-    margin:14px 20px 20px; background:white; border-radius:var(--radius);
-    padding:20px 24px; border:4px solid var(--outline);
-    box-shadow:0 5px 0 var(--outline), 0 6px 20px rgba(74,48,40,0.08);
-    position:relative;
-  }
-  .tip-card .tbadge {
-    display:inline-block; background:var(--gold); color:white;
-    font-family:var(--font-body); font-weight:800; font-size:0.7rem;
-    padding:4px 12px; border-radius:20px; border:2.5px solid var(--outline);
-    text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;
-  }
-  .tip-card .ttitle { font-family:var(--font-display); font-weight:700; font-size:1.1rem; color:var(--text); margin-bottom:5px; }
-  .tip-card .tbody { font-family:var(--font-body); font-size:0.88rem; color:var(--text-muted); line-height:1.55; font-weight:600; }
-  .tip-card .taction { display:inline-block; margin-top:10px; font-family:var(--font-body); font-size:0.82rem; color:var(--salmon); font-weight:700; }
+  /* Action Bar */
+  .action-bar{display:flex;gap:10px;padding:0 20px;flex-wrap:wrap;justify-content:center}
+  .abtn{padding:14px 24px;border-radius:var(--radius-sm);border:3.5px solid var(--outline);color:white;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.1s;box-shadow:0 4px 0 var(--outline);display:flex;align-items:center;gap:7px;user-select:none;font-family:var(--fb)}
+  .abtn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--outline)}
+  .abtn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--outline)}
+  .abtn:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:0 4px 0 var(--outline)}
+  .abtn.feed{background:#F0B860}.abtn.water{background:#6BA8C8}.abtn.collect{background:#E57373}.abtn.store-b{background:#C4902A}.abtn.shop{background:#8CC09A}
 
-  /* ── Toast ───────────────────────────────────── */
-  .toast-container { position:fixed; top:90px; left:50%; transform:translateX(-50%); z-index:100; display:flex; flex-direction:column; gap:8px; pointer-events:none; }
-  .toast {
-    background:var(--text); color:white; padding:11px 24px; border-radius:24px;
-    font-family:var(--font-body); font-size:0.88rem; font-weight:700;
-    text-align:center; border:3px solid var(--outline);
-    box-shadow:0 4px 0 var(--outline);
-    animation:tin 0.3s ease-out, tout 0.25s 2s ease-in forwards;
-    pointer-events:auto;
-  }
-  .toast.warn { background:var(--salmon); }
-  .toast.ok { background:var(--green-btn); }
-  @keyframes tin { 0%{opacity:0;transform:translateY(-14px);} 100%{opacity:1;transform:translateY(0);} }
-  @keyframes tout { 0%{opacity:1;transform:translateY(0);} 100%{opacity:0;transform:translateY(-14px);} }
+  /* Tip Card */
+  .tip-card{margin:14px 20px 20px;background:white;border-radius:var(--radius);padding:20px 24px;border:4px solid var(--outline);box-shadow:0 5px 0 var(--outline),0 6px 20px rgba(74,48,40,0.08);position:relative}
+  .tip-card .tbadge{display:inline-block;background:var(--gold);color:white;font-weight:800;font-size:0.7rem;padding:4px 12px;border-radius:20px;border:2.5px solid var(--outline);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;font-family:var(--fb)}
+  .tip-card .ttitle{font-family:var(--fd);font-weight:700;font-size:1.1rem;color:var(--text);margin-bottom:5px}
+  .tip-card .tbody{font-size:0.88rem;color:var(--text-muted);line-height:1.55;font-weight:600;font-family:var(--fb)}
+  .tip-card .taction{display:inline-block;margin-top:10px;font-size:0.82rem;color:var(--salmon);font-weight:700;font-family:var(--fb)}
 
-  .rst-area { text-align:center; padding:8px 20px 28px; }
-  .rst-area button { background:none; border:none; color:var(--text-muted); font-family:var(--font-body); font-size:0.78rem; font-weight:700; cursor:pointer; text-decoration:underline; }
-  .rst-area button:hover { color:var(--salmon); }
+  /* Toast */
+  .toast-container{position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+  .toast{background:var(--text);color:white;padding:11px 24px;border-radius:24px;font-weight:700;font-size:0.88rem;text-align:center;border:3px solid var(--outline);box-shadow:0 4px 0 var(--outline);animation:tin 0.3s ease-out,tout 0.25s 2s ease-in forwards;pointer-events:auto;font-family:var(--fb)}
+  .toast.warn{background:var(--salmon)}.toast.ok{background:var(--green-btn)}
+  @keyframes tin{0%{opacity:0;transform:translateY(-14px)}100%{opacity:1;transform:translateY(0)}}
+  @keyframes tout{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-14px)}}
 
-  /* ── Confetti ────────────────────────────────── */
-  @keyframes confPop {
-    0% { transform:translate(0,0) scale(1); opacity:1; }
-    60% { opacity:1; }
-    100% { transform:translate(var(--dx),var(--dy)) scale(0.3); opacity:0; }
-  }
-  .confetti-piece {
-    animation:confPop 0.9s ease-out forwards;
-    animation-delay:var(--delay);
-    pointer-events:none;
-  }
+  .rst-area{text-align:center;padding:8px 20px 28px}
+  .rst-area button{background:none;border:none;color:var(--text-muted);font-family:var(--fb);font-size:0.78rem;font-weight:700;cursor:pointer;text-decoration:underline}
+  .rst-area button:hover{color:var(--salmon)}
 
-  /* Animations */
-  @keyframes bob { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-4px)} }
-  @keyframes peck { 0%,100%{transform:translateY(0) rotate(0deg)} 35%{transform:translateY(4px) rotate(-3deg)} 70%{transform:translateY(0) rotate(2deg)} }
-  @keyframes tilt { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-6deg)} 75%{transform:rotate(6deg)} }
-  .anim-b { animation:bob 2.4s ease-in-out infinite; }
-  .anim-p { animation:peck 1.1s ease-in-out infinite; }
-  .anim-t { animation:tilt 3s ease-in-out infinite; }
+  /* Confetti */
+  @keyframes confPop{0%{transform:translate(0,0) scale(1);opacity:1}60%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(0.3);opacity:0}}
+  .confetti-piece{animation:confPop 0.9s ease-out forwards;animation-delay:var(--delay);pointer-events:none}
+
+  /* Coin fly */
+  @keyframes coinFly{0%{transform:translate(0,0) scale(1);opacity:1}70%{opacity:1}100%{transform:translate(var(--cx),var(--cy)) scale(0.4);opacity:0}}
+  .coin-particle{animation:coinFly 0.8s ease-in forwards;animation-delay:var(--cd);pointer-events:none}
+
+  /* +Coin text */
+  @keyframes plusCoin{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+  .plus-coin{animation:plusCoin 1.4s ease-out forwards;pointer-events:none}
+
+  /* Chicken anims */
+  @keyframes bob{0%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}}
+  @keyframes peck{0%,100%{transform:translateY(0) rotate(0deg)}35%{transform:translateY(4px) rotate(-3deg)}70%{transform:translateY(0) rotate(2deg)}}
+  @keyframes tilt{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+  .anim-b{animation:bob 2.4s ease-in-out infinite}
+  .anim-p{animation:peck 1.1s ease-in-out infinite}
+  .anim-t{animation:tilt 3s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -197,16 +126,20 @@
   <header class="header-bar">
     <div><span class="logo-text">Your First <span class="accent">Flock</span></span></div>
     <div class="header-stats">
-      <div class="hstat">📅 Day <span class="val" id="hDay">1</span></div>
+      <div class="hstat">📅 <span class="val" id="hDay">1</span></div>
       <div class="hstat">🥚 <span class="val" id="hEggs">0</span></div>
-      <div class="hstat">🐔 <span class="val" id="hFlock">3/3</span></div>
     </div>
-    <div class="feed-pill">🌾 <strong id="hFeed">10</strong> scoops</div>
+    <div class="coin-pill" id="coinDisplay">🪙 <strong id="hCoins">0</strong></div>
+    <div class="feed-pill">🌾 <strong id="hFeed">10</strong></div>
+    <button class="abtn store-b" onclick="openStore()" style="padding:8px 16px;font-size:0.78rem;">🛒 Store</button>
   </header>
+
   <div class="scene-wrap" id="sceneWrap">
     <svg viewBox="0 0 920 520" id="sceneSvg"></svg>
   </div>
+
   <div class="action-bar" id="actionBar"></div>
+
   <div class="tip-card" id="tipCard">
     <div class="tbadge">🐣 Chicken Knowledge</div>
     <div class="ttitle" id="tipTitle"></div>
@@ -221,7 +154,7 @@
 // ═══════════════════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════════════════
-const NAMES=['Henrietta','Nugget','Cluckles','Eggwina','Pecky','Sunny','Daisy','Maple'];
+const NAMES=['Henrietta','Nugget','Cluckles','Eggwina','Pecky','Sunny','Daisy','Maple','Buttercup','Ginger'];
 const USED=new Set();
 const TIPS=[
   {t:'Eggshells Are Mostly Calcium',b:'A single eggshell contains about 2 grams of calcium. Without enough dietary calcium, hens produce thin-shelled or shell-less eggs.',a:'💡 Supplement: crushed oyster shells or limestone grit.'},
@@ -240,69 +173,144 @@ const TIPS=[
   {t:'Yolk Color = Diet',b:'Deep orange yolks come from carotenoids in marigolds, alfalfa, and leafy greens. Pale yolks = grain-only diet.',a:'💡 Free-range access to grass and bugs for rich yolks.'},
   {t:'Descendants of Dinosaurs',b:'Chickens descend from the Red Junglefowl. T. rex is closer to chickens than to Stegosaurus.',a:'💡 Your flock carries 150 million years of lineage.'},
 ];
+
+const UPGRADES=[
+  {id:'feed',name:'Premium Feed',desc:'50% more effective — fills chickens up faster',cost:50,icon:'🌾',bg:'#FFF3C0'},
+  {id:'water',name:'Auto-Waterer',desc:'Passive 5% thirst reduction each tick',cost:75,icon:'💧',bg:'#D8EEF4'},
+  {id:'coop',name:'Deluxe Coop',desc:'+10% health buffer — prettier, sturdier coop',cost:150,icon:'🏠',bg:'#F0E0CC'},
+  {id:'flock4',name:'Expand Flock',desc:'Add a 4th chicken to your flock',cost:200,icon:'🐔',bg:'#FDDEDE'},
+  {id:'flock5',name:'Big Flock',desc:'Add a 5th chicken (requires Expand Flock)',cost:350,icon:'🐔',bg:'#FDDEDE'},
+  {id:'flock6',name:'Mega Flock',desc:'Add a 6th chicken (requires Big Flock)',cost:500,icon:'🐔',bg:'#FDDEDE'},
+];
+
 let G=load();
-function dflt(){USED.clear();return{day:1,eggs:0,feed:10,ti:0,ut:[],sel:null,
+function dflt(){USED.clear();return{day:1,eggs:0,feed:10,coins:0,ti:0,ut:[],sel:null,upgrades:{},
   cks:[{n:pick(),h:100,hu:25,th:20,et:10,ld:0},{n:pick(),h:100,hu:20,th:30,et:50,ld:0},{n:pick(),h:100,hu:30,th:15,et:75,ld:0}]};}
-function pick(){const a=NAMES.filter(n=>!USED.has(n));const n=a.length?a[Math.floor(Math.random()*a.length)]:'Chicky';USED.add(n);return n;}
-function load(){try{const s=JSON.parse(localStorage.getItem('yff-v6'));if(s){s.cks.forEach(c=>USED.add(c.n));return s;}}catch(e){}return dflt();}
-function save(){localStorage.setItem('yff-v6',JSON.stringify(G));}
-function resetGame(){G=dflt();save();renderAll();toast('Fresh flock! 🐣','ok');}
+function pick(){const a=NAMES.filter(n=>!USED.has(n));return a.length?a[Math.floor(Math.random()*a.length)]:'Chicky';}
+function load(){try{const s=JSON.parse(localStorage.getItem('yff-v7'));if(s){s.cks.forEach(c=>USED.add(c.n));return s;}}catch(e){}return dflt();}
+function save(){localStorage.setItem('yff-v7',JSON.stringify(G));}
+function resetGame(){G=dflt();save();renderAll();closeStore();toast('Fresh flock! 🐣','ok');}
 
 // ═══════════════════════════════════════════════════════════
 // LOGIC
 // ═══════════════════════════════════════════════════════════
-function tick(n){for(const c of G.cks){if(c.h<=0)continue;c.hu=Math.min(100,c.hu+n*2);c.th=Math.min(100,c.th+n*3);if(c.hu>=80||c.th>=80)c.h=Math.max(0,c.h-n*2);c.et=Math.min(100,c.et+n*3);}G.day+=Math.floor(n/5);}
-function feed1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(G.feed<=0)return toast('Out of feed! 🏪','warn');G.feed--;c.hu=Math.max(0,c.hu-35);if(c.hu<30&&c.h<100&&c.th<80)c.h=Math.min(100,c.h+3);tick(2);save();renderAll();ntip();toast('Fed '+c.n+'!','ok');}
+function tick(n){
+  for(const c of G.cks){if(c.h<=0)continue;c.hu=Math.min(100,c.hu+n*2);c.th=Math.min(100,c.th+n*(G.upgrades.water?1.5:3));if(c.hu>=80||c.th>=80)c.h=Math.max(0,c.h-n*2);c.et=Math.min(100,c.et+n*3);}
+  G.day+=Math.floor(n/5);
+}
+function feed1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(G.feed<=0)return toast('Out of feed! 🏪','warn');G.feed--;const mul=G.upgrades.feed?1.5:1;c.hu=Math.max(0,c.hu-35*mul);if(c.hu<30&&c.h<100&&c.th<80)c.h=Math.min(100,c.h+3);tick(2);save();renderAll();ntip();toast('Fed '+c.n+'!','ok');}
 function water1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');c.th=Math.max(0,c.th-40);if(c.th<30&&c.h<100&&c.hu<80)c.h=Math.min(100,c.h+3);tick(2);save();renderAll();ntip();toast('Watered '+c.n+'!','ok');}
-function egg1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(c.et<80)return toast(c.n+' isn\'t ready ⏳','warn');c.et=0;c.ld++;G.eggs++;tick(2);save();renderAll();ntip();burstConfetti(i);toast('🥚 +1 from '+c.n+'!','ok');}
-function feedAll(){if(G.feed<=0)return toast('Out of feed! 🏪','warn');const al=G.cks.filter(c=>c.h>0);if(!al.length)return toast('No chickens 😢','warn');const n=Math.min(G.feed,al.length);G.feed-=n;al.slice(0,n).forEach(c=>{c.hu=Math.max(0,c.hu-30);if(c.hu<30&&c.h<100)c.h=Math.min(100,c.h+3);});tick(3);save();renderAll();ntip();toast('Fed '+n+' chicken(s)!','ok');}
+function egg1(i){const c=G.cks[i];if(c.h<=0)return toast(c.n+' is gone 😢','warn');if(c.et<80)return toast(c.n+' isn\'t ready ⏳','warn');c.et=0;c.ld++;G.eggs++;G.coins+=10;tick(2);save();renderAll();ntip();burstConfetti(i);flyCoins(i);toast('🥚 +1 egg, +10 🪙','ok');}
+function feedAll(){if(G.feed<=0)return toast('Out of feed! 🏪','warn');const al=G.cks.filter(c=>c.h>0);if(!al.length)return toast('No chickens 😢','warn');const n=Math.min(G.feed,al.length);G.feed-=n;const mul=G.upgrades.feed?1.5:1;al.slice(0,n).forEach(c=>{c.hu=Math.max(0,c.hu-30*mul);if(c.hu<30&&c.h<100)c.h=Math.min(100,c.h+3);});tick(3);save();renderAll();ntip();toast('Fed '+n+' chicken(s)!','ok');}
 function waterAll(){const al=G.cks.filter(c=>c.h>0);if(!al.length)return toast('No chickens 😢','warn');al.forEach(c=>{c.th=Math.max(0,c.th-35);if(c.th<30&&c.h<100)c.h=Math.min(100,c.h+3);});tick(3);save();renderAll();ntip();toast('Watered all!','ok');}
-function collAll(){const rd=G.cks.filter(c=>c.h>0&&c.et>=80);if(!rd.length)return toast('No eggs ready ⏳','warn');rd.forEach(c=>{c.et=0;c.ld++;G.eggs++;});tick(3);save();renderAll();ntip();rd.forEach((_,i)=>{const idx=G.cks.indexOf(rd[i]);burstConfetti(idx);});toast('Collected '+rd.length+' egg(s)! 🥚','ok');}
-function buyFeed(){G.feed+=10;save();renderAll();toast('+10 scoops! 🛒','ok');}
+function collAll(){const rd=G.cks.filter(c=>c.h>0&&c.et>=80);if(!rd.length)return toast('No eggs ready ⏳','warn');rd.forEach(c=>{c.et=0;c.ld++;G.eggs++;G.coins+=10;});tick(3);save();renderAll();ntip();rd.forEach((_,i)=>{const idx=G.cks.indexOf(rd[i]);burstConfetti(idx);flyCoins(idx);});toast('Collected '+rd.length+' egg(s)! +'+rd.length*10+'🪙','ok');}
+function buyFeed(){if(G.coins<5)return toast('Need 5 🪙 to buy feed!','warn');G.coins-=5;G.feed+=10;save();renderAll();toast('+10 scoops for 5 🪙','ok');}
 function sel(i){G.sel=G.sel===i?null:i;renderAll();}
 function ntip(){const av=TIPS.map((_,i)=>i).filter(i=>!G.ut.includes(i));if(!av.length){G.ut=[];return ntip();}G.ti=av[Math.floor(Math.random()*av.length)];G.ut.push(G.ti);}
 function toast(m,t){const c=document.getElementById('toastContainer');const e=document.createElement('div');e.className='toast '+(t||'');e.textContent=m;c.appendChild(e);setTimeout(()=>e.remove(),2400);}
 
 // ═══════════════════════════════════════════════════════════
-// CONFETTI
+// STORE
 // ═══════════════════════════════════════════════════════════
-const CONFETTI_COLORS=['#E57373','#F4B840','#8CC09A','#8EC8D8','#F0A0A0','#FFE8A0','#B8DCE8','#F8C8D0','#A8D8B8','#FFF3C0'];
+function openStore(){
+  const old=document.querySelector('.store-overlay');if(old)old.remove();
+  const ov=document.createElement('div');ov.className='store-overlay';
+  const available=UPGRADES.filter(u=>!G.upgrades[u.id]);
+  // Flock upgrades only show sequentially
+  const flockIds=['flock4','flock5','flock6'];
+  if(!G.upgrades.flock4)available.splice(available.findIndex(u=>u.id==='flock5'),1);
+  if(!G.upgrades.flock5)available.splice(available.findIndex(u=>u.id==='flock6'),1);
+  const owned=UPGRADES.filter(u=>G.upgrades[u.id]);
 
-function burstConfetti(chickenIndex){
-  const cP=[{x:380,y:390},{x:540,y:380},{x:710,y:395}];
-  const p=cP[chickenIndex]||cP[0];
+  ov.innerHTML=`
+    <div class="store-modal" onclick="event.stopPropagation()">
+      <button class="store-close" onclick="closeStore()">&times;</button>
+      <h2>🛒 Farm Store</h2>
+      <div class="store-coins">You have <strong>${G.coins} 🪙</strong></div>
+      <div class="store-grid">
+        ${available.map(u=>`
+          <div class="store-item">
+            <div class="store-icon" style="background:${u.bg}">${u.icon}</div>
+            <div class="store-info">
+              <div class="sin">${u.name}</div>
+              <div class="sid">${u.desc}</div>
+            </div>
+            <button class="store-buy" onclick="buyUpgrade('${u.id}')" ${G.coins<u.cost?'disabled':''}>
+              ${u.cost} 🪙
+            </button>
+          </div>
+        `).join('')}
+        ${owned.map(u=>`
+          <div class="store-item owned">
+            <div class="store-icon" style="background:${u.bg}">✅</div>
+            <div class="store-info">
+              <div class="sin">${u.name}</div>
+              <div class="sid">Purchased ✓</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  ov.onclick=closeStore;
+  document.body.appendChild(ov);
+}
+
+function closeStore(){const o=document.querySelector('.store-overlay');if(o)o.remove();}
+
+function buyUpgrade(id){
+  const u=UPGRADES.find(x=>x.id===id);
+  if(!u||G.coins<u.cost||G.upgrades[id])return;
+  G.coins-=u.cost;G.upgrades[id]=true;
+  // Handle flock expansions
+  if(id==='flock4'||id==='flock5'||id==='flock6'){
+    G.cks.push({n:pick(),h:100,hu:20,th:20,et:0,ld:0});
+  }
+  save();renderAll();closeStore();
+  toast('Purchased '+u.name+'! 🎉','ok');
+}
+
+// ═══════════════════════════════════════════════════════════
+// EFFECTS
+// ═══════════════════════════════════════════════════════════
+const CONF_COLORS=['#E57373','#F4B840','#8CC09A','#8EC8D8','#F0A0A0','#FFE8A0','#B8DCE8','#F8C8D0','#A8D8B8','#FFF3C0'];
+
+function burstConfetti(ci){
+  const cP=getChickenPositions();
+  const p=cP[ci]||cP[0];
   const svg=document.getElementById('sceneSvg');
-  const g=E('g',{class:'confetti-group'});
-
+  const g=E('g',{class:'fx-group'});
   for(let i=0;i<40;i++){
-    const angle=Math.random()*Math.PI*2;
-    const dist=40+Math.random()*80;
-    const dx=Math.cos(angle)*dist;
-    const dy=Math.sin(angle)*dist-20;
-    const size=3+Math.random()*7;
-    const color=CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)];
-    const delay=Math.random()*0.15;
-    const shape=Math.random();
-
+    const a=Math.random()*Math.PI*2,d=40+Math.random()*80;
+    const dx=Math.cos(a)*d,dy=Math.sin(a)*d-20;
+    const sz=3+Math.random()*7,cl=CONF_COLORS[Math.floor(Math.random()*CONF_COLORS.length)];
+    const dl=Math.random()*0.15,sh=Math.random();
     let el;
-    if(shape<0.4){
-      el=E('circle',{cx:p.x,cy:p.y,r:size,fill:color,
-        class:'confetti-piece',
-        style:`--dx:${dx}px;--dy:${dy}px;--delay:${delay}s`});
-    }else if(shape<0.7){
-      el=E('rect',{x:p.x-size/2,y:p.y-size/2,width:size*1.5,height:size*1.5,
-        rx:1.5,fill:color,class:'confetti-piece',
-        style:`--dx:${dx}px;--dy:${dy}px;--delay:${delay}s`});
-    }else{
-      el=E('polygon',{points:`${p.x},${p.y-size} ${p.x+size},${p.y+size/2} ${p.x-size},${p.y+size/2}`,
-        fill:color,class:'confetti-piece',
-        style:`--dx:${dx}px;--dy:${dy}px;--delay:${delay}s`});
-    }
+    if(sh<0.4)el=E('circle',{cx:p.x,cy:p.y,r:sz,fill:cl,class:'confetti-piece',style:`--dx:${dx}px;--dy:${dy}px;--delay:${dl}s`});
+    else if(sh<0.7)el=E('rect',{x:p.x-sz/2,y:p.y-sz/2,width:sz*1.5,height:sz*1.5,rx:1.5,fill:cl,class:'confetti-piece',style:`--dx:${dx}px;--dy:${dy}px;--delay:${dl}s`});
+    else el=E('polygon',{points:`${p.x},${p.y-sz} ${p.x+sz},${p.y+sz/2} ${p.x-sz},${p.y+sz/2}`,fill:cl,class:'confetti-piece',style:`--dx:${dx}px;--dy:${dy}px;--delay:${dl}s`});
     g.appendChild(el);
   }
-
   svg.appendChild(g);
   setTimeout(()=>g.remove(),1100);
+}
+
+function flyCoins(ci){
+  const cP=getChickenPositions();
+  const p=cP[ci]||cP[0];
+  const svg=document.getElementById('sceneSvg');
+  const g=E('g',{class:'fx-group'});
+  // +10 text
+  const txt=E('text',{x:p.x,y:p.y-50,'text-anchor':'middle',fill:'#C4902A','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'16',class:'plus-coin'},'+10 🪙');
+  g.appendChild(txt);
+  // Coin particles flying toward top-right
+  for(let i=0;i<6;i++){
+    const dx=150+Math.random()*100-50,dy=-(80+Math.random()*120);
+    const dl=Math.random()*0.2;
+    g.appendChild(E('circle',{cx:p.x,cy:p.y,r:4+Math.random()*3,fill:'#F4B840',class:'coin-particle',
+      style:`--cx:${dx}px;--cy:${dy}px;--cd:${dl}s`}));
+  }
+  svg.appendChild(g);
+  setTimeout(()=>g.remove(),1200);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -312,45 +320,37 @@ const NS='http://www.w3.org/2000/svg';
 function E(t,a,x){const e=document.createElementNS(NS,t);for(const[k,v]of Object.entries(a||{}))e.setAttribute(k,v);if(x!==undefined)e.textContent=x;return e;}
 const OL={stroke:'#4A3028','stroke-width':'3','stroke-linecap':'round','stroke-linejoin':'round'};
 
-// Draw a BIG cartoon chicken (1.6x scale)
+function getChickenPositions(){
+  const n=G.cks.filter(c=>c.h>0).length;
+  if(n<=3)return[{x:360,y:390,a:'anim-b'},{x:540,y:380,a:'anim-p'},{x:720,y:395,a:'anim-t'}];
+  if(n===4)return[{x:300,y:390,a:'anim-b'},{x:450,y:380,a:'anim-p'},{x:600,y:395,a:'anim-t'},{x:750,y:385,a:'anim-b'}];
+  if(n===5)return[{x:260,y:390,a:'anim-b'},{x:390,y:380,a:'anim-p'},{x:520,y:395,a:'anim-t'},{x:650,y:385,a:'anim-b'},{x:780,y:390,a:'anim-p'}];
+  return[{x:230,y:390,a:'anim-b'},{x:340,y:380,a:'anim-p'},{x:450,y:395,a:'anim-t'},{x:560,y:385,a:'anim-b'},{x:670,y:390,a:'anim-p'},{x:790,y:385,a:'anim-t'}];
+}
+
 function drawChicken(c,dotColor,animClass){
   const g=E('g',{class:'chicken-g '+animClass});
-  // Drop shadow
   g.appendChild(E('ellipse',{cx:0,cy:42,rx:34,ry:9,fill:'rgba(74,48,40,0.15)'}));
-  // Legs
   g.appendChild(E('line',{x1:-12,y1:22,x2:-16,y2:38,...OL,stroke:'#D49530','stroke-width':'4'}));
   g.appendChild(E('line',{x1:12,y1:22,x2:16,y2:38,...OL,stroke:'#D49530','stroke-width':'4'}));
   g.appendChild(E('line',{x1:-22,y1:38,x2:-10,y2:38,...OL,stroke:'#D49530','stroke-width':'3'}));
   g.appendChild(E('line',{x1:10,y1:38,x2:22,y2:38,...OL,stroke:'#D49530','stroke-width':'3'}));
-  // Body
   g.appendChild(E('ellipse',{cx:0,cy:6,rx:28,ry:22,fill:'#FDF8F0',...OL}));
-  // Wing
   g.appendChild(E('path',{d:'M-6,3 Q-18,6 -12,18 Q-3,22 6,16 Q0,10 -6,3Z',fill:'#F0E8D8',...OL,'stroke-width':'2'}));
-  // Tail
   g.appendChild(E('path',{d:'M-22,-3 Q-34,-12 -28,4 Q-25,10 -16,6Z',fill:'#F8F0E4',...OL,'stroke-width':'2.5'}));
-  // Neck
   g.appendChild(E('ellipse',{cx:12,cy:-16,rx:11,ry:16,fill:'#FDF8F0',...OL}));
-  // HEAD (big chibi)
   g.appendChild(E('circle',{cx:14,cy:-36,r:22,fill:'#FDF8F0',...OL}));
-  // Comb
   g.appendChild(E('path',{d:'M4,-55 Q7,-64 10,-55 Q13,-64 16,-55 Q19,-64 22,-55 Q24,-58 26,-55 Q16,-46 6,-46Z',fill:'#E57373',...OL,'stroke-width':'2.5'}));
-  // Eyes
   g.appendChild(E('circle',{cx:8,cy:-38,r:9,fill:'white',...OL,'stroke-width':'2.5'}));
   g.appendChild(E('circle',{cx:23,cy:-40,r:8.5,fill:'white',...OL,'stroke-width':'2.5'}));
-  // Pupils
   g.appendChild(E('circle',{cx:8,cy:-36,r:4.2,fill:'#4A3028'}));
   g.appendChild(E('circle',{cx:23,cy:-38,r:3.8,fill:'#4A3028'}));
-  // Catchlights
   g.appendChild(E('circle',{cx:10,cy:-40,r:1.8,fill:'white'}));
   g.appendChild(E('circle',{cx:25,cy:-42,r:1.5,fill:'white'}));
-  // Eyebrows
   g.appendChild(E('line',{x1:2,y1:-50,x2:12,y2:-48,...OL,'stroke-width':'3'}));
   g.appendChild(E('line',{x1:18,y1:-52,x2:28,y2:-50,...OL,'stroke-width':'3'}));
-  // Beak
   g.appendChild(E('polygon',{points:'32,-38 42,-35 32,-30',fill:'#F4B840',...OL,'stroke-width':'2.5'}));
-  // Wattle
   g.appendChild(E('path',{d:'M9,-14 Q14,-8 19,-14 Q16,-18 9,-14Z',fill:'#E57373',...OL,'stroke-width':'2'}));
-  // Health dot
   g.appendChild(E('circle',{cx:14,cy:-66,r:7,fill:dotColor,...OL,'stroke-width':'2.5'}));
   return g;
 }
@@ -360,24 +360,22 @@ function drawChicken(c,dotColor,animClass){
 // ═══════════════════════════════════════════════════════════
 function renderScene(){
   const svg=document.getElementById('sceneSvg');
-  // Preserve confetti groups during re-render
-  const confetti=Array.from(svg.querySelectorAll('.confetti-group'));
+  const fx=Array.from(svg.querySelectorAll('.fx-group'));
   svg.innerHTML='';
-  confetti.forEach(g=>svg.appendChild(g));
+  fx.forEach(g=>svg.appendChild(g));
 
-  // Defs
+  const hasCoop=G.upgrades.coop;
   const defs=E('defs');
   const addG=(id,stops)=>{const g=E('linearGradient',{id,x1:'0',y1:'0',x2:'0',y2:'1'});stops.forEach(([o,c])=>g.appendChild(E('stop',{offset:o,'stop-color':c})));defs.appendChild(g);};
   addG('skyG',[['0%','#C5E3F0'],['100%','#E5F2F8']]);
   addG('grassG',[['0%','#AED8B8'],['100%','#8CC09A']]);
   addG('woodG',[['0%','#F0E0CC'],['100%','#E0CCB0']]);
-  addG('roofG',[['0%','#D4907A'],['100%','#B06850']]);
+  addG('roofG',[['0%',hasCoop?'#E8A090':'#D4907A'],['100%',hasCoop?'#C88060':'#B06850']]);
   const sh=E('filter',{id:'sh',x:'-20%',y:'-20%',width:'140%',height:'140%'});
   sh.innerHTML='<feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#4A3028" flood-opacity="0.12"/>';
   defs.appendChild(sh);
   svg.appendChild(defs);
 
-  // Sky
   svg.appendChild(E('rect',{x:0,y:0,width:920,height:180,fill:'url(#skyG)'}));
   const sun=E('g',{transform:'translate(810,40)'});
   sun.appendChild(E('circle',{r:28,fill:'#FFF3C0',...OL,'stroke-width':'3'}));
@@ -386,31 +384,30 @@ function renderScene(){
   const addC=(cx,cy,s)=>{const g=E('g',{transform:`translate(${cx},${cy}) scale(${s})`,opacity:'0.8'});g.appendChild(E('ellipse',{cx:0,cy:0,rx:36,ry:14,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:-18,cy:-4,r:16,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:10,cy:-8,r:19,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:26,cy:-1,r:14,fill:'white',...OL,'stroke-width':'2'}));svg.appendChild(g);};
   addC(100,35,1);addC(340,25,0.8);addC(580,40,0.9);
 
-  // Ground
   svg.appendChild(E('rect',{x:0,y:160,width:920,height:360,fill:'url(#grassG)'}));
   svg.appendChild(E('ellipse',{cx:460,cy:340,rx:320,ry:50,fill:'#E8D8C0',opacity:'0.4'}));
 
-  // Fence
   for(let x=40;x<900;x+=95)svg.appendChild(E('rect',{x:x-5,y:175,width:10,height:24,rx:3,fill:'#D4B896',...OL,'stroke-width':'2'}));
   svg.appendChild(E('line',{x1:35,y1:186,x2:885,y2:186,...OL,stroke:'#C8A878','stroke-width':'2.5'}));
 
-  // Bushes
   const bush=(x,y,s)=>{const g=E('g',{transform:`translate(${x},${y}) scale(${s})`});g.appendChild(E('circle',{cx:-10,cy:-2,r:12,fill:'#7BA860',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:10,cy:-2,r:12,fill:'#8CB870',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:0,cy:-12,r:14,fill:'#9CC880',...OL,'stroke-width':'2.5'}));svg.appendChild(g);};
   bush(870,220,1.1);bush(50,200,0.9);
 
-  // COOP
+  // COOP — bigger if upgraded
+  const cw=hasCoop?310:280,ch=hasCoop?135:120,crx=hasCoop?155:140;
   const coop=E('g',{transform:'translate(35,195)',filter:'url(#sh)'});
-  coop.appendChild(E('rect',{x:0,y:30,width:280,height:120,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3.5'}));
-  for(let y=50;y<150;y+=22)coop.appendChild(E('line',{x1:2,y1:y,x2:278,y2:y,stroke:'rgba(0,0,0,0.08)','stroke-width':'1'}));
-  coop.appendChild(E('polygon',{points:'-10,30 140,-14 290,30',fill:'url(#roofG)',...OL,'stroke-width':'3.5'}));
-  coop.appendChild(E('line',{x1:140,y1:-14,x2:140,y2:-14,stroke:'#4A3028','stroke-width':'5','stroke-linecap':'round'}));
-  coop.appendChild(E('rect',{x:200,y:60,width:52,height:74,rx:26,fill:'#8B5E3C',...OL,'stroke-width':'3.5'}));
-  coop.appendChild(E('circle',{cx:238,cy:98,r:3.5,fill:'#F4B840',...OL,'stroke-width':'2'}));
+  coop.appendChild(E('rect',{x:0,y:30,width:cw,height:ch,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3.5'}));
+  for(let y=50;y<30+ch;y+=22)coop.appendChild(E('line',{x1:2,y1:y,x2:cw-2,y2:y,stroke:'rgba(0,0,0,0.08)','stroke-width':'1'}));
+  coop.appendChild(E('polygon',{points:`-10,30 ${crx},-14 ${cw+10},30`,fill:'url(#roofG)',...OL,'stroke-width':'3.5'}));
+  if(hasCoop)coop.appendChild(E('line',{x1:crx,y1:-14,x2:crx,y2:-14,stroke:'#4A3028','stroke-width':'6','stroke-linecap':'round'}));
+  else coop.appendChild(E('line',{x1:crx,y1:-14,x2:crx,y2:-14,stroke:'#4A3028','stroke-width':'5','stroke-linecap':'round'}));
+  if(hasCoop){coop.appendChild(E('rect',{x:cw-80,y:60,width:52,height:74,rx:26,fill:'#8B5E3C',...OL,'stroke-width':'3.5'}));coop.appendChild(E('circle',{cx:cw-42,cy:98,r:3.5,fill:'#F4B840',...OL,'stroke-width':'2'}));}
+  else{coop.appendChild(E('rect',{x:200,y:60,width:52,height:74,rx:26,fill:'#8B5E3C',...OL,'stroke-width':'3.5'}));coop.appendChild(E('circle',{cx:238,cy:98,r:3.5,fill:'#F4B840',...OL,'stroke-width':'2'}));}
   coop.appendChild(E('rect',{x:35,y:52,width:38,height:38,rx:3,fill:'#E5F2F8',...OL,'stroke-width':'3'}));
   coop.appendChild(E('line',{x1:54,y1:52,x2:54,y2:90,stroke:'#4A3028','stroke-width':'2'}));
   coop.appendChild(E('line',{x1:35,y1:71,x2:73,y2:71,stroke:'#4A3028','stroke-width':'2'}));
-  coop.appendChild(E('rect',{x:110,y:-8,width:60,height:22,rx:11,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
-  coop.appendChild(E('text',{x:140,y:7,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'11'},'COOP'));
+  coop.appendChild(E('rect',{x:crx-30,y:-8,width:60,height:22,rx:11,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
+  coop.appendChild(E('text',{x:crx,y:7,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'11'},hasCoop?'DELUXE COOP':'COOP'));
   svg.appendChild(coop);
 
   // NESTING BOXES
@@ -424,10 +421,7 @@ function renderScene(){
     const box=E('g',{class:'clickable',transform:`translate(${bx},0)`});
     box.appendChild(E('rect',{x:0,y:0,width:46,height:38,rx:4,fill:'url(#woodG)',...OL,'stroke-width':'3'}));
     box.appendChild(E('path',{d:'M5,7 Q12,3 23,7 Q34,3 41,7',stroke:'#E8D0A0','stroke-width':'2',fill:'none'}));
-    if(eggR){
-      box.appendChild(E('ellipse',{cx:23,cy:16,rx:8,ry:10,fill:'#FDF8F0',...OL,'stroke-width':'2.5'}));
-      box.appendChild(E('ellipse',{cx:23,cy:14,rx:4,ry:5,fill:'white',opacity:'0.4'}));
-    }
+    if(eggR){box.appendChild(E('ellipse',{cx:23,cy:16,rx:8,ry:10,fill:'#FDF8F0',...OL,'stroke-width':'2.5'}));box.appendChild(E('ellipse',{cx:23,cy:14,rx:4,ry:5,fill:'white',opacity:'0.4'}));}
     box.appendChild(E('text',{x:23,y:52,'text-anchor':'middle',fill:'#8B7060','font-family':'Nunito,sans-serif','font-size':'9','font-weight':'700'},c.n.split(' ')[0]));
     box.onclick=()=>egg1(i);
     nestG.appendChild(box);
@@ -441,12 +435,12 @@ function renderScene(){
   wat.appendChild(E('ellipse',{cx:22,cy:13,rx:14,ry:6,fill:'#B0DCE8',opacity:'0.5'}));
   wat.appendChild(E('path',{d:'M22,6 Q22,3 22,3 Q22,3 22,6 Q18,10 18,13 Q18,17 22,17 Q26,17 26,13 Q26,10 22,6Z',fill:'#6BA8C0',...OL,'stroke-width':'2'}));
   wat.appendChild(E('rect',{x:0,y:34,width:44,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
-  wat.appendChild(E('text',{x:22,y:46,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'WATER'));
+  wat.appendChild(E('text',{x:22,y:46,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},G.upgrades.water?'AUTO-WATER':'WATER'));
   wat.onclick=()=>waterAll();
   svg.appendChild(wat);
 
-  // CHICKENS — bigger and repositioned for larger sprites
-  const cP=[{x:360,y:390,a:'anim-b'},{x:540,y:380,a:'anim-p'},{x:720,y:395,a:'anim-t'}];
+  // CHICKENS
+  const cP=getChickenPositions();
   G.cks.forEach((c,i)=>{
     if(c.h<=0)return;
     const p=cP[i]||cP[0];
@@ -470,10 +464,10 @@ function renderScene(){
   const tr=E('g',{class:'clickable',transform:'translate(380,448)',filter:'url(#sh)'});
   tr.appendChild(E('rect',{x:2,y:3,width:156,height:24,rx:6,fill:'rgba(0,0,0,0.06)'}));
   tr.appendChild(E('rect',{x:0,y:0,width:160,height:24,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3.5'}));
-  tr.appendChild(E('rect',{x:5,y:3,width:150,height:13,rx:4,fill:'#F0E0B0'}));
+  tr.appendChild(E('rect',{x:5,y:3,width:150,height:13,rx:4,fill: G.upgrades.feed?'#F8E8C0':'#F0E0B0'}));
   for(let i=0;i<15;i++)tr.appendChild(E('circle',{cx:12+i*10,cy:10,r:1.5,fill:'#D4C090',opacity:'0.6'}));
   tr.appendChild(E('rect',{x:15,y:28,width:130,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));
-  tr.appendChild(E('text',{x:80,y:40,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},'FEED TROUGH'));
+  tr.appendChild(E('text',{x:80,y:40,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},G.upgrades.feed?'PREMIUM FEED':'FEED TROUGH'));
   tr.onclick=()=>feedAll();
   svg.appendChild(tr);
 
@@ -508,7 +502,7 @@ function renderAll(){
   const al=G.cks.filter(c=>c.h>0);
   document.getElementById('hDay').textContent=G.day;
   document.getElementById('hEggs').textContent=G.eggs;
-  document.getElementById('hFlock').textContent=al.length+'/'+G.cks.length;
+  document.getElementById('hCoins').textContent=G.coins;
   document.getElementById('hFeed').textContent=G.feed;
   renderScene();
   const hf=G.feed>0,ha=al.length>0,ae=al.some(c=>c.et>=80);
@@ -516,7 +510,8 @@ function renderAll(){
     <button class="abtn feed" onclick="feedAll()" ${!hf||!ha?'disabled':''}>🍽️ Feed All</button>
     <button class="abtn water" onclick="waterAll()" ${!ha?'disabled':''}>💧 Water All</button>
     <button class="abtn collect" onclick="collAll()" ${!ae?'disabled':''}>🥚 Collect All</button>
-    <button class="abtn shop" onclick="buyFeed()">🛒 Buy Feed (+10)</button>`;
+    <button class="abtn shop" onclick="buyFeed()">🪙 Buy Feed (5)</button>
+    <button class="abtn store-b" onclick="openStore()">🛒 Upgrades</button>`;
   const tip=TIPS[G.ti%TIPS.length];
   document.getElementById('tipTitle').textContent=tip.t;
   document.getElementById('tipBody').textContent=tip.b;
