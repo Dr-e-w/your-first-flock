@@ -190,10 +190,34 @@ const OL={stroke:'#4A3028','stroke-width':'3','stroke-linecap':'round','stroke-l
 
 function getChickenPositions(){const n=G.cks.filter(c=>c.h>0).length;if(n<=3)return[{x:360,y:390,a:'anim-b'},{x:540,y:380,a:'anim-p'},{x:720,y:395,a:'anim-t'}];if(n===4)return[{x:300,y:390,a:'anim-b'},{x:450,y:380,a:'anim-p'},{x:600,y:395,a:'anim-t'},{x:750,y:385,a:'anim-b'}];if(n===5)return[{x:260,y:390,a:'anim-b'},{x:390,y:380,a:'anim-p'},{x:520,y:395,a:'anim-t'},{x:650,y:385,a:'anim-b'},{x:780,y:390,a:'anim-p'}];return[{x:230,y:390,a:'anim-b'},{x:340,y:380,a:'anim-p'},{x:450,y:395,a:'anim-t'},{x:560,y:385,a:'anim-b'},{x:670,y:390,a:'anim-p'},{x:790,y:385,a:'anim-t'}];}
 
-function drawChicken(c,dotColor,animClass){
-  let sprite=SPRITES.idle1;
-  if(animClass==='anim-p')sprite=SPRITES.peck;
-  else if(animClass==='anim-t')sprite=SPRITES.lookup;
+// Sprite cycling animation
+let spriteCycles={};
+const CYCLE_FRAMES=[['idle1','walk','idle2','idle1'],['peck','idle2','peck','idle1'],['lookup','idle1','lookup','idle2']];
+function startSpriteCycle(chickenIdx,cycleIdx){
+  const key='ck'+chickenIdx;
+  spriteCycles[key]={idx:0,frames:CYCLE_FRAMES[cycleIdx%3]};
+}
+function getCycledSprite(chickenIdx,animClass){
+  // Static fallback
+  if(animClass==='anim-p')return SPRITES.peck;
+  if(animClass==='anim-t')return SPRITES.lookup;
+  // Cycle if available
+  const key='ck'+chickenIdx;
+  if(spriteCycles[key]){
+    return SPRITES[spriteCycles[key].frames[spriteCycles[key].idx]];
+  }
+  return SPRITES.idle1;
+}
+// Advance all cycles every 600ms
+setInterval(function(){
+  Object.keys(spriteCycles).forEach(function(k){
+    const c=spriteCycles[k];
+    c.idx=(c.idx+1)%c.frames.length;
+  });
+},600);
+
+function drawChicken(c,dotColor,animClass,chickenIdx){
+  let sprite=getCycledSprite(chickenIdx,animClass);
   const g=E('g',{class:'chicken-g '+animClass});
   g.appendChild(E('ellipse',{cx:2,cy:36,rx:32,ry:9,fill:'rgba(74,48,40,0.18)'}));
   g.appendChild(E('image',{x:-38,y:-62,width:76,height:105,href:sprite}));
@@ -242,7 +266,7 @@ function renderScene(){
   svg.appendChild(nestG);
   const wat=E('g',{class:'clickable',transform:'translate(250,365)',filter:'url(#sh)'});wat.appendChild(E('ellipse',{cx:22,cy:22,rx:22,ry:9,fill:'#B8DCE8',...OL,'stroke-width':'3'}));wat.appendChild(E('path',{d:'M8,22 Q8,4 22,3 Q36,4 36,22',fill:'#D8EEF4',...OL,'stroke-width':'3'}));wat.appendChild(E('ellipse',{cx:22,cy:13,rx:14,ry:6,fill:'#B0DCE8',opacity:'0.5'}));wat.appendChild(E('path',{d:'M22,6 Q22,3 22,3 Q22,3 22,6 Q18,10 18,13 Q18,17 22,17 Q26,17 26,13 Q26,10 22,6Z',fill:'#6BA8C0',...OL,'stroke-width':'2'}));wat.appendChild(E('rect',{x:0,y:34,width:44,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));wat.appendChild(E('text',{x:22,y:46,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},G.upgrades.water?'AUTO-WATER':'WATER'));wat.onclick=()=>waterAll();svg.appendChild(wat);
   const cP=getChickenPositions();
-  G.cks.forEach((c,i)=>{if(c.h<=0)return;const p=cP[i]||cP[0];let dc='#8CC09A';if(c.h<30||c.hu>=80||c.th>=80)dc='#E57373';else if(c.h<60||c.hu>=50||c.th>=50)dc='#F4B840';const chk=E('g',{class:'clickable',transform:`translate(${p.x},${p.y})`,filter:'url(#sh)'});chk.appendChild(drawChicken(c,dc,p.a));const tw=c.n.length*7+18;const tag=E('g',{transform:'translate(0,-74)',opacity:G.sel===i?'1':'0',style:'transition:opacity 0.2s'});tag.appendChild(E('rect',{x:-tw/2,y:-8,width:tw,height:17,rx:8,fill:'white',...OL,'stroke-width':'3'}));tag.appendChild(E('text',{x:0,y:4,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'700','font-size':'10'},c.n));chk.appendChild(tag);chk.onmouseenter=()=>tag.setAttribute('opacity','1');chk.onmouseleave=()=>tag.setAttribute('opacity',G.sel===i?'1':'0');chk.onclick=(e)=>{e.stopPropagation();sel(i);};svg.appendChild(chk);});
+  G.cks.forEach((c,i)=>{if(c.h<=0)return;const p=cP[i]||cP[0];let dc='#8CC09A';if(c.h<30||c.hu>=80||c.th>=80)dc='#E57373';else if(c.h<60||c.hu>=50||c.th>=50)dc='#F4B840';if(!spriteCycles['ck'+i])startSpriteCycle(i,i);const chk=E('g',{class:'clickable',transform:`translate(${p.x},${p.y})`,filter:'url(#sh)'});chk.appendChild(drawChicken(c,dc,p.a,i));const tw=c.n.length*7+18;const tag=E('g',{transform:'translate(0,-74)',opacity:G.sel===i?'1':'0',style:'transition:opacity 0.2s'});tag.appendChild(E('rect',{x:-tw/2,y:-8,width:tw,height:17,rx:8,fill:'white',...OL,'stroke-width':'3'}));tag.appendChild(E('text',{x:0,y:4,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'700','font-size':'10'},c.n));chk.appendChild(tag);chk.onmouseenter=()=>tag.setAttribute('opacity','1');chk.onmouseleave=()=>tag.setAttribute('opacity',G.sel===i?'1':'0');chk.onclick=(e)=>{e.stopPropagation();sel(i);};svg.appendChild(chk);});
   const tr=E('g',{class:'clickable',transform:'translate(380,448)',filter:'url(#sh)'});tr.appendChild(E('rect',{x:2,y:3,width:156,height:24,rx:6,fill:'rgba(0,0,0,0.06)'}));tr.appendChild(E('rect',{x:0,y:0,width:160,height:24,rx:6,fill:'url(#woodG)',...OL,'stroke-width':'3.5'}));tr.appendChild(E('rect',{x:5,y:3,width:150,height:13,rx:4,fill:G.upgrades.feed?'#F8E8C0':'#F0E0B0'}));for(let i=0;i<15;i++)tr.appendChild(E('circle',{cx:12+i*10,cy:10,r:1.5,fill:'#D4C090',opacity:'0.6'}));tr.appendChild(E('rect',{x:15,y:28,width:130,height:18,rx:9,fill:'rgba(255,255,255,0.92)',...OL,'stroke-width':'3'}));tr.appendChild(E('text',{x:80,y:40,'text-anchor':'middle',fill:'#4A3028','font-family':'Nunito,sans-serif','font-weight':'800','font-size':'10'},G.upgrades.feed?'PREMIUM FEED':'FEED TROUGH'));tr.onclick=()=>feedAll();svg.appendChild(tr);
   if(G.sel!==null){const c=G.cks[G.sel],p=cP[G.sel]||cP[0],eggR=c.et>=80;const wrap=document.getElementById('sceneWrap');wrap.querySelectorAll('.chicken-popup').forEach(e=>e.remove());const pop=document.createElement('div');pop.className='chicken-popup';const pctX=(p.x/920)*100;pop.style.cssText=`position:absolute;top:${p.y-210}px;left:${pctX<35?p.x+70:p.x-220}px;z-index:25;`;pop.innerHTML=`<button class="close-p" onclick="event.stopPropagation();G.sel=null;renderAll();">&times;</button><div class="pn">${c.n} 🐔</div><div class="ps">Health <div class="pb"><div class="pbf h" style="width:${c.h}%"></div></div></div><div class="ps">Hunger <div class="pb"><div class="pbf g" style="width:${c.hu}%"></div></div></div><div class="ps">Thirst <div class="pb"><div class="pbf t" style="width:${c.th}%"></div></div></div><div class="ps" style="font-size:0.74rem;">🥚 ${c.ld} eggs${eggR?' — Ready!':''}</div><div class="pa"><button class="mini-btn" onclick="event.stopPropagation();feed1(${G.sel})">🍽️ Feed</button><button class="mini-btn" onclick="event.stopPropagation();water1(${G.sel})">💧 Water</button><button class="mini-btn ${eggR?'accent':''}" onclick="event.stopPropagation();egg1(${G.sel})">🥚 Collect</button></div>`;wrap.appendChild(pop);}
 }
