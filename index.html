@@ -234,17 +234,36 @@ function renderScene(){
   const hasCoop=G.upgrades.coop;
   const defs=E('defs');
   const addG=(id,stops)=>{const g=E('linearGradient',{id,x1:'0',y1:'0',x2:'0',y2:'1'});stops.forEach(([o,c])=>g.appendChild(E('stop',{offset:o,'stop-color':c})));defs.appendChild(g);};
-  addG('skyG',[['0%','#C5E3F0'],['100%','#E5F2F8']]);addG('grassG',[['0%','#AED8B8'],['100%','#8CC09A']]);addG('woodG',[['0%','#F0E0CC'],['100%','#E0CCB0']]);addG('roofG',[['0%',hasCoop?'#E8A090':'#D4907A'],['100%',hasCoop?'#C88060':'#B06850']]);
+  addG('skyG',[['0%','#A8D8EA'],['100%','#D8EEF4']]);addG('grassG',[['0%','#8CB868'],['100%','#6A9A48']]);addG('hillG',[['0%','#9CC878'],['100%','#7CB058']]);addG('woodG',[['0%','#F0E0CC'],['100%','#E0CCB0']]);addG('roofG',[['0%',hasCoop?'#E8A090':'#D4907A'],['100%',hasCoop?'#C88060':'#B06850']]);
   const sh=E('filter',{id:'sh',x:'-20%',y:'-20%',width:'140%',height:'140%'});sh.innerHTML='<feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#4A3028" flood-opacity="0.12"/>';defs.appendChild(sh);svg.appendChild(defs);
   svg.appendChild(E('rect',{x:0,y:0,width:920,height:180,fill:'url(#skyG)'}));
-  const sun=E('g',{transform:'translate(810,40)'});sun.appendChild(E('circle',{r:28,fill:'#FFF3C0',...OL,'stroke-width':'3'}));sun.appendChild(E('circle',{r:20,fill:'#FFE8A0'}));svg.appendChild(sun);
-  const addC=(cx,cy,s)=>{const g=E('g',{transform:`translate(${cx},${cy}) scale(${s})`,opacity:'0.8'});g.appendChild(E('ellipse',{cx:0,cy:0,rx:36,ry:14,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:-18,cy:-4,r:16,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:10,cy:-8,r:19,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:26,cy:-1,r:14,fill:'white',...OL,'stroke-width':'2'}));svg.appendChild(g);};
+  // Smiling sun with rays
+  const sun=E('g',{transform:'translate(810,50)'});
+  for(let i=0;i<8;i++){const a=i*Math.PI/4;sun.appendChild(E('line',{x1:Math.cos(a)*36,y1:Math.sin(a)*36,x2:Math.cos(a)*44,y2:Math.sin(a)*44,stroke:'#FFE8A0','stroke-width':'3','stroke-linecap':'round'}));}
+  sun.appendChild(E('circle',{r:30,fill:'#FFF3C0',...OL,'stroke-width':'3'}));
+  sun.appendChild(E('circle',{cx:-8,cy:-6,r:3,fill:'#4A3028'}));sun.appendChild(E('circle',{cx:8,cy:-6,r:3,fill:'#4A3028'}));
+  sun.appendChild(E('path',{d:'M-6,4 Q0,12 6,4',stroke:'#4A3028','stroke-width':'2',fill:'none','stroke-linecap':'round'}));
+  svg.appendChild(sun);
+  const addC=(cx,cy,s)=>{const g=E('g',{transform:`translate(${cx},${cy}) scale(${s})`,opacity:'0.85'});g.appendChild(E('ellipse',{cx:0,cy:0,rx:36,ry:14,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:-18,cy:-4,r:16,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:10,cy:-8,r:19,fill:'white',...OL,'stroke-width':'2'}));g.appendChild(E('circle',{cx:26,cy:-1,r:14,fill:'white',...OL,'stroke-width':'2'}));svg.appendChild(g);};
   addC(100,35,1);addC(340,25,0.8);addC(580,40,0.9);
-  svg.appendChild(E('rect',{x:0,y:160,width:920,height:360,fill:'url(#grassG)'}));
-  svg.appendChild(E('ellipse',{cx:460,cy:340,rx:320,ry:50,fill:'#E8D8C0',opacity:'0.4'}));
-  for(let x=40;x<900;x+=95)svg.appendChild(E('rect',{x:x-5,y:175,width:10,height:24,rx:3,fill:'#D4B896',...OL,'stroke-width':'2'}));
-  svg.appendChild(E('line',{x1:35,y1:186,x2:885,y2:186,...OL,stroke:'#C8A878','stroke-width':'2.5'}));
-  const bush=(x,y,s)=>{const g=E('g',{transform:`translate(${x},${y}) scale(${s})`});g.appendChild(E('circle',{cx:-10,cy:-2,r:12,fill:'#7BA860',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:10,cy:-2,r:12,fill:'#8CB870',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:0,cy:-12,r:14,fill:'#9CC880',...OL,'stroke-width':'2.5'}));svg.appendChild(g);};
+  // Distant rolling hills
+  svg.appendChild(E('path',{d:'M0,180 Q120,120 250,160 Q380,110 520,155 Q660,115 800,160 Q880,130 920,155 L920,180 Z',fill:'url(#hillG)'}));
+  svg.appendChild(E('path',{d:'M0,180 Q200,140 350,170 Q500,135 650,165 Q780,140 920,170 L920,180 Z',fill:'#8CB868',opacity:'0.6'}));
+  // Distant red silo
+  const silo=E('g',{transform:'translate(780,130)'});
+  silo.appendChild(E('rect',{x:0,y:0,width:20,height:30,rx:3,fill:'#D4786A',...OL,'stroke-width':'2'}));
+  silo.appendChild(E('polygon',{points:'-3,0 10,-10 23,0',fill:'#B06050',...OL,'stroke-width':'2'}));
+  svg.appendChild(silo);
+  // Ground
+  svg.appendChild(E('rect',{x:0,y:170,width:920,height:350,fill:'url(#grassG)'}));
+  svg.appendChild(E('ellipse',{cx:460,cy:340,rx:300,ry:45,fill:'#E8D8C0',opacity:'0.35'}));
+  // Small white flowers scattered in grass
+  for(let i=0;i<18;i++){const fx=50+Math.random()*820,fy=210+Math.random()*290;svg.appendChild(E('circle',{cx:fx,cy:fy,r:2.5,fill:'white',opacity:'0.7'}));svg.appendChild(E('circle',{cx:fx,cy:fy,r:1,fill:'#FFE8A0',opacity:'0.8'}));}
+  // Fence
+  for(let x=40;x<900;x+=100)svg.appendChild(E('rect',{x:x-5,y:178,width:10,height:26,rx:3,fill:'#D4B896',...OL,'stroke-width':'2'}));
+  svg.appendChild(E('line',{x1:35,y1:188,x2:885,y2:188,...OL,stroke:'#C8A878','stroke-width':'2.5'}));
+  svg.appendChild(E('line',{x1:35,y1:198,x2:885,y2:198,...OL,stroke:'#C8A878','stroke-width':'2'}));
+  const bush=(x,y,s)=>{const g=E('g',{transform:`translate(${x},${y}) scale(${s})`});g.appendChild(E('circle',{cx:-10,cy:-2,r:12,fill:'#6B9850',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:10,cy:-2,r:12,fill:'#7BAA58',...OL,'stroke-width':'2.5'}));g.appendChild(E('circle',{cx:0,cy:-12,r:14,fill:'#8CB868',...OL,'stroke-width':'2.5'}));svg.appendChild(g);};
   bush(870,220,1.1);bush(50,200,0.9);
   const cw=hasCoop?310:280,ch=hasCoop?135:120,crx=hasCoop?155:140;
   const coop=E('g',{transform:'translate(35,195)',filter:'url(#sh)'});
